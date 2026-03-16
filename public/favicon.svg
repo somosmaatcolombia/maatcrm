@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 240" width="120" height="240">
+  <!-- MAAT Feather Logo — Paper Cut Style -->
+
+  <!-- Mauve purple back leaf (top-right, largest) -->
+  <path d="M62 8 C78 40, 95 80, 92 130 C89 175, 72 210, 60 232 C63 195, 66 155, 67 130 C68 95, 65 50, 62 8Z" fill="#89608E"/>
+
+  <!-- Dusty rose coral left-back leaf -->
+  <path d="M58 55 C38 85, 22 120, 25 160 C27 190, 42 215, 60 232 C52 205, 44 175, 42 160 C38 135, 46 95, 58 55Z" fill="#D76B6E"/>
+
+  <!-- Sandy orange right-front leaf -->
+  <path d="M62 70 C80 100, 90 135, 86 175 C83 205, 72 222, 60 232 C65 210, 68 185, 68 175 C69 150, 66 110, 62 70Z" fill="#EBA055"/>
+
+  <!-- Sandy orange left leaf -->
+  <path d="M58 105 C40 130, 30 160, 33 190 C35 210, 46 225, 60 232 C52 218, 46 200, 44 190 C41 172, 48 145, 58 105Z" fill="#EBA055" opacity="0.9"/>
+
+  <!-- Muted mint green bottom leaf (lowest, widest) -->
+  <path d="M60 155 C38 175, 25 200, 30 218 C33 228, 45 235, 60 238 C50 230, 42 218, 40 210 C37 198, 46 180, 60 155Z" fill="#7DCD93"/>
+
+  <!-- Mint green right-bottom -->
+  <path d="M60 155 C78 178, 88 200, 83 218 C80 228, 72 235, 60 238 C68 230, 74 218, 75 210 C77 198, 70 178, 60 155Z" fill="#7DCD93" opacity="0.85"/>
+
+  <!-- Golden stem/spine curve -->
+  <path d="M61 5 C61 5, 59 60, 59 120 C59 170, 59 210, 60 240" stroke="#D4A44C" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
