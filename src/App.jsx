@@ -12,6 +12,7 @@ import PipelinePage from './pages/PipelinePage'
 import EmailsPage from './pages/EmailsPage'
 import SettingsPage from './pages/SettingsPage'
 import AdminPage from './pages/AdminPage'
+import LeadMagnetsPage from './pages/LeadMagnetsPage'
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
               <Route path="prospects/:id" element={<ProspectDetailPage />} />
               <Route path="pipeline" element={<PipelinePage />} />
               <Route path="emails" element={<EmailsPage />} />
+              <Route path="lead-magnets" element={<LeadMagnetsPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route
                 path="admin"

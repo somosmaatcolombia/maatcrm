@@ -6,6 +6,9 @@ import {
   AlertTriangle,
   Send,
   FileText,
+  RefreshCw,
+  Mail,
+  Clock,
 } from 'lucide-react'
 import { useAuthContext } from '../context/AuthContext'
 import { useEmailHistory } from '../hooks/useEmailHistory'
@@ -13,6 +16,7 @@ import { useEmailTemplates } from '../hooks/useEmailTemplates'
 import TemplateManager from '../components/admin/TemplateManager'
 import Tabs from '../components/ui/Tabs'
 import EmptyState from '../components/ui/EmptyState'
+import Button from '../components/ui/Button'
 import { formatRelativeDate } from '../lib/utils'
 
 const STATUS_CONFIG = {
@@ -23,18 +27,19 @@ const STATUS_CONFIG = {
 
 export default function EmailsPage() {
   const { isAdmin } = useAuthContext()
-  const { emails, loading: emailsLoading } = useEmailHistory()
+  const { emails, loading: emailsLoading, fetchEmails } = useEmailHistory()
   const { templates } = useEmailTemplates()
 
   const [activeTab, setActiveTab] = useState(isAdmin ? 'templates' : 'history')
   const [searchQuery, setSearchQuery] = useState('')
+  const [refreshing, setRefreshing] = useState(false)
 
   const tabs = useMemo(() => {
     const list = []
     if (isAdmin) {
       list.push({ value: 'templates', label: 'Plantillas', count: templates.length })
     }
-    list.push({ value: 'history', label: 'Historial de envíos', count: emails.length })
+    list.push({ value: 'history', label: 'Historial de envios', count: emails.length })
     return list
   }, [isAdmin, templates.length, emails.length])
 
@@ -49,13 +54,30 @@ export default function EmailsPage() {
     )
   }, [emails, searchQuery])
 
+  // Summary stats
+  const emailStats = useMemo(() => {
+    const sent = emails.filter((e) => e.status === 'sent').length
+    const failed = emails.filter((e) => e.status === 'failed').length
+    const bounced = emails.filter((e) => e.status === 'bounced').length
+    return { sent, failed, bounced, total: emails.length }
+  }, [emails])
+
+  async function handleRefresh() {
+    setRefreshing(true)
+    try {
+      await fetchEmails()
+    } finally {
+      setRefreshing(false)
+    }
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-[#333333]">Correos</h1>
         <p className="text-sm text-[#6B7280]">
-          {isAdmin ? 'Gestiona plantillas y revisa el historial de envíos' : 'Historial de correos enviados'}
+          {isAdmin ? 'Gestiona plantillas y revisa el historial de envios' : 'Historial de correos enviados'}
         </p>
       </div>
 
@@ -68,17 +90,52 @@ export default function EmailsPage() {
       {/* History tab */}
       {activeTab === 'history' && (
         <div className="space-y-4">
-          {/* Search */}
+          {/* Stats summary */}
+          {emails.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[
+                { label: 'Total', value: emailStats.total, icon: Mail, bg: 'bg-blue-50', color: 'text-blue-600' },
+                { label: 'Enviados', value: emailStats.sent, icon: CheckCircle, bg: 'bg-green-50', color: 'text-green-600' },
+                { label: 'Fallidos', value: emailStats.failed, icon: XCircle, bg: 'bg-red-50', color: 'text-red-600' },
+                { label: 'Rebotados', value: emailStats.bounced, icon: AlertTriangle, bg: 'bg-amber-50', color: 'text-amber-600' },
+              ].map(({ label, value, icon: Icon, bg, color }) => (
+                <div key={label} className="bg-white rounded-xl shadow-md p-4 transition-shadow duration-200 hover:shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 rounded-lg ${bg} flex items-center justify-center`}>
+                      <Icon size={16} className={color} />
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-[#333333]">{value}</p>
+                      <p className="text-[10px] text-[#6B7280] uppercase tracking-wider">{label}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Search + Refresh */}
           <div className="bg-white rounded-xl shadow-md p-4 transition-shadow duration-200 hover:shadow-lg">
-            <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar por asunto, email o nombre..."
-                className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none transition-all duration-200"
-              />
+            <div className="flex items-center gap-3">
+              <div className="relative flex-1">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Buscar por asunto, email o nombre..."
+                  className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none transition-all duration-200"
+                />
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleRefresh}
+                disabled={refreshing}
+              >
+                <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+              </Button>
             </div>
           </div>
 
@@ -103,8 +160,8 @@ export default function EmailsPage() {
               title="Sin correos enviados"
               description={
                 searchQuery
-                  ? 'No se encontraron correos con esa búsqueda.'
-                  : 'Los correos enviados desde el CRM aparecerán aquí.'
+                  ? 'No se encontraron correos con esa busqueda.'
+                  : 'Los correos enviados desde el CRM apareceran aqui.'
               }
             />
           ) : (
@@ -124,7 +181,7 @@ export default function EmailsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-0.5">
                           <h4 className="text-sm font-semibold text-[#333333] truncate">
-                            {email.subject}
+                            {email.subject || 'Sin asunto'}
                           </h4>
                           <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${status.bg} ${status.color}`}>
                             {status.label}
@@ -132,9 +189,11 @@ export default function EmailsPage() {
                         </div>
                         <p className="text-xs text-[#6B7280] truncate">
                           Para: {email.prospects?.full_name || email.to_email}
-                          {email.to_email && <span className="text-gray-400"> ({email.to_email})</span>}
+                          {email.to_email && email.prospects?.full_name && (
+                            <span className="text-gray-400"> ({email.to_email})</span>
+                          )}
                         </p>
-                        <div className="flex items-center gap-3 mt-1 text-[10px] text-gray-400">
+                        <div className="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
                           {email.email_templates?.name && (
                             <span className="flex items-center gap-1">
                               <FileText size={10} />
@@ -144,7 +203,10 @@ export default function EmailsPage() {
                           {email.profiles?.full_name && (
                             <span>por {email.profiles.full_name}</span>
                           )}
-                          <span>{formatRelativeDate(email.sent_at)}</span>
+                          <span className="flex items-center gap-1">
+                            <Clock size={10} />
+                            {formatRelativeDate(email.sent_at)}
+                          </span>
                         </div>
                       </div>
                     </div>

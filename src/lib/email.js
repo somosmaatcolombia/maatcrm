@@ -7,18 +7,36 @@ import { es } from 'date-fns/locale'
  * Send an email using the Supabase Edge Function
  */
 export async function sendEmail({ to, subject, htmlBody, prospectId, advisorId, templateId }) {
-  const { data, error } = await supabase.functions.invoke('send-email', {
-    body: {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+  // Get the current user's access token for auth
+  const { data: { session } } = await supabase.auth.getSession()
+  const token = session?.access_token || anonKey
+
+  const response = await fetch(`${supabaseUrl}/functions/v1/send-email`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'apikey': anonKey,
+    },
+    body: JSON.stringify({
       to,
       subject,
       html_body: htmlBody,
       prospect_id: prospectId,
       advisor_id: advisorId,
       template_id: templateId,
-    },
+    }),
   })
 
-  if (error) throw error
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data?.error || `Error ${response.status} al enviar email`)
+  }
+
   return data
 }
 

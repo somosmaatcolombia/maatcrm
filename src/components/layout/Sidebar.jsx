@@ -4,6 +4,7 @@ import {
   Users,
   Kanban,
   Mail,
+  Magnet,
   Settings,
   Shield,
   LogOut,
@@ -18,6 +19,7 @@ const navItems = [
   { to: '/prospects', icon: Users, label: 'Prospectos' },
   { to: '/pipeline', icon: Kanban, label: 'Pipeline' },
   { to: '/emails', icon: Mail, label: 'Correos' },
+  { to: '/lead-magnets', icon: Magnet, label: 'Lead Magnets' },
   { to: '/settings', icon: Settings, label: 'Configuración' },
 ]
 

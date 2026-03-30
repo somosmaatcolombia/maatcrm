@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test MAAT de Performance Emocional | Sistema MAAT</title>
+    <meta name="description" content="Evalúa tu capacidad de regular emociones, tomar decisiones desde valores y mantener claridad bajo presión. Test gratuito de 20 preguntas.">
+    <meta property="og:title" content="Test MAAT de Performance Emocional">
+    <meta property="og:description" content="Descubre tu nivel de performance emocional en 5 minutos. Test científico gratuito.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Sora', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: transparent;
+            min-height: auto;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header img { height: 50px; margin-bottom: 16px; }
+        .header h1 { font-size: 2em; margin-bottom: 10px; font-weight: 700; color: #EBA055; }
+        .header p { font-size: 1.05em; opacity: 0.9; line-height: 1.6; }
+
+        /* --- Intro --- */
+        .intro-section { padding: 40px; background: #f8f9fa; }
+        .intro-section h2 { color: #333333; margin-bottom: 20px; font-size: 1.6em; }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .feature {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid #39A1C9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .feature h3 { color: #333333; margin-bottom: 6px; font-size: 1em; }
+        .feature p { font-size: 0.9em; color: #666; }
+
+        .start-section { text-align: center; margin-top: 30px; }
+
+        .start-button, .btn-primary {
+            background: linear-gradient(135deg, #39A1C9 0%, #EBA055 100%);
+            color: white;
+            padding: 16px 44px;
+            font-size: 1.15em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .start-button:hover, .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(57, 161, 201, 0.35);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* --- Test Content --- */
+        .content { padding: 40px; }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #39A1C9 0%, #EBA055 100%);
+            transition: width 0.4s ease;
+            border-radius: 10px;
+        }
+
+        .question-container { animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-number { color: #39A1C9; font-size: 0.85em; font-weight: 600; margin-bottom: 12px; letter-spacing: 0.5px; }
+        .question-text { font-size: 1.2em; color: #333333; margin-bottom: 28px; font-weight: 600; line-height: 1.5; }
+
+        .options { display: flex; flex-direction: column; gap: 12px; }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e8e8e8;
+            padding: 16px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .option:hover {
+            border-color: #39A1C9;
+            background: #f0f4ff;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            border-color: #39A1C9;
+            background: linear-gradient(135deg, #39A1C9 0%, #EBA055 100%);
+            color: white;
+        }
+
+        .option-label { font-weight: 700; min-width: 28px; font-size: 0.9em; }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 28px;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            padding: 14px 28px;
+            font-size: 1em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            background: #e8e8e8;
+            color: #555;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover { background: #ddd; }
+
+        /* --- Contact Capture --- */
+        .capture-section { padding: 40px; animation: fadeIn 0.5s; }
+
+        .capture-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .capture-card h2 { color: #333333; margin-bottom: 8px; font-size: 1.5em; }
+        .capture-card p { color: #666; line-height: 1.6; }
+
+        .score-preview {
+            background: linear-gradient(135deg, #39A1C9 0%, #EBA055 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 24px 0;
+            text-align: center;
+        }
+
+        .score-preview .score-big { font-size: 3em; font-weight: 700; }
+        .score-preview .score-label { opacity: 0.9; margin-top: 4px; }
+
+        .form-group { margin-bottom: 16px; text-align: left; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 0.9em; }
+
+        .form-input {
+            width: 100%;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 1em;
+            transition: all 0.2s;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .form-input:focus { border-color: #39A1C9; box-shadow: 0 0 0 3px rgba(57,161,201,0.15); }
+
+        .delivery-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .delivery-option {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+            background: white;
+        }
+
+        .delivery-option:hover { border-color: #39A1C9; background: #f0f4ff; }
+        .delivery-option.selected { border-color: #39A1C9; background: #f0f4ff; }
+        .delivery-option .icon { font-size: 2em; margin-bottom: 8px; }
+        .delivery-option .label { font-weight: 600; color: #333; font-size: 0.95em; }
+
+        .skip-link {
+            display: inline-block;
+            margin-top: 16px;
+            color: #999;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: color 0.2s;
+        }
+
+        .skip-link:hover { color: #39A1C9; }
+
+        /* --- Report --- */
+        .report-section { padding: 40px; animation: fadeIn 0.5s; }
+
+        .score-display {
+            background: linear-gradient(135deg, #39A1C9 0%, #EBA055 100%);
+            color: white;
+            padding: 36px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .score-display h2 { font-size: 1.3em; opacity: 0.95; }
+        .score-number { font-size: 3.8em; font-weight: 700; margin: 16px 0 8px; }
+
+        .level-badge {
+            display: inline-block;
+            padding: 8px 28px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .report-card {
+            background: #f8f9fa;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border-left: 5px solid #39A1C9;
+        }
+
+        .report-card h3 { color: #333333; margin-bottom: 14px; font-size: 1.3em; }
+
+        .dimension-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 12px 0;
+            padding: 14px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .dimension-name { font-weight: 600; color: #333; font-size: 0.95em; min-width: 160px; }
+
+        .dimension-bar {
+            flex: 1;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 0 16px;
+            overflow: hidden;
+        }
+
+        .dimension-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #39A1C9 0%, #EBA055 100%);
+            border-radius: 10px;
+            transition: width 0.6s ease;
+        }
+
+        .dimension-value { font-weight: 700; color: #39A1C9; min-width: 45px; text-align: right; }
+
+        .action-plan { background: white; padding: 20px; border-radius: 12px; margin-top: 12px; }
+
+        .action-item {
+            display: flex;
+            gap: 14px;
+            margin: 12px 0;
+            padding: 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            line-height: 1.5;
+        }
+
+        .action-icon { font-size: 1.4em; min-width: 28px; }
+
+        .cta-section {
+            background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+            color: white;
+            padding: 36px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .cta-section h3 { font-size: 1.6em; margin-bottom: 12px; }
+
+        .cta-button {
+            background: #EBA055;
+            color: white;
+            padding: 16px 36px;
+            font-size: 1.1em;
+            border-radius: 12px;
+            margin-top: 18px;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .share-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 0.9em;
+        }
+
+        .share-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .header { padding: 28px 20px; }
+            .header h1 { font-size: 1.5em; }
+            .content, .capture-section, .report-section { padding: 24px; }
+            .question-text { font-size: 1.05em; }
+            .features { grid-template-columns: 1fr; }
+            .delivery-options { grid-template-columns: 1fr; }
+            .dimension-score { flex-wrap: wrap; gap: 8px; }
+            .dimension-name { min-width: 100%; font-size: 0.9em; }
+            .dimension-bar { margin: 0; flex: 1; }
+            .score-number { font-size: 3em; }
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Test MAAT de Performance Emocional</h1>
+            <p>Evalua tu capacidad de regular emociones, tomar decisiones desde valores y mantener claridad bajo presion</p>
+        </div>
+
+        <!-- INTRO -->
+        <div class="intro-section" id="intro-section">
+            <h2>Descubre tu Nivel de Performance Emocional</h2>
+            <p style="margin-bottom: 16px; line-height: 1.8; color: #555;">Este test de 20 preguntas evaluara tu capacidad actual para gestionar tu vida emocional y profesional con claridad y proposito.</p>
+
+            <div class="features">
+                <div class="feature">
+                    <h3>Regular Emociones</h3>
+                    <p>Bajo presion y en momentos criticos</p>
+                </div>
+                <div class="feature">
+                    <h3>Decidir con Valores</h3>
+                    <p>Alineado con tu proposito profundo</p>
+                </div>
+                <div class="feature">
+                    <h3>Responder vs Reaccionar</h3>
+                    <p>Con consciencia y control interno</p>
+                </div>
+                <div class="feature">
+                    <h3>Claridad en Caos</h3>
+                    <p>Mantener foco en entornos complejos</p>
+                </div>
+            </div>
+
+            <div class="start-section">
+                <p style="color: #555; margin: 16px 0;"><strong>Tiempo estimado:</strong> 5-7 minutos &middot; 20 preguntas &middot; Resultado inmediato</p>
+                <button class="start-button" onclick="startTest()">Comenzar Test Gratuito</button>
+            </div>
+        </div>
+
+        <!-- TEST -->
+        <div class="content hidden" id="test-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div id="questions-container"></div>
+            <div class="button-container">
+                <button class="btn-secondary" id="prev-btn" onclick="prevQuestion()" style="display:none;">Anterior</button>
+                <button class="btn-primary" id="next-btn" onclick="nextQuestion()" disabled>Siguiente</button>
+            </div>
+        </div>
+
+        <!-- CONTACT CAPTURE -->
+        <div class="capture-section hidden" id="capture-section">
+            <div class="capture-card">
+                <h2>Tus resultados estan listos</h2>
+                <p>Completa tus datos para ver tu reporte completo y recibir tu plan de accion personalizado.</p>
+
+                <div class="score-preview">
+                    <div class="score-big" id="preview-score">--</div>
+                    <div class="score-label">Tu puntaje de Performance Emocional</div>
+                </div>
+            </div>
+
+            <form id="capture-form" onsubmit="handleCapture(event)">
+                <div class="form-group">
+                    <label>Nombre *</label>
+                    <input type="text" class="form-input" id="cap-name" required placeholder="Tu nombre completo">
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" class="form-input" id="cap-email" required placeholder="tu@email.com">
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp (con codigo de pais)</label>
+                    <input type="tel" class="form-input" id="cap-phone" placeholder="+52 55 1234 5678">
+                </div>
+                <div class="form-group">
+                    <label>Pais</label>
+                    <select class="form-input" id="cap-country">
+                        <option value="">Selecciona tu pais</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Chile">Chile</option>
+                        <option value="Peru">Peru</option>
+                        <option value="Espana">Espana</option>
+                        <option value="Estados Unidos">Estados Unidos</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <p style="font-weight:600;color:#333;margin:20px 0 8px;text-align:left;">¿Como quieres recibir tu reporte completo?</p>
+
+                <div class="delivery-options">
+                    <div class="delivery-option selected" data-method="email" onclick="selectDelivery('email')">
+                        <div class="icon">📧</div>
+                        <div class="label">Por Email</div>
+                    </div>
+                    <div class="delivery-option" data-method="whatsapp" onclick="selectDelivery('whatsapp')">
+                        <div class="icon">💬</div>
+                        <div class="label">Por WhatsApp</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submit-btn" style="width:100%;padding:16px;">
+                    Ver Mi Reporte Completo
+                </button>
+            </form>
+
+            <div style="text-align:center;">
+                <span class="skip-link" onclick="skipCapture()">Ver resultados sin registrarme</span>
+            </div>
+        </div>
+
+        <!-- REPORT -->
+        <div class="report-section hidden" id="report-section"></div>
+    </div>
+
+    <script>
+    // =========================================================================
+    // CONFIG — Update these with your Supabase project details
+    // =========================================================================
+    const CONFIG = {
+        SUPABASE_URL: 'https://vbfesmgxegxsurnfazjs.supabase.co',
+        SUPABASE_ANON_KEY: '%%SUPABASE_ANON_KEY%%', // Reemplazar con tu anon key real
+        EDGE_FUNCTION: 'lead-magnet-submit',
+        LEAD_MAGNET_SLUG: 'test-performance-emocional',
+        SHARE_URL: 'https://somosmaat.org/test-de-performance-emocional',
+    }
+
+    // =========================================================================
+    // UTM TRACKING
+    // =========================================================================
+    const urlParams = new URLSearchParams(window.location.search)
+    const tracking = {
+        source: urlParams.get('utm_source') || document.referrer || 'direct',
+        utm_medium: urlParams.get('utm_medium') || '',
+        utm_campaign: urlParams.get('utm_campaign') || '',
+    }
+
+    // =========================================================================
+    // QUESTIONS
+    // =========================================================================
+    const questions = [
+        {
+            id: 1,
+            text: "Cuando enfrento una situacion inesperada y estresante en el trabajo, generalmente:",
+            dimension: "regulacion",
+            options: [
+                { value: 1, text: "Reacciono impulsivamente y me cuesta recuperar la calma" },
+                { value: 2, text: "Me siento abrumado/a pero intento controlarme" },
+                { value: 3, text: "Logro mantener la compostura aunque me afecta internamente" },
+                { value: 4, text: "Respondo con calma y evaluo la situacion objetivamente" }
+            ]
+        },
+        {
+            id: 2,
+            text: "Al tomar decisiones importantes, ¿cuanto peso tienen mis valores personales?",
+            dimension: "valores",
+            options: [
+                { value: 1, text: "Casi nunca los considero, priorizo resultados y urgencias" },
+                { value: 2, text: "Los pienso pero raramente influyen en mi decision final" },
+                { value: 3, text: "Intento considerarlos pero a veces cedo ante presiones externas" },
+                { value: 4, text: "Son centrales en mis decisiones, incluso cuando es dificil" }
+            ]
+        },
+        {
+            id: 3,
+            text: "Cuando alguien me critica o cuestiona, mi primera respuesta es:",
+            dimension: "respuesta",
+            options: [
+                { value: 1, text: "Ponerme a la defensiva o contraatacar" },
+                { value: 2, text: "Sentirme mal y rumiarlo durante dias" },
+                { value: 3, text: "Escuchar pero me cuesta no tomarlo personal" },
+                { value: 4, text: "Evaluar objetivamente y usar la retroalimentacion constructivamente" }
+            ]
+        },
+        {
+            id: 4,
+            text: "En medio del caos y multiples demandas, mi capacidad para priorizar es:",
+            dimension: "claridad",
+            options: [
+                { value: 1, text: "Me pierdo en urgencias y apago incendios constantemente" },
+                { value: 2, text: "Intento priorizar pero me cuesta mantener el foco" },
+                { value: 3, text: "Generalmente se que es importante aunque me distraigo" },
+                { value: 4, text: "Mantengo claridad sobre lo esencial incluso bajo presion" }
+            ]
+        },
+        {
+            id: 5,
+            text: "¿Con que frecuencia siento que mis acciones estan alineadas con mi proposito?",
+            dimension: "valores",
+            options: [
+                { value: 1, text: "Casi nunca, funciono en piloto automatico" },
+                { value: 2, text: "Ocasionalmente, pero es mas excepcion que regla" },
+                { value: 3, text: "Frecuentemente siento conexion con mi proposito" },
+                { value: 4, text: "Consistentemente, siento que vivo con sentido" }
+            ]
+        },
+        {
+            id: 6,
+            text: "Cuando experimento emociones intensas (ira, frustracion, ansiedad):",
+            dimension: "regulacion",
+            options: [
+                { value: 1, text: "Me dominan completamente y actuo desde ellas" },
+                { value: 2, text: "Las siento con intensidad y me cuesta gestionarlas" },
+                { value: 3, text: "Las reconozco y logro modularlas parcialmente" },
+                { value: 4, text: "Las observo sin identificarme con ellas y las proceso conscientemente" }
+            ]
+        },
+        {
+            id: 7,
+            text: "Frente a un conflicto interpersonal, mi tendencia es:",
+            dimension: "respuesta",
+            options: [
+                { value: 1, text: "Evitarlo o confrontar agresivamente" },
+                { value: 2, text: "Sentirme mal pero no saber como abordarlo" },
+                { value: 3, text: "Intentar dialogar aunque me genera incomodidad" },
+                { value: 4, text: "Abordarlo con apertura, buscando comprender antes que ganar" }
+            ]
+        },
+        {
+            id: 8,
+            text: "Mi capacidad para distinguir entre lo urgente y lo importante es:",
+            dimension: "claridad",
+            options: [
+                { value: 1, text: "Muy baja, todo parece urgente e importante" },
+                { value: 2, text: "Limitada, las urgencias suelen dominar mi agenda" },
+                { value: 3, text: "Buena, aunque a veces pierdo el norte" },
+                { value: 4, text: "Excelente, mantengo perspectiva incluso bajo presion" }
+            ]
+        },
+        {
+            id: 9,
+            text: "¿Cuanto tiempo dedico conscientemente a reflexionar sobre mis decisiones y acciones?",
+            dimension: "claridad",
+            options: [
+                { value: 1, text: "Casi nada, vivo en modo reactivo constante" },
+                { value: 2, text: "Poco, solo cuando algo sale mal" },
+                { value: 3, text: "Regularmente hago pausas para revisar mi rumbo" },
+                { value: 4, text: "Diariamente, la metacognicion es parte de mi practica" }
+            ]
+        },
+        {
+            id: 10,
+            text: "Cuando siento que estoy perdiendo el rumbo o proposito:",
+            dimension: "valores",
+            options: [
+                { value: 1, text: "No lo noto hasta que estoy en crisis profunda" },
+                { value: 2, text: "Lo percibo pero no se como reconectarme" },
+                { value: 3, text: "Tengo algunas herramientas pero me cuesta aplicarlas" },
+                { value: 4, text: "Cuento con practicas que me ayudan a recalibrar" }
+            ]
+        },
+        {
+            id: 11,
+            text: "Mi habilidad para mantener la calma cuando otros a mi alrededor estan en crisis es:",
+            dimension: "regulacion",
+            options: [
+                { value: 1, text: "Baja, su energia me contagia y me desestabilizo" },
+                { value: 2, text: "Variable, depende mucho del dia y mi estado" },
+                { value: 3, text: "Buena, generalmente puedo ser un ancla para otros" },
+                { value: 4, text: "Solida, mantengo ecuanimidad incluso en entornos caoticos" }
+            ]
+        },
+        {
+            id: 12,
+            text: "¿Con que frecuencia postergo decisiones por miedo a las consecuencias?",
+            dimension: "respuesta",
+            options: [
+                { value: 4, text: "Casi nunca, tomo decisiones a pesar de la incertidumbre" },
+                { value: 3, text: "Ocasionalmente, pero logro avanzar" },
+                { value: 2, text: "Frecuentemente, la paralisis por analisis es comun" },
+                { value: 1, text: "Constantemente, evito decidir para evitar equivocarme" }
+            ]
+        },
+        {
+            id: 13,
+            text: "Cuando tengo un dia extremadamente demandante, mi capacidad para mantener presencia es:",
+            dimension: "claridad",
+            options: [
+                { value: 1, text: "Nula, funciono totalmente en automatico" },
+                { value: 2, text: "Muy limitada, me desconecto de mi mismo/a" },
+                { value: 3, text: "Fluctuante, logro momentos de presencia" },
+                { value: 4, text: "Sostenida, mantengo consciencia incluso en intensidad" }
+            ]
+        },
+        {
+            id: 14,
+            text: "Al enfrentar un fracaso o error significativo:",
+            dimension: "regulacion",
+            options: [
+                { value: 1, text: "Me autosaboteo con critica destructiva" },
+                { value: 2, text: "Me cuesta mucho procesarlo y seguir adelante" },
+                { value: 3, text: "Lo proceso con algo de compasion hacia mi mismo/a" },
+                { value: 4, text: "Lo integro como aprendizaje sin perder mi centro" }
+            ]
+        },
+        {
+            id: 15,
+            text: "¿Que tan claro tengo cuales son mis valores no negociables?",
+            dimension: "valores",
+            options: [
+                { value: 1, text: "No lo tengo claro, funciono por inercia" },
+                { value: 2, text: "Tengo idea vaga pero no definidos conscientemente" },
+                { value: 3, text: "Los he identificado aunque a veces los traiciono" },
+                { value: 4, text: "Los tengo muy claros y son mi brujula diaria" }
+            ]
+        },
+        {
+            id: 16,
+            text: "Cuando alguien tiene un punto de vista opuesto al mio:",
+            dimension: "respuesta",
+            options: [
+                { value: 1, text: "Me cierro y busco imponer mi vision" },
+                { value: 2, text: "Escucho superficialmente pero ya decidi que estan equivocados" },
+                { value: 3, text: "Intento entender pero me cuesta soltar mi perspectiva" },
+                { value: 4, text: "Escucho genuinamente y estoy abierto/a a cambiar de opinion" }
+            ]
+        },
+        {
+            id: 17,
+            text: "Mi capacidad para identificar que me esta generando estres o malestar es:",
+            dimension: "claridad",
+            options: [
+                { value: 1, text: "Muy baja, solo siento el sintoma pero no la causa" },
+                { value: 2, text: "Limitada, tengo hipotesis pero no certeza" },
+                { value: 3, text: "Buena, generalmente identifico los factores principales" },
+                { value: 4, text: "Excelente, tengo autoconocimiento profundo de mis triggers" }
+            ]
+        },
+        {
+            id: 18,
+            text: "¿Cuanto espacio hay entre un estimulo (evento estresante) y mi respuesta?",
+            dimension: "regulacion",
+            options: [
+                { value: 1, text: "Ninguno, reacciono automatica e instantaneamente" },
+                { value: 2, text: "Muy poco, mis reacciones son casi inmediatas" },
+                { value: 3, text: "Algo de espacio, puedo pausar aunque no siempre" },
+                { value: 4, text: "Consistentemente hay espacio para elegir mi respuesta" }
+            ]
+        },
+        {
+            id: 19,
+            text: "Al final del dia, ¿siento que vivi de acuerdo a lo que es importante para mi?",
+            dimension: "valores",
+            options: [
+                { value: 1, text: "Casi nunca, siento desconexion total" },
+                { value: 2, text: "Raramente, el dia me llevo en lugar de yo guiarlo" },
+                { value: 3, text: "Frecuentemente, aunque hay margen de mejora" },
+                { value: 4, text: "Consistentemente, mi dia refleja mis prioridades profundas" }
+            ]
+        },
+        {
+            id: 20,
+            text: "Mi habilidad para mantener perspectiva cuando las cosas no salen como esperaba es:",
+            dimension: "respuesta",
+            options: [
+                { value: 1, text: "Muy baja, me desmoralizo facilmente" },
+                { value: 2, text: "Limitada, me cuesta ver el panorama completo" },
+                { value: 3, text: "Buena, logro recontextualizar aunque me cueste" },
+                { value: 4, text: "Solida, mantengo ecuanimidad y vision amplia" }
+            ]
+        }
+    ]
+
+    // =========================================================================
+    // STATE
+    // =========================================================================
+    let currentQuestion = 0
+    let answers = {}
+    let calculatedScores = null
+    let deliveryMethod = 'email'
+
+    // =========================================================================
+    // TEST FLOW
+    // =========================================================================
+    function startTest() {
+        document.getElementById('intro-section').classList.add('hidden')
+        document.getElementById('test-content').classList.remove('hidden')
+        renderQuestion()
+    }
+
+    function renderQuestion() {
+        const q = questions[currentQuestion]
+        const container = document.getElementById('questions-container')
+
+        container.innerHTML = `
+            <div class="question-container">
+                <div class="question-number">PREGUNTA ${currentQuestion + 1} DE ${questions.length}</div>
+                <div class="question-text">${q.text}</div>
+                <div class="options" id="options-${q.id}">
+                    ${q.options.map((opt, i) => `
+                        <div class="option ${answers[q.id] === opt.value ? 'selected' : ''}"
+                             onclick="selectOption(${q.id}, ${opt.value})">
+                            <span class="option-label">${String.fromCharCode(65 + i)})</span>
+                            <span>${opt.text}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `
+
+        updateProgress()
+        updateButtons()
+    }
+
+    function selectOption(questionId, value) {
+        answers[questionId] = value
+
+        // Update visual selection
+        const opts = document.querySelectorAll(`#options-${questionId} .option`)
+        opts.forEach(opt => opt.classList.remove('selected'))
+        const q = questions.find(q => q.id === questionId)
+        const optIndex = q.options.findIndex(o => o.value === value)
+        if (optIndex >= 0) opts[optIndex].classList.add('selected')
+
+        document.getElementById('next-btn').disabled = false
+
+        // Auto-advance after brief delay
+        if (currentQuestion < questions.length - 1) {
+            setTimeout(() => nextQuestion(), 350)
+        }
+    }
+
+    function nextQuestion() {
+        if (!answers[questions[currentQuestion].id]) return
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++
+            renderQuestion()
+        } else {
+            showCaptureScreen()
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--
+            renderQuestion()
+        }
+    }
+
+    function updateProgress() {
+        const pct = ((currentQuestion + 1) / questions.length) * 100
+        document.getElementById('progress-fill').style.width = pct + '%'
+    }
+
+    function updateButtons() {
+        const prev = document.getElementById('prev-btn')
+        const next = document.getElementById('next-btn')
+        prev.style.display = currentQuestion > 0 ? 'block' : 'none'
+        next.textContent = currentQuestion === questions.length - 1 ? 'Ver Resultados' : 'Siguiente'
+        next.disabled = !answers[questions[currentQuestion].id]
+    }
+
+    // =========================================================================
+    // SCORING
+    // =========================================================================
+    function calculateScores() {
+        const dims = { regulacion: { t: 0, c: 0 }, valores: { t: 0, c: 0 }, respuesta: { t: 0, c: 0 }, claridad: { t: 0, c: 0 } }
+        let total = 0
+
+        questions.forEach(q => {
+            const a = answers[q.id] || 0
+            total += a
+            dims[q.dimension].t += a
+            dims[q.dimension].c += 1
+        })
+
+        const maxScore = questions.length * 4
+        const pct = (total / maxScore) * 100
+
+        const dimensions = {}
+        for (const [k, v] of Object.entries(dims)) {
+            dimensions[k] = (v.t / (v.c * 4)) * 100
+        }
+
+        let level
+        if (pct >= 75) level = { level: 4, name: "Alto Rendimiento", color: "#10b981" }
+        else if (pct >= 60) level = { level: 3, name: "Desarrollo Avanzado", color: "#3b82f6" }
+        else if (pct >= 40) level = { level: 2, name: "Desarrollo Inicial", color: "#f59e0b" }
+        else level = { level: 1, name: "Area de Oportunidad", color: "#ef4444" }
+
+        return { totalScore: total, percentage: pct, level, dimensions }
+    }
+
+    // =========================================================================
+    // CAPTURE SCREEN
+    // =========================================================================
+    function showCaptureScreen() {
+        calculatedScores = calculateScores()
+
+        document.getElementById('test-content').classList.add('hidden')
+        document.getElementById('capture-section').classList.remove('hidden')
+        document.getElementById('preview-score').textContent = Math.round(calculatedScores.percentage) + '%'
+    }
+
+    function selectDelivery(method) {
+        deliveryMethod = method
+        document.querySelectorAll('.delivery-option').forEach(el => {
+            el.classList.toggle('selected', el.dataset.method === method)
+        })
+    }
+
+    async function handleCapture(e) {
+        e.preventDefault()
+
+        const btn = document.getElementById('submit-btn')
+        btn.disabled = true
+        btn.innerHTML = '<span class="spinner"></span>Guardando...'
+
+        const contactData = {
+            full_name: document.getElementById('cap-name').value.trim(),
+            email: document.getElementById('cap-email').value.trim(),
+            phone: document.getElementById('cap-phone').value.trim(),
+            country: document.getElementById('cap-country').value,
+            delivery_method: deliveryMethod,
+        }
+
+        await submitToBackend(contactData)
+
+        btn.disabled = false
+        btn.textContent = 'Ver Mi Reporte Completo'
+
+        showReport()
+    }
+
+    function skipCapture() {
+        // Still submit anonymously for tracking
+        submitToBackend({ delivery_method: 'none' })
+        showReport()
+    }
+
+    // =========================================================================
+    // BACKEND SUBMISSION
+    // =========================================================================
+    async function submitToBackend(contactData) {
+        try {
+            const payload = {
+                lead_magnet_slug: CONFIG.LEAD_MAGNET_SLUG,
+                ...contactData,
+                total_score: calculatedScores.totalScore,
+                total_percentage: calculatedScores.percentage,
+                level_name: calculatedScores.level.name,
+                level_number: calculatedScores.level.level,
+                dimension_scores: calculatedScores.dimensions,
+                answers: answers,
+                ...tracking,
+            }
+
+            const url = `${CONFIG.SUPABASE_URL}/functions/v1/${CONFIG.EDGE_FUNCTION}`
+
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': CONFIG.SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${CONFIG.SUPABASE_ANON_KEY}`,
+                },
+                body: JSON.stringify(payload),
+            })
+
+            const data = await res.json()
+
+            // If WhatsApp delivery and we got a link, open it
+            if (data.whatsapp_link && contactData.delivery_method === 'whatsapp') {
+                window.open(data.whatsapp_link, '_blank')
+            }
+
+            return data
+        } catch (err) {
+            console.error('Submit error:', err)
+            return { success: false }
+        }
+    }
+
+    // =========================================================================
+    // REPORT
+    // =========================================================================
+    function showReport() {
+        const s = calculatedScores
+
+        document.getElementById('capture-section').classList.add('hidden')
+        const report = document.getElementById('report-section')
+        report.classList.remove('hidden')
+
+        const dimLabels = {
+            regulacion: 'Regulacion Emocional',
+            valores: 'Decisiones desde Valores',
+            respuesta: 'Respuesta Consciente',
+            claridad: 'Claridad en Caos',
+        }
+
+        const dimensionsHtml = Object.entries(s.dimensions).map(([key, val]) => `
+            <div class="dimension-score">
+                <div class="dimension-name">${dimLabels[key]}</div>
+                <div class="dimension-bar">
+                    <div class="dimension-bar-fill" style="width:${val}%"></div>
+                </div>
+                <div class="dimension-value">${Math.round(val)}%</div>
+            </div>
+        `).join('')
+
+        report.innerHTML = `
+            <div class="score-display">
+                <h2>Tu Nivel de Performance Emocional</h2>
+                <div class="score-number">${Math.round(s.percentage)}%</div>
+                <div class="level-badge" style="background:${s.level.color};">
+                    Nivel ${s.level.level}: ${s.level.name}
+                </div>
+            </div>
+
+            <div class="report-card">
+                <h3>Analisis por Dimensiones</h3>
+                <p style="margin-bottom:16px;color:#666;">Tus fortalezas y areas de mejora especificas:</p>
+                ${dimensionsHtml}
+            </div>
+
+            ${generateLevelInsight(s)}
+
+            <div class="report-card">
+                <h3>Tu Plan de Accion de 30 Dias</h3>
+                <p style="margin-bottom:14px;color:#666;">Basado en tu perfil, estas son las acciones prioritarias:</p>
+                <div class="action-plan">${generateActionPlan(s)}</div>
+            </div>
+
+            <div class="cta-section">
+                <h3>¿Listo para la Transformacion Real?</h3>
+                <p style="margin:16px 0;font-size:1.05em;opacity:0.95;line-height:1.7;">El Sistema de Mentoria MAAT integra neurociencia, filosofia practica y metacognicion aplicada para guiarte en 4 meses hacia claridad, proposito y alto rendimiento sostenible.</p>
+                <a href="https://somosmaat.org/descubrimiento/" class="cta-button">Agendar Llamada Estrategica</a>
+                <p style="margin-top:16px;font-size:0.85em;opacity:0.7;">Sesion de valoracion sin compromiso</p>
+
+                <div class="share-buttons">
+                    <button class="share-btn" onclick="shareTest('whatsapp')">Compartir en WhatsApp</button>
+                    <button class="share-btn" onclick="shareTest('copy')">Copiar enlace</button>
+                </div>
+            </div>
+        `
+    }
+
+    function generateLevelInsight(scores) {
+        const insights = {
+            4: {
+                title: "Excelente Performance Emocional",
+                desc: "Estas en el nivel mas alto de desempeno emocional. Mantienes claridad bajo presion, tomas decisiones alineadas con tus valores y respondes conscientemente en lugar de reaccionar. Tu desafio ahora es mantener esta consistencia y continuar refinando tu practica.",
+                focus: "Refinamiento y profundizacion de tu maestria personal. El siguiente nivel implica guiar a otros en su desarrollo."
+            },
+            3: {
+                title: "Desarrollo Avanzado",
+                desc: "Tienes buenas bases y consciencia de tu proceso interno. Logras mantener presencia y tomar decisiones conscientes la mayor parte del tiempo. Sin embargo, bajo alta presion o en ciertos contextos, aun pierdes tu centro.",
+                focus: "Consistencia bajo presion extrema y expansion de tu capacidad en contextos desafiantes."
+            },
+            2: {
+                title: "Desarrollo Inicial",
+                desc: "Has comenzado a desarrollar consciencia sobre tu proceso interno, pero aun operas frecuentemente en modo automatico. Reconoces la importancia del trabajo interior, pero te falta estructura y practica consistente.",
+                focus: "Establecer practicas diarias de metacognicion y desarrollar espacios entre estimulo y respuesta."
+            },
+            1: {
+                title: "Area de Oportunidad Critica",
+                desc: "Actualmente funcionas principalmente en modo reactivo, con poca consciencia sobre tus patrones emocionales y de pensamiento. Sientes desconexion entre lo que haces y quien quieres ser. Este es el momento perfecto para comenzar tu transformacion.",
+                focus: "Construir bases de autoconocimiento y desarrollar las primeras herramientas de regulacion emocional."
+            }
+        }
+
+        const ins = insights[scores.level.level]
+        return `
+            <div class="report-card" style="border-left-color:${scores.level.color};">
+                <h3>${ins.title}</h3>
+                <p style="margin:14px 0;line-height:1.8;color:#555;">${ins.desc}</p>
+                <div style="background:#f0f4ff;padding:18px;border-radius:10px;margin-top:16px;">
+                    <strong style="color:#333333;">Tu Foco Prioritario:</strong>
+                    <p style="margin-top:8px;color:#555;">${ins.focus}</p>
+                </div>
+            </div>
+        `
+    }
+
+    function generateActionPlan(scores) {
+        const lowest = Object.entries(scores.dimensions).sort((a, b) => a[1] - b[1])[0][0]
+
+        const actions = {
+            regulacion: [
+                { icon: "🧘", text: "Practica 5 minutos diarios de respiracion consciente antes de decisiones importantes" },
+                { icon: "📝", text: "Lleva un diario emocional: identifica que situaciones te desregulan y que patrones se repiten" },
+                { icon: "⏸️", text: "Implementa la pausa de 3 segundos antes de responder en situaciones tensas" },
+                { icon: "💪", text: "Ejercicio fisico regular para procesar estres acumulado y regular sistema nervioso" }
+            ],
+            valores: [
+                { icon: "🎯", text: "Define tus 3 valores no negociables y escribelos en un lugar visible" },
+                { icon: "📋", text: "Al inicio de cada semana, establece 1-2 acciones alineadas con cada valor" },
+                { icon: "🔍", text: "Revision semanal: ¿que decisiones tome desde mis valores vs desde presion externa?" },
+                { icon: "✂️", text: "Identifica 1 compromiso que este en conflicto con tus valores y eliminalo" }
+            ],
+            respuesta: [
+                { icon: "🎧", text: "Practica escucha activa: en conversaciones dificiles, repite lo que entendiste antes de responder" },
+                { icon: "🤔", text: "Ante criticas, preguntate: '¿Que puedo aprender?' antes de defenderte" },
+                { icon: "📊", text: "Lleva registro de situaciones donde reaccionaste vs respondiste — identifica patrones" },
+                { icon: "🧩", text: "En conflictos, busca primero entender el punto de vista del otro sin juzgar" }
+            ],
+            claridad: [
+                { icon: "🌅", text: "Establece ritual matutino de 10 minutos para definir tus 3 prioridades del dia" },
+                { icon: "🧹", text: "Auditoria semanal: elimina 1 compromiso que no este alineado con tus prioridades" },
+                { icon: "📱", text: "Bloques de trabajo profundo de 90 min sin interrupciones — modo avion activado" },
+                { icon: "🎯", text: "Al final del dia: ¿hice progreso en lo importante o solo apague incendios?" }
+            ]
+        }
+
+        return actions[lowest].map(a => `
+            <div class="action-item">
+                <div class="action-icon">${a.icon}</div>
+                <div>${a.text}</div>
+            </div>
+        `).join('')
+    }
+
+    // =========================================================================
+    // SHARE
+    // =========================================================================
+    function shareTest(platform) {
+        const url = CONFIG.SHARE_URL
+        const text = 'Descubre tu nivel de Performance Emocional con este test gratuito de MAAT:'
+
+        if (platform === 'whatsapp') {
+            window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank')
+        } else if (platform === 'copy') {
+            navigator.clipboard.writeText(url).then(() => {
+                const btn = event.target
+                btn.textContent = 'Enlace copiado!'
+                setTimeout(() => { btn.textContent = 'Copiar enlace' }, 2000)
+            })
+        }
+    }
+    </script>
+</body>
+</html>

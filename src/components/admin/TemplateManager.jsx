@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
   Plus,
   Pencil,
@@ -8,6 +8,9 @@ import {
   Eye,
   EyeOff,
   FileText,
+  ChevronDown,
+  ChevronUp,
+  Save,
 } from 'lucide-react'
 import { useEmailTemplates } from '../../hooks/useEmailTemplates'
 import TemplateEditor from '../emails/TemplateEditor'
@@ -15,7 +18,6 @@ import Button from '../ui/Button'
 import Input from '../ui/Input'
 import Select from '../ui/Select'
 import Modal from '../ui/Modal'
-import Badge from '../ui/Badge'
 import ConfirmDialog from '../ui/ConfirmDialog'
 import EmptyState from '../ui/EmptyState'
 import { showSuccess, showError } from '../ui/Toast'
@@ -25,6 +27,7 @@ const EMPTY_TEMPLATE = {
   name: '',
   subject: '',
   html_body: '',
+  design_json: '',
   category: 'general',
   pipeline_stage: '',
   active: true,
@@ -47,6 +50,8 @@ export default function TemplateManager() {
   const [form, setForm] = useState(EMPTY_TEMPLATE)
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState({})
+  const [editorFullscreen, setEditorFullscreen] = useState(false)
+  const [formCollapsed, setFormCollapsed] = useState(false)
 
   const filteredTemplates = templates.filter((t) => {
     if (filterCategory !== 'all' && t.category !== filterCategory) return false
@@ -63,6 +68,8 @@ export default function TemplateManager() {
   function openCreate() {
     setForm(EMPTY_TEMPLATE)
     setErrors({})
+    setEditorFullscreen(false)
+    setFormCollapsed(false)
     setFormModal({ open: true, template: null })
   }
 
@@ -71,11 +78,14 @@ export default function TemplateManager() {
       name: template.name || '',
       subject: template.subject || '',
       html_body: template.html_body || '',
+      design_json: template.design_json || '',
       category: template.category || 'general',
       pipeline_stage: template.pipeline_stage || '',
       active: template.active,
     })
     setErrors({})
+    setEditorFullscreen(false)
+    setFormCollapsed(false)
     setFormModal({ open: true, template })
   }
 
@@ -90,7 +100,13 @@ export default function TemplateManager() {
 
   async function handleSubmit(evt) {
     evt.preventDefault()
-    if (!validate()) return
+    if (!validate()) {
+      // If fields are hidden (editor fullscreen or collapsed), show them
+      if (editorFullscreen || formCollapsed) {
+        setFormCollapsed(false)
+      }
+      return
+    }
 
     setSubmitting(true)
     const isEditing = !!formModal.template
@@ -99,6 +115,7 @@ export default function TemplateManager() {
         name: form.name.trim(),
         subject: form.subject.trim(),
         html_body: form.html_body,
+        design_json: form.design_json || null,
         category: form.category,
         pipeline_stage: form.pipeline_stage || null,
         active: form.active,
@@ -142,6 +159,12 @@ export default function TemplateManager() {
     }
   }
 
+  function handleCloseModal() {
+    setFormModal({ open: false, template: null })
+    setEditorFullscreen(false)
+    setFormCollapsed(false)
+  }
+
   const categoryBadge = (cat) => {
     const map = {
       b2b: { className: 'bg-purple-100 text-purple-800', label: 'B2B' },
@@ -155,6 +178,8 @@ export default function TemplateManager() {
       </span>
     )
   }
+
+  const showFormFields = !editorFullscreen || formCollapsed === false
 
   return (
     <div className="space-y-5">
@@ -225,7 +250,7 @@ export default function TemplateManager() {
           title="Sin plantillas"
           description={
             searchQuery
-              ? 'No se encontraron plantillas con esa búsqueda.'
+              ? 'No se encontraron plantillas con esa busqueda.'
               : 'Crea la primera plantilla de correo para tus asesores.'
           }
           action={
@@ -301,81 +326,181 @@ export default function TemplateManager() {
       {/* Create / Edit Modal */}
       <Modal
         isOpen={formModal.open}
-        onClose={() => setFormModal({ open: false, template: null })}
+        onClose={handleCloseModal}
         title={formModal.template ? 'Editar plantilla' : 'Nueva plantilla'}
-        size="xl"
+        size="full"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="Nombre de la plantilla *"
-              value={form.name}
-              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-              error={errors.name}
-              placeholder="Ej: Bienvenida B2C"
-            />
-            <Select
-              label="Categoría *"
-              value={form.category}
-              onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-              options={[
-                { value: 'general', label: 'General' },
-                { value: 'b2c', label: 'B2C' },
-                { value: 'b2b', label: 'B2B' },
-              ]}
-            />
-          </div>
+          {/* Collapsible form fields - always accessible */}
+          {editorFullscreen ? (
+            <>
+              {/* Compact header with template name and save button */}
+              <div className="flex items-center justify-between gap-3 py-2 px-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-3 min-w-0">
+                  <button
+                    type="button"
+                    onClick={() => setFormCollapsed(!formCollapsed)}
+                    className="flex items-center gap-1.5 text-xs font-medium text-[#6B7280] hover:text-[#333333] transition-colors shrink-0"
+                  >
+                    {formCollapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
+                    {formCollapsed ? 'Mostrar campos' : 'Ocultar campos'}
+                  </button>
+                  <span className="text-xs text-[#333333] font-medium truncate">
+                    {form.name || 'Sin nombre'}
+                  </span>
+                  {categoryBadge(form.category)}
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleCloseModal}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button type="submit" size="sm" loading={submitting}>
+                    <Save size={13} />
+                    Guardar
+                  </Button>
+                </div>
+              </div>
 
-          <Input
-            label="Asunto del correo *"
-            value={form.subject}
-            onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
-            error={errors.subject}
-            placeholder="Ej: ¡Hola {{nombre}}! Bienvenido a MAAT"
-          />
+              {/* Expandable fields */}
+              {formCollapsed && (
+                <div className="space-y-3 border border-gray-200 rounded-lg p-4 bg-white">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Input
+                      label="Nombre *"
+                      value={form.name}
+                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                      error={errors.name}
+                      placeholder="Ej: Bienvenida B2C"
+                    />
+                    <Select
+                      label="Categoria *"
+                      value={form.category}
+                      onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                      options={[
+                        { value: 'general', label: 'General' },
+                        { value: 'b2c', label: 'B2C' },
+                        { value: 'b2b', label: 'B2B' },
+                      ]}
+                    />
+                  </div>
+                  <Input
+                    label="Asunto *"
+                    value={form.subject}
+                    onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
+                    error={errors.subject}
+                    placeholder="Ej: Hola {{nombre}}! Bienvenido a MAAT"
+                  />
+                  <Input
+                    label="Etapa del pipeline (opcional)"
+                    value={form.pipeline_stage}
+                    onChange={(e) => setForm((f) => ({ ...f, pipeline_stage: e.target.value }))}
+                    placeholder="Ej: lead_nuevo, contactado..."
+                  />
+                  <label className="flex items-center gap-2 text-sm text-[#6B7280] cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={form.active}
+                      onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))}
+                      className="rounded border-gray-300 text-[#39A1C9] focus:ring-[#39A1C9]"
+                    />
+                    Plantilla activa
+                  </label>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Input
+                  label="Nombre de la plantilla *"
+                  value={form.name}
+                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                  error={errors.name}
+                  placeholder="Ej: Bienvenida B2C"
+                />
+                <Select
+                  label="Categoria *"
+                  value={form.category}
+                  onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                  options={[
+                    { value: 'general', label: 'General' },
+                    { value: 'b2c', label: 'B2C' },
+                    { value: 'b2b', label: 'B2B' },
+                  ]}
+                />
+              </div>
 
-          <Input
-            label="Etapa del pipeline (opcional)"
-            value={form.pipeline_stage}
-            onChange={(e) => setForm((f) => ({ ...f, pipeline_stage: e.target.value }))}
-            placeholder="Ej: lead_nuevo, contactado, calificado..."
-          />
+              <Input
+                label="Asunto del correo *"
+                value={form.subject}
+                onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
+                error={errors.subject}
+                placeholder="Ej: Hola {{nombre}}! Bienvenido a MAAT"
+              />
+
+              <Input
+                label="Etapa del pipeline (opcional)"
+                value={form.pipeline_stage}
+                onChange={(e) => setForm((f) => ({ ...f, pipeline_stage: e.target.value }))}
+                placeholder="Ej: lead_nuevo, contactado, calificado..."
+              />
+            </>
+          )}
 
           <div>
-            <label className="block text-sm font-medium text-[#333333] mb-1.5">
-              Contenido HTML *
-            </label>
-            {errors.html_body && (
-              <p className="text-xs text-red-500 mb-1.5">{errors.html_body}</p>
+            {!editorFullscreen && (
+              <>
+                <label className="block text-sm font-medium text-[#333333] mb-1.5">
+                  Contenido HTML *
+                </label>
+                {errors.html_body && (
+                  <p className="text-xs text-red-500 mb-1.5">{errors.html_body}</p>
+                )}
+              </>
             )}
             <TemplateEditor
               value={form.html_body}
               onChange={(val) => setForm((f) => ({ ...f, html_body: val }))}
+              designJson={form.design_json}
+              onDesignChange={(val) => setForm((f) => ({ ...f, design_json: val }))}
+              onEditorModeChange={(isVisual) => {
+                setEditorFullscreen(isVisual)
+                setFormCollapsed(false)
+              }}
             />
           </div>
 
-          <label className="flex items-center gap-2 text-sm text-[#6B7280] cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={form.active}
-              onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))}
-              className="rounded border-gray-300 text-[#39A1C9] focus:ring-[#39A1C9]"
-            />
-            Plantilla activa (visible para asesores)
-          </label>
+          {!editorFullscreen && (
+            <>
+              <label className="flex items-center gap-2 text-sm text-[#6B7280] cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={form.active}
+                  onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))}
+                  className="rounded border-gray-300 text-[#39A1C9] focus:ring-[#39A1C9]"
+                />
+                Plantilla activa (visible para asesores)
+              </label>
 
-          <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setFormModal({ open: false, template: null })}
-            >
-              Cancelar
-            </Button>
-            <Button type="submit" loading={submitting}>
-              {formModal.template ? 'Guardar cambios' : 'Crear plantilla'}
-            </Button>
-          </div>
+              <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleCloseModal}
+                >
+                  Cancelar
+                </Button>
+                <Button type="submit" loading={submitting}>
+                  {formModal.template ? 'Guardar cambios' : 'Crear plantilla'}
+                </Button>
+              </div>
+            </>
+          )}
         </form>
       </Modal>
 
@@ -385,7 +510,7 @@ export default function TemplateManager() {
         onClose={() => setDeleteDialog({ open: false, template: null })}
         onConfirm={handleDelete}
         title="Eliminar plantilla"
-        message={`¿Eliminar "${deleteDialog.template?.name}"? Esta acción no se puede deshacer.`}
+        message={`¿Eliminar "${deleteDialog.template?.name}"? Esta accion no se puede deshacer.`}
         confirmLabel="Eliminar"
         loading={submitting}
       />

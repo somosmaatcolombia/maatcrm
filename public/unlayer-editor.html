@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+  #editor-container { height: 100%; }
+</style>
+<script src="https://editor.unlayer.com/embed.js"></script>
+</head>
+<body>
+<div id="editor-container"></div>
+<script>
+  unlayer.createEditor({
+    id: 'editor-container',
+    appearance: { theme: 'modern_light' },
+    locale: 'es-ES',
+    features: {
+      stockImages: { enabled: true, safeSearch: true },
+      userUploads: true,
+    },
+    tools: {
+      image: { enabled: true },
+      button: { enabled: true },
+      divider: { enabled: true },
+      heading: { enabled: true },
+      html: { enabled: true },
+      menu: { enabled: false },
+      social: { enabled: true },
+      text: { enabled: true },
+      timer: { enabled: false },
+      video: { enabled: false },
+    },
+  });
+
+  unlayer.addEventListener('editor:ready', function() {
+    window.parent.postMessage({ type: 'unlayer:ready' }, '*');
+  });
+
+  window.addEventListener('message', function(event) {
+    if (!event.data || typeof event.data !== 'object') return;
+
+    if (event.data.type === 'unlayer:init' && event.data.mergeTags) {
+      unlayer.setMergeTags(event.data.mergeTags);
+    }
+
+    if (event.data.type === 'unlayer:loadDesign' && event.data.design) {
+      unlayer.loadDesign(event.data.design);
+    }
+
+    if (event.data.type === 'unlayer:export') {
+      unlayer.exportHtml(function(data) {
+        unlayer.saveDesign(function(design) {
+          window.parent.postMessage({
+            type: 'unlayer:export',
+            html: data.html,
+            design: design,
+          }, '*');
+        });
+      });
+    }
+  });
+</script>
+</body>
+</html>

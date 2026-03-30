@@ -21,7 +21,6 @@ export function useAdvisors() {
     } catch (err) {
       const msg = err?.message || String(err)
       if (!msg.includes('Failed to fetch') && !msg.includes('fetch failed')) {
-        console.error('Error fetching advisors:', err)
         setError(msg)
       }
     } finally {
@@ -34,25 +33,42 @@ export function useAdvisors() {
   }, [fetchAdvisors])
 
   async function createAdvisor({ email, password, fullName, phone, role = 'advisor' }) {
-    // Create auth user via Supabase admin (requires service role or edge function)
-    // For MVP, we use signUp which triggers the handle_new_user trigger
-    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+    // Save current admin session before creating user
+    const { data: { session: adminSession } } = await supabase.auth.getSession()
+
+    // Use signUp (works with anon key, unlike admin.createUser which needs service_role)
+    const { data: authData, error: authError } = await supabase.auth.signUp({
       email: email.trim().toLowerCase(),
       password,
-      email_confirm: true,
-      user_metadata: { full_name: fullName, role },
+      options: {
+        data: { full_name: fullName, role },
+      },
     })
 
     if (authError) throw authError
 
-    // Update the profile with additional data
+    if (!authData.user) {
+      throw new Error('No se pudo crear el usuario. Verifica que el email no este registrado.')
+    }
+
+    // Restore admin session immediately (signUp may have switched sessions)
+    if (adminSession) {
+      await supabase.auth.setSession({
+        access_token: adminSession.access_token,
+        refresh_token: adminSession.refresh_token,
+      })
+    }
+
+    // Update the profile with additional data (phone)
     if (phone) {
       const { error: profileError } = await supabase
         .from('profiles')
         .update({ phone })
         .eq('id', authData.user.id)
 
-      if (profileError) throw profileError
+      if (profileError) {
+        // Non-critical: profile was created by trigger, phone update failed
+      }
     }
 
     await fetchAdvisors()
