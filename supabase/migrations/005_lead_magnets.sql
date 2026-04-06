@@ -122,3 +122,8 @@ INSERT INTO lead_magnets (slug, name, type, description) VALUES
   ('test-performance-emocional', 'Test MAAT de Performance Emocional', 'test',
    'Evalúa tu capacidad de regular emociones, tomar decisiones desde valores y mantener claridad bajo presión. 20 preguntas, 4 dimensiones.')
 ON CONFLICT (slug) DO NOTHING;
+
+INSERT INTO lead_magnets (slug, name, type, description) VALUES
+  ('reset-10-dias', 'MAAT Reset de 10 Dias - Guia de Alimentacion', 'guide',
+   'Guia descargable de alimentacion consciente. 10 dias, neurociencia aplicada. Captura nombre, email, rol y fuente. Bilingue ES/EN.')
+ON CONFLICT (slug) DO NOTHING;
