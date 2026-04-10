@@ -7,6 +7,7 @@ import {
   StickyNote,
   Plus,
   X,
+  CalendarClock,
 } from 'lucide-react'
 import Button from '../ui/Button'
 import { ACTIVITY_TYPES } from '../../lib/constants'
@@ -35,7 +36,7 @@ const ACTIVITY_TYPE_OPTIONS = [
   },
   {
     value: ACTIVITY_TYPES.MEETING,
-    label: 'Reunión',
+    label: 'Reunion',
     icon: Users,
     color: 'bg-purple-100 text-purple-600 border-purple-200',
     activeColor: 'bg-purple-500 text-white border-purple-500',
@@ -49,17 +50,34 @@ const ACTIVITY_TYPE_OPTIONS = [
   },
 ]
 
+// Quick date presets
+const DATE_PRESETS = [
+  { label: 'Manana', days: 1 },
+  { label: '3 dias', days: 3 },
+  { label: '1 semana', days: 7 },
+  { label: '2 semanas', days: 14 },
+  { label: '1 mes', days: 30 },
+]
+
+function addDays(days) {
+  const d = new Date()
+  d.setDate(d.getDate() + days)
+  return d.toISOString().split('T')[0]
+}
+
 export default function ActivityForm({ onSubmit, loading }) {
   const [isOpen, setIsOpen] = useState(false)
   const [activityType, setActivityType] = useState(ACTIVITY_TYPES.NOTE)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [nextContactDate, setNextContactDate] = useState('')
   const [error, setError] = useState('')
 
   function resetForm() {
     setActivityType(ACTIVITY_TYPES.NOTE)
     setTitle('')
     setDescription('')
+    setNextContactDate('')
     setError('')
   }
 
@@ -73,7 +91,7 @@ export default function ActivityForm({ onSubmit, loading }) {
     setError('')
 
     if (!title.trim()) {
-      setError('El título es obligatorio.')
+      setError('El titulo es obligatorio.')
       return
     }
 
@@ -82,6 +100,7 @@ export default function ActivityForm({ onSubmit, loading }) {
         activity_type: activityType,
         title: title.trim(),
         description: description.trim() || null,
+        next_contact_date: nextContactDate || null,
       })
       resetForm()
       setIsOpen(false)
@@ -142,7 +161,7 @@ export default function ActivityForm({ onSubmit, loading }) {
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Título de la actividad"
+        placeholder="Titulo de la actividad"
         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none transition-all duration-200 mb-2"
         autoFocus
       />
@@ -151,10 +170,58 @@ export default function ActivityForm({ onSubmit, loading }) {
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Descripción o notas (opcional)"
+        placeholder="Descripcion o notas (opcional)"
         rows={3}
-        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none transition-all duration-200 resize-none mb-2"
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none transition-all duration-200 resize-none mb-3"
       />
+
+      {/* Next contact date */}
+      <div className="mb-3 p-3 bg-white rounded-lg border border-gray-200">
+        <label className="flex items-center gap-1.5 text-xs font-medium text-[#333333] mb-2">
+          <CalendarClock size={13} className="text-[#39A1C9]" />
+          Siguiente fecha de contacto (opcional)
+        </label>
+        <div className="flex items-center gap-2 mb-2">
+          <input
+            type="date"
+            value={nextContactDate}
+            onChange={(e) => setNextContactDate(e.target.value)}
+            min={new Date().toISOString().split('T')[0]}
+            className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none transition-all duration-200"
+          />
+          {nextContactDate && (
+            <button
+              type="button"
+              onClick={() => setNextContactDate('')}
+              className="p-1.5 text-gray-400 hover:text-red-500 rounded-md hover:bg-red-50 transition-colors"
+              title="Quitar fecha"
+            >
+              <X size={14} />
+            </button>
+          )}
+        </div>
+        {/* Quick presets */}
+        <div className="flex flex-wrap gap-1.5">
+          {DATE_PRESETS.map((preset) => {
+            const presetDate = addDays(preset.days)
+            const isSelected = nextContactDate === presetDate
+            return (
+              <button
+                key={preset.days}
+                type="button"
+                onClick={() => setNextContactDate(isSelected ? '' : presetDate)}
+                className={`px-2 py-1 rounded-md text-[10px] font-medium border transition-all duration-200 ${
+                  isSelected
+                    ? 'bg-[#39A1C9] text-white border-[#39A1C9]'
+                    : 'bg-white text-[#6B7280] border-gray-200 hover:border-[#39A1C9]/40 hover:text-[#39A1C9]'
+                }`}
+              >
+                {preset.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
 
       {/* Error */}
       {error && (

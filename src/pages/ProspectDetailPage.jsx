@@ -170,6 +170,8 @@ export default function ProspectDetailPage() {
             phone={prospect.phone}
             prospectName={prospect.full_name}
             pipelineStage={prospect.pipeline_stage}
+            clientType={prospect.client_type}
+            companyName={prospect.company_name}
           />
           <Button variant="outline" onClick={() => setEditModal(true)}>
             <Pencil size={16} />
@@ -282,8 +284,29 @@ export default function ProspectDetailPage() {
                 onSubmit={async (data) => {
                   setActivitySubmitting(true)
                   try {
-                    await createActivity(data)
-                    showSuccess('Actividad registrada')
+                    // Extract next_contact_date before creating activity
+                    const { next_contact_date, ...activityData } = data
+                    await createActivity(activityData)
+
+                    // Update prospect's next_contact_date if provided
+                    if (next_contact_date) {
+                      const { data: updated, error: updateErr } = await supabase
+                        .from('prospects')
+                        .update({ next_contact_date, updated_at: new Date().toISOString() })
+                        .eq('id', id)
+                        .select('*, profiles:advisor_id(full_name, email)')
+                        .single()
+
+                      if (!updateErr && updated) {
+                        setProspect(updated)
+                      }
+                    }
+
+                    showSuccess(
+                      next_contact_date
+                        ? 'Actividad registrada y fecha de contacto actualizada'
+                        : 'Actividad registrada'
+                    )
                   } catch (err) {
                     showError(err.message || 'Error al registrar actividad')
                     throw err

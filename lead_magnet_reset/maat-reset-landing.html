@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAAT — Reset de 10 Días | Guía de Alimentación</title>
+  <meta name="description" content="Descarga gratis la Guía de Alimentación Reset de 10 Días de MAAT. Neurociencia aplicada, filosofía práctica y metacognición para alto rendimiento sostenible." />
+
+  <!-- Google Fonts: Saira Condensed + Sora -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700;800&family=Sora:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:   #39A1C9;
+      --orange: #EBA055;
+      --green:  #7DCD93;
+      --coral:  #D76B6E;
+      --purple: #896C8E;
+      --dark:   #333333;
+      --mid:    #666666;
+      --light:  #F4F9FC;
+      --white:  #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      color: var(--dark);
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Saira Condensed', sans-serif;
+    }
+
+    /* ── LANGUAGE TOGGLE ──────────────────────────────────────────── */
+    #lang-bar {
+      background: var(--dark);
+      text-align: right;
+      padding: 8px 24px;
+    }
+    #lang-bar button {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #ccc;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      font-size: 12px;
+      margin-left: 6px;
+      transition: all .2s;
+    }
+    #lang-bar button.active, #lang-bar button:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    /* ── HERO SECTION ─────────────────────────────────────────────── */
+    #hero {
+      background: var(--blue);
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    /* papercut layers */
+    #hero::before {
+      content: '';
+      position: absolute;
+      bottom: -40px; right: -40px;
+      width: 55%;
+      height: 80%;
+      background: var(--coral);
+      clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 30%;
+      height: 35%;
+      background: var(--green);
+      clip-path: polygon(40% 0%, 100% 0%, 100% 100%);
+    }
+
+    .hero-orange-strip {
+      position: absolute;
+      left: 0; top: 0;
+      width: 18px;
+      height: 100%;
+      background: var(--orange);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 60px 60px 60px 80px;
+      max-width: 680px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      padding: 6px 18px;
+      border-radius: 4px;
+      margin-bottom: 28px;
+    }
+
+    .hero-number {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(80px, 14vw, 160px);
+      line-height: 1;
+      color: #fff;
+      display: block;
+    }
+
+    .hero-title {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(44px, 8vw, 80px);
+      line-height: 1.0;
+      color: #fff;
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 400;
+      font-size: 22px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 12px;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+    }
+
+    .hero-rule {
+      width: 280px;
+      height: 2px;
+      background: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .hero-tagline {
+      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+      max-width: 460px;
+    }
+
+    .hero-cta-arrow {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .hero-cta-arrow .arrow {
+      width: 44px; height: 44px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ── SOCIAL PROOF STRIP ────────────────────────────────────────── */
+    #social-proof {
+      background: var(--dark);
+      padding: 18px 40px;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .proof-item {
+      text-align: center;
+      color: #fff;
+    }
+    .proof-number {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: var(--orange);
+    }
+    .proof-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ── WHAT YOU'LL GET ──────────────────────────────────────────── */
+    #benefits {
+      padding: 80px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 5vw, 52px);
+      color: var(--dark);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    .section-body {
+      font-size: 16px;
+      color: var(--mid);
+      line-height: 1.7;
+      max-width: 680px;
+      margin-bottom: 48px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .benefit-card {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 28px;
+      border-left: 4px solid var(--blue);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(57,161,201,0.15);
+    }
+    .benefit-card:nth-child(2) { border-left-color: var(--orange); }
+    .benefit-card:nth-child(3) { border-left-color: var(--green); }
+    .benefit-card:nth-child(4) { border-left-color: var(--purple); }
+    .benefit-card:nth-child(5) { border-left-color: var(--coral); }
+    .benefit-card:nth-child(6) { border-left-color: var(--orange); }
+
+    .benefit-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .benefit-title {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .benefit-desc {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    /* ── PREVIEW STRIP ─────────────────────────────────────────────── */
+    #preview {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #preview::before {
+      content: '';
+      position: absolute;
+      top: -50px; left: -50px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    #preview h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    #preview p {
+      color: rgba(255,255,255,0.85);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .preview-days {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .day-pill {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      padding: 10px 20px;
+      color: #fff;
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      transition: background .2s;
+    }
+    .day-pill:hover {
+      background: rgba(255,255,255,0.28);
+    }
+    .day-pill span {
+      opacity: 0.7;
+      font-weight: 400;
+      margin-left: 6px;
+    }
+
+    /* ── LEAD GATE ────────────────────────────────────────────────── */
+    #lead-gate {
+      background: #fff;
+      padding: 80px 20px;
+      position: relative;
+    }
+
+    #lead-gate::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--blue), var(--green), var(--orange));
+    }
+
+    .gate-wrapper {
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--dark);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+    }
+
+    .gate-header {
+      background: var(--blue);
+      padding: 36px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .gate-header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid var(--blue);
+    }
+
+    .gate-lock {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+    .gate-title {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 30px;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .gate-subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .gate-body {
+      padding: 50px 40px 40px;
+    }
+
+    .gate-body label {
+      display: block;
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+
+    .gate-body input,
+    .gate-body select {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 15px;
+      margin-bottom: 20px;
+      outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .gate-body input::placeholder { color: rgba(255,255,255,0.35); }
+    .gate-body input:focus,
+    .gate-body select:focus {
+      border-color: var(--blue);
+      background: rgba(57,161,201,0.1);
+    }
+    .gate-body select option { background: #333; color: #fff; }
+
+    .gate-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(90deg, var(--orange), var(--coral));
+      color: #fff;
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 1px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(235,160,85,0.4);
+      transition: transform .15s, box-shadow .15s;
+      margin-top: 8px;
+    }
+    .gate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(235,160,85,0.5);
+    }
+    .gate-btn:active { transform: translateY(0); }
+    .gate-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .gate-privacy {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+    .gate-privacy a { color: var(--blue); text-decoration: none; }
+
+    /* ── SUCCESS STATE ─────────────────────────────────────────────── */
+    #success-state {
+      display: none;
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    #success-state .success-icon {
+      font-size: 70px;
+      margin-bottom: 20px;
+      animation: pop .4s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(0); }
+      80% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    #success-state h2 {
+      font-size: 36px;
+      color: var(--dark);
+      margin-bottom: 14px;
+    }
+    #success-state p {
+      font-size: 16px;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .download-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .dl-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 18px 28px;
+      border-radius: 10px;
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .dl-btn-es {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(57,161,201,0.3);
+    }
+    .dl-btn-en {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(235,160,85,0.3);
+    }
+    .dl-btn:hover {
+      transform: translateY(-2px);
+    }
+    .dl-btn .dl-icon { font-size: 22px; }
+    .dl-btn .dl-text small {
+      display: block;
+      font-family: 'Sora', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    /* ── TESTIMONIALS ──────────────────────────────────────────────── */
+    #testimonials {
+      background: var(--light);
+      padding: 80px 40px;
+    }
+    #testimonials .inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .testi-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px;
+      text-align: left;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .testi-stars { color: var(--orange); font-size: 16px; margin-bottom: 12px; }
+    .testi-quote {
+      font-size: 15px;
+      color: var(--dark);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testi-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+    }
+    .testi-name {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--dark);
+    }
+    .testi-role {
+      font-size: 12px;
+      color: var(--mid);
+    }
+
+    /* ── MAAT PHILOSOPHY ───────────────────────────────────────────── */
+    #philosophy {
+      background: var(--dark);
+      padding: 80px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #philosophy::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: -80px;
+      width: 280px; height: 280px;
+      background: var(--blue);
+      border-radius: 50%;
+      opacity: 0.08;
+    }
+    #philosophy::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: var(--orange);
+      border-radius: 50%;
+      opacity: 0.08;
+    }
+    #philosophy .inner {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    #philosophy .maat-logo-text {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      color: var(--blue);
+      letter-spacing: 8px;
+      display: block;
+      margin-bottom: 6px;
+    }
+    #philosophy .maat-tagline {
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 18px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+    #philosophy blockquote {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: #fff;
+      line-height: 1.5;
+      border-left: 3px solid var(--orange);
+      padding-left: 24px;
+      text-align: left;
+      margin: 0;
+    }
+
+    /* ── FOOTER ────────────────────────────────────────────────────── */
+    footer {
+      background: #1a1a1a;
+      padding: 30px 40px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+    }
+    footer a { color: var(--blue); text-decoration: none; }
+
+    /* ── LOADING OVERLAY ───────────────────────────────────────────── */
+    #loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(51,51,51,0.92);
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    #loading-overlay.show { display: flex; }
+    .spinner {
+      width: 50px; height: 50px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading-overlay p {
+      color: #fff;
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 20px;
+    }
+
+    /* ── ERROR MESSAGE ─────────────────────────────────────────────── */
+    .error-msg {
+      display: none;
+      background: rgba(215,107,110,0.15);
+      border: 1px solid var(--coral);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: #ff9999;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .hero-content { padding: 50px 30px 50px 44px; }
+      #social-proof { gap: 28px; }
+      .gate-header, .gate-body { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <p id="loading-text">Registrando tu acceso...</p>
+</div>
+
+<!-- Language bar -->
+<div id="lang-bar">
+  <button class="active" onclick="setLang('es')" id="btn-es">🇨🇴 Español</button>
+  <button onclick="setLang('en')" id="btn-en">🇺🇸 English</button>
+</div>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-orange-strip"></div>
+  <div class="hero-content">
+    <span class="hero-badge" data-es="DESCARGA GRATUITA" data-en="FREE DOWNLOAD">DESCARGA GRATUITA</span>
+    <span class="hero-number">10</span>
+    <span class="hero-title" data-es="DAY<br/>RESET" data-en="DAY<br/>RESET">DAY<br/>RESET</span>
+    <p class="hero-subtitle" data-es="GUÍA DE ALIMENTACIÓN MAAT" data-en="MAAT NUTRITION GUIDE">GUÍA DE ALIMENTACIÓN MAAT</p>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline" data-es="Un sistema de 10 días diseñado con neurociencia aplicada, filosofía práctica y metacognición para recalibrar tu energía, claridad y bienestar sostenible." data-en="A 10-day system designed with applied neuroscience, practical philosophy, and metacognition to recalibrate your energy, clarity, and sustainable well-being.">Un sistema de 10 días diseñado con neurociencia aplicada, filosofía práctica y metacognición para recalibrar tu energía, claridad y bienestar sostenible.</p>
+    <a href="#lead-gate" class="hero-cta-arrow">
+      <span class="arrow">↓</span>
+      <span data-es="Acceder gratis" data-en="Get free access">Acceder gratis</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── SOCIAL PROOF ──────────────────────────────────────────────────── -->
+<div id="social-proof">
+  <div class="proof-item">
+    <div class="proof-number">+400</div>
+    <div class="proof-label" data-es="Profesionales" data-en="Professionals">Profesionales</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-number">10</div>
+    <div class="proof-label" data-es="Días de Reset" data-en="Days of Reset">Días de Reset</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-number">3</div>
+    <div class="proof-label" data-es="Idiomas disponibles" data-en="Languages available">Idiomas</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-number">100%</div>
+    <div class="proof-label" data-es="Basado en neurociencia" data-en="Science-based">Neurociencia</div>
+  </div>
+</div>
+
+<!-- ── BENEFITS ──────────────────────────────────────────────────────── -->
+<section id="benefits">
+  <p class="section-label" data-es="LO QUE OBTIENES" data-en="WHAT YOU GET">LO QUE OBTIENES</p>
+  <h2 class="section-title" data-es="Tu Guía Completa de Reset" data-en="Your Complete Reset Guide">Tu Guía Completa de Reset</h2>
+  <p class="section-body" data-es="No es una dieta restrictiva. Es un protocolo de alto rendimiento que integra la ciencia del cerebro con la sabiduría filosófica para transformar cómo operas desde adentro." data-en="This is not a restrictive diet. It is a high-performance protocol that integrates brain science with philosophical wisdom to transform how you operate from within.">No es una dieta restrictiva. Es un protocolo de alto rendimiento que integra la ciencia del cerebro con la sabiduría filosófica para transformar cómo operas desde adentro.</p>
+
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">🧠</div>
+      <div class="benefit-title" data-es="Plan de 10 Días Completo" data-en="Complete 10-Day Plan">Plan de 10 Días Completo</div>
+      <div class="benefit-desc" data-es="Desayuno, almuerzo y cena para cada día, con tema metacognitivo diario y práctica de 2 minutos." data-en="Breakfast, lunch and dinner for each day, with daily metacognitive theme and 2-minute practice.">Desayuno, almuerzo y cena para cada día, con tema metacognitivo diario y práctica de 2 minutos.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🍽️</div>
+      <div class="benefit-title" data-es="Recetas Anti-inflamatorias" data-en="Anti-inflammatory Recipes">Recetas Anti-inflamatorias</div>
+      <div class="benefit-desc" data-es="Alimentos seleccionados por su impacto en el sistema nervioso: dopamina, serotonina, GABA y cortisol." data-en="Foods selected for their impact on the nervous system: dopamine, serotonin, GABA and cortisol.">Alimentos seleccionados por su impacto en el sistema nervioso: dopamina, serotonina, GABA y cortisol.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">⚡</div>
+      <div class="benefit-title" data-es="Energía Real y Sostenible" data-en="Real, Sustainable Energy">Energía Real y Sostenible</div>
+      <div class="benefit-desc" data-es="Sin cafeína de emergencia, sin picos de glucosa. Energía que viene de la regulación hormonal real." data-en="No emergency caffeine, no glucose spikes. Energy that comes from real hormonal regulation.">Sin cafeína de emergencia, sin picos de glucosa. Energía que viene de la regulación hormonal real.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🔍</div>
+      <div class="benefit-title" data-es="Prácticas Metacognitivas" data-en="Metacognitive Practices">Prácticas Metacognitivas</div>
+      <div class="benefit-desc" data-es="Cada día incluye una micro-práctica para observar tus patrones alimentarios y transformarlos desde la conciencia." data-en="Each day includes a micro-practice to observe your eating patterns and transform them through awareness.">Cada día incluye una micro-práctica para observar tus patrones alimentarios y transformarlos desde la conciencia.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📋</div>
+      <div class="benefit-title" data-es="Lista de Compras Clara" data-en="Clear Shopping Guide">Lista de Compras Clara</div>
+      <div class="benefit-desc" data-es="Qué comprar, qué eliminar y por qué. Sin confusión, sin restricción arbitraria — con propósito." data-en="What to buy, what to eliminate and why. No confusion, no arbitrary restriction — with purpose.">Qué comprar, qué eliminar y por qué. Sin confusión, sin restricción arbitraria — con propósito.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🌍</div>
+      <div class="benefit-title" data-es="En 2 Idiomas" data-en="In 2 Languages">En 2 Idiomas</div>
+      <div class="benefit-desc" data-es="La guía está disponible en español e inglés para que la puedas compartir con tu equipo o familia." data-en="The guide is available in Spanish and English so you can share it with your team or family.">La guía está disponible en español e inglés para que la puedas compartir con tu equipo o familia.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PREVIEW DAYS ───────────────────────────────────────────────────── -->
+<section id="preview">
+  <h2 data-es="10 Días. 10 Transformaciones." data-en="10 Days. 10 Transformations.">10 Días. 10 Transformaciones.</h2>
+  <p data-es="Cada día tiene un tema que guía no solo lo que comes, sino cómo te relacionas contigo mismo." data-en="Each day has a theme that guides not just what you eat, but how you relate to yourself.">Cada día tiene un tema que guía no solo lo que comes, sino cómo te relacionas contigo mismo.</p>
+  <div class="preview-days" id="preview-days"></div>
+</section>
+
+<!-- ── LEAD GATE ──────────────────────────────────────────────────────── -->
+<section id="lead-gate">
+  <!-- FORM STATE -->
+  <div class="gate-wrapper" id="gate-form-wrapper">
+    <div class="gate-header">
+      <div class="gate-lock">🔒</div>
+      <h3 class="gate-title" data-es="Accede a tu Guía Gratis" data-en="Get Your Free Guide">Accede a tu Guía Gratis</h3>
+      <p class="gate-subtitle" data-es="Déjanos tus datos y descarga inmediatamente" data-en="Enter your details and download immediately">Déjanos tus datos y descarga inmediatamente</p>
+    </div>
+    <div class="gate-body">
+      <div class="error-msg" id="error-msg"></div>
+
+      <label data-es="NOMBRE COMPLETO" data-en="FULL NAME">NOMBRE COMPLETO</label>
+      <input type="text" id="field-name" placeholder="Tu nombre" autocomplete="name" required />
+
+      <label data-es="CORREO ELECTRÓNICO" data-en="EMAIL ADDRESS">CORREO ELECTRÓNICO</label>
+      <input type="email" id="field-email" placeholder="tu@correo.com" autocomplete="email" required />
+
+      <label data-es="PROFESIÓN / ROL" data-en="PROFESSION / ROLE">PROFESIÓN / ROL</label>
+      <input type="text" id="field-role" placeholder="Ej: CEO, Director, Médico..." />
+
+      <label data-es="¿CÓMO NOS ENCONTRASTE?" data-en="HOW DID YOU FIND US?">¿CÓMO NOS ENCONTRASTE?</label>
+      <select id="field-source">
+        <option value="" data-es="Selecciona una opción" data-en="Select an option">Selecciona una opción</option>
+        <option value="instagram" data-es="Instagram" data-en="Instagram">Instagram</option>
+        <option value="linkedin" data-es="LinkedIn" data-en="LinkedIn">LinkedIn</option>
+        <option value="referido" data-es="Referido / Recomendación" data-en="Referral / Recommendation">Referido / Recomendación</option>
+        <option value="google" data-es="Búsqueda en Google" data-en="Google Search">Búsqueda en Google</option>
+        <option value="otro" data-es="Otro" data-en="Other">Otro</option>
+      </select>
+
+      <button class="gate-btn" id="gate-submit" onclick="submitLead(event)">
+        <span data-es="📥 DESCARGAR MI GUÍA GRATIS" data-en="📥 DOWNLOAD MY FREE GUIDE">📥 DESCARGAR MI GUÍA GRATIS</span>
+      </button>
+
+      <p class="gate-privacy" data-es="🔒 Tu información está segura. No enviamos spam. Puedes darte de baja en cualquier momento." data-en="🔒 Your information is secure. We don't spam. You can unsubscribe at any time.">🔒 Tu información está segura. No enviamos spam. Puedes darte de baja en cualquier momento.</p>
+    </div>
+  </div>
+
+  <!-- SUCCESS STATE -->
+  <div id="success-state">
+    <div class="success-icon">🎉</div>
+    <h2 data-es="¡Acceso Concedido!" data-en="Access Granted!">¡Acceso Concedido!</h2>
+    <p id="success-message" data-es="Tu reset comienza ahora. Descarga la guía en tu idioma preferido:" data-en="Your reset starts now. Download the guide in your preferred language:">Tu reset comienza ahora. Descarga la guía en tu idioma preferido:</p>
+    <div class="download-buttons">
+      <a href="MAAT_Reset_10Dias_ES.pdf" download class="dl-btn dl-btn-es">
+        <span class="dl-icon">📄</span>
+        <span class="dl-text">
+          Guía en Español
+          <small>MAAT Reset 10 Días — PDF</small>
+        </span>
+        <span>↓</span>
+      </a>
+      <a href="MAAT_10Day_Reset_EN.pdf" download class="dl-btn dl-btn-en">
+        <span class="dl-icon">📄</span>
+        <span class="dl-text">
+          English Guide
+          <small>MAAT 10-Day Reset — PDF</small>
+        </span>
+        <span>↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────────────────────────── -->
+<section id="testimonials">
+  <div class="inner">
+    <p class="section-label" data-es="RESULTADOS REALES" data-en="REAL RESULTS">RESULTADOS REALES</p>
+    <h2 class="section-title" data-es="Lo que dicen los profesionales MAAT" data-en="What MAAT professionals say">Lo que dicen los profesionales MAAT</h2>
+    <div class="testimonials-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote" data-es='"En 10 días noté una claridad mental que no tenía desde hace años. Lo más poderoso no fue la comida — fue la práctica de observación diaria."' data-en='"In 10 days I noticed a mental clarity I hadn\'t had in years. The most powerful part was not the food — it was the daily observation practice."'>"En 10 días noté una claridad mental que no tenía desde hace años. Lo más poderoso no fue la comida — fue la práctica de observación diaria."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--blue)">CM</div>
+          <div>
+            <div class="testi-name">Carlos M.</div>
+            <div class="testi-role" data-es="Director Comercial, Bogotá" data-en="Commercial Director, Bogotá">Director Comercial, Bogotá</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote" data-es='"Finalmente un programa que entiende que los ejecutivos no tenemos tiempo para recetas complejas. Simple, científico y con resultados reales."' data-en='"Finally a program that understands executives don\'t have time for complex recipes. Simple, scientific, and with real results."'>"Finalmente un programa que entiende que los ejecutivos no tenemos tiempo para recetas complicadas. Simple, científico y con resultados reales."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--orange)">AP</div>
+          <div>
+            <div class="testi-name">Andrea P.</div>
+            <div class="testi-role" data-es="CEO, Medellín" data-en="CEO, Medellín">CEO, Medellín</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote" data-es='"El reset me ayudó a identificar que mi fatiga no era falta de sueño — era inflamación crónica de bajo grado. Cambio de perspectiva total."' data-en='"The reset helped me identify that my fatigue was not lack of sleep — it was low-grade chronic inflammation. Total perspective shift."'>"El reset me ayudó a identificar que mi fatiga no era falta de sueño — era inflamación crónica de bajo grado. Cambio de perspectiva total."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--purple)">JR</div>
+          <div>
+            <div class="testi-name">Jorge R.</div>
+            <div class="testi-role" data-es="Médico Especialista, Cali" data-en="Medical Specialist, Cali">Médico Especialista, Cali</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PHILOSOPHY ────────────────────────────────────────────────────── -->
+<section id="philosophy">
+  <div class="inner">
+    <span class="maat-logo-text">MAAT</span>
+    <p class="maat-tagline">Stoicism &amp; Well-being</p>
+    <blockquote data-es='"El bienestar no es un destino.<br/>Es la plataforma desde la cual operas.<br/>MAAT te ayuda a construirla."' data-en='"Well-being is not a destination.<br/>It is the platform from which you operate.<br/>MAAT helps you build it."'>"El bienestar no es un destino.<br/>Es la plataforma desde la cual operas.<br/>MAAT te ayuda a construirla."</blockquote>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────────────────── -->
+<footer>
+  <p>© 2025 MAAT · Stoicism &amp; Well-being · <a href="mailto:somosmaatcolombia@gmail.com">somosmaatcolombia@gmail.com</a></p>
+  <p style="margin-top:6px;" data-es="Sistema de Mentoría Estructural · Neurociencia · Filosofía Práctica · Metacognición Aplicada" data-en="Structural Mentoring System · Neuroscience · Practical Philosophy · Applied Metacognition">Sistema de Mentoría Estructural · Neurociencia · Filosofía Práctica · Metacognición Aplicada</p>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<script>
+/* ── LANGUAGE DATA ──────────────────────────────────────────────────── */
+const LANG = { current: 'es' };
+
+const DAYS = {
+  es: [
+    { num: 1, theme: 'CLARIDAD' },
+    { num: 2, theme: 'PRESENCIA' },
+    { num: 3, theme: 'ENERGÍA' },
+    { num: 4, theme: 'RESTAURACIÓN' },
+    { num: 5, theme: 'FOCO' },
+    { num: 6, theme: 'EQUILIBRIO' },
+    { num: 7, theme: 'PROFUNDIDAD' },
+    { num: 8, theme: 'RENOVACIÓN' },
+    { num: 9, theme: 'INTEGRACIÓN' },
+    { num: 10, theme: 'TRANSFORMACIÓN' },
+  ],
+  en: [
+    { num: 1, theme: 'CLARITY' },
+    { num: 2, theme: 'PRESENCE' },
+    { num: 3, theme: 'ENERGY' },
+    { num: 4, theme: 'RESTORATION' },
+    { num: 5, theme: 'FOCUS' },
+    { num: 6, theme: 'BALANCE' },
+    { num: 7, theme: 'DEPTH' },
+    { num: 8, theme: 'RENEWAL' },
+    { num: 9, theme: 'INTEGRATION' },
+    { num: 10, theme: 'TRANSFORMATION' },
+  ]
+};
+
+function renderDays() {
+  const container = document.getElementById('preview-days');
+  container.innerHTML = '';
+  DAYS[LANG.current].forEach(d => {
+    const pill = document.createElement('div');
+    pill.className = 'day-pill';
+    pill.innerHTML = `<b>Día ${d.num}</b><span>${d.theme}</span>`;
+    container.appendChild(pill);
+  });
+}
+
+function setLang(lang) {
+  LANG.current = lang;
+  document.documentElement.lang = lang;
+
+  // Toggle active button
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+  // Translate all [data-es] / [data-en] elements
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (el.tagName === 'INPUT' && el.type === 'text') {
+      el.placeholder = val;
+    } else if (el.tagName === 'OPTION') {
+      el.textContent = val;
+    } else {
+      el.innerHTML = val;
+    }
+  });
+
+  // Field placeholders
+  const placeholders = {
+    es: { name: 'Tu nombre', email: 'tu@correo.com', role: 'Ej: CEO, Director, Médico...' },
+    en: { name: 'Your name', email: 'you@email.com', role: 'E.g: CEO, Director, Doctor...' },
+  };
+  const p = placeholders[lang];
+  document.getElementById('field-name').placeholder = p.name;
+  document.getElementById('field-email').placeholder = p.email;
+  document.getElementById('field-role').placeholder = p.role;
+
+  renderDays();
+}
+
+/* ── CRM INTEGRATION ────────────────────────────────────────────────── */
+/*
+  CRM: https://maatcrm.vercel.app
+  Section: Lead Magnets
+
+  This function POSTs the lead data to the MAAT CRM API.
+  Update CRM_API_ENDPOINT with the exact endpoint from your CRM's Lead Magnets section.
+
+  Expected payload (adjust field names to match your CRM schema):
+  {
+    name: string,
+    email: string,
+    role: string,
+    source: string,
+    lead_magnet: string,  // identifies which magnet
+    language: string,
+    timestamp: string (ISO)
+  }
+*/
+const CRM_API_ENDPOINT = 'https://maatcrm.vercel.app/api/leads';  // ← UPDATE if different
+const LEAD_MAGNET_ID   = '10-day-reset-guide';
+
+async function submitToCRM(data) {
+  const payload = {
+    name:         data.name,
+    email:        data.email,
+    role:         data.role || '',
+    source:       data.source || 'landing-page',
+    lead_magnet:  LEAD_MAGNET_ID,
+    language:     LANG.current,
+    timestamp:    new Date().toISOString(),
+    tags:         ['reset-10-dias', 'lead-magnet', data.source || 'direct'],
+  };
+
+  try {
+    const res = await fetch(CRM_API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const errBody = await res.text();
+      console.warn('CRM response:', res.status, errBody);
+      // We still allow download even if CRM call fails
+      return { success: false, status: res.status };
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.warn('CRM submit error (non-blocking):', err);
+    return { success: false, error: err.message };
+  }
+}
+
+/* ── FORM SUBMIT ────────────────────────────────────────────────────── */
+async function submitLead(e) {
+  e.preventDefault();
+
+  const name   = document.getElementById('field-name').value.trim();
+  const email  = document.getElementById('field-email').value.trim();
+  const role   = document.getElementById('field-role').value.trim();
+  const source = document.getElementById('field-source').value;
+
+  const errEl = document.getElementById('error-msg');
+  errEl.style.display = 'none';
+
+  // Validation
+  if (!name) {
+    showError(LANG.current === 'es' ? 'Por favor ingresa tu nombre.' : 'Please enter your name.');
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    showError(LANG.current === 'es' ? 'Por favor ingresa un email válido.' : 'Please enter a valid email.');
+    return;
+  }
+
+  // Show loading
+  const overlay = document.getElementById('loading-overlay');
+  const loadText = document.getElementById('loading-text');
+  loadText.textContent = LANG.current === 'es' ? 'Registrando tu acceso...' : 'Registering your access...';
+  overlay.classList.add('show');
+
+  // Disable button
+  const btn = document.getElementById('gate-submit');
+  btn.disabled = true;
+
+  // Submit to CRM (non-blocking — we give access regardless)
+  const crmResult = await submitToCRM({ name, email, role, source });
+
+  if (!crmResult.success) {
+    // CRM failed — log it but still grant access
+    console.warn('CRM registration incomplete. Granting access anyway.');
+  }
+
+  // Small UX delay
+  await new Promise(r => setTimeout(r, 900));
+  overlay.classList.remove('show');
+
+  // Show success state
+  document.getElementById('gate-form-wrapper').style.display = 'none';
+  document.getElementById('success-state').style.display = 'block';
+
+  // Personalised message
+  const msg = document.getElementById('success-message');
+  const firstName = name.split(' ')[0];
+  if (LANG.current === 'es') {
+    msg.textContent = `¡Listo, ${firstName}! Tu reset comienza ahora. Descarga la guía en tu idioma preferido:`;
+  } else {
+    msg.textContent = `Ready, ${firstName}! Your reset starts now. Download the guide in your preferred language:`;
+  }
+
+  // Scroll to success
+  document.getElementById('lead-gate').scrollIntoView({ behavior: 'smooth' });
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+/* ── INIT ─────────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderDays();
+});
+</script>
+</body>
+</html>

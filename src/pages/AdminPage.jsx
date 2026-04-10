@@ -21,6 +21,7 @@ import Tabs from '../components/ui/Tabs'
 import EmptyState from '../components/ui/EmptyState'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import TemplateManager from '../components/admin/TemplateManager'
+import WhatsAppTemplateManager from '../components/admin/WhatsAppTemplateManager'
 import { showSuccess, showError } from '../components/ui/Toast'
 import { getInitials, formatDate } from '../lib/utils'
 
@@ -142,6 +143,7 @@ export default function AdminPage() {
   const adminTabs = [
     { value: 'advisors', label: 'Asesores' },
     { value: 'templates', label: 'Plantillas de correo' },
+    { value: 'whatsapp', label: 'Plantillas de WhatsApp' },
   ]
 
   return (
@@ -165,6 +167,9 @@ export default function AdminPage() {
 
       {/* Templates Section */}
       {adminTab === 'templates' && <TemplateManager />}
+
+      {/* WhatsApp Templates Section */}
+      {adminTab === 'whatsapp' && <WhatsAppTemplateManager />}
 
       {/* Advisors Section */}
       {adminTab === 'advisors' && <>

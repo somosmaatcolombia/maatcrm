@@ -1,15 +1,51 @@
 import { useState, useRef, useEffect } from 'react'
 import { MessageCircle, ChevronDown, ExternalLink } from 'lucide-react'
 import { getWhatsAppLink } from '../../lib/utils'
+import { supabase } from '../../lib/supabase'
 import { getStageMessages, getDefaultStageMessage } from '../../lib/whatsappMessages'
 
-export default function WhatsAppPicker({ phone, prospectName, pipelineStage, size = 'md' }) {
+function replaceVariables(body, prospectName, companyName) {
+  const firstName = prospectName?.split(' ')[0] || ''
+  return (body || '')
+    .replace(/\{\{nombre\}\}/gi, firstName)
+    .replace(/\{\{empresa\}\}/gi, companyName || '')
+    .replace(/\{\{asesor\}\}/gi, 'Tu asesor')
+}
+
+export default function WhatsAppPicker({ phone, prospectName, pipelineStage, clientType, companyName, size = 'md' }) {
   const [open, setOpen] = useState(false)
+  const [dbTemplates, setDbTemplates] = useState(null) // null = not loaded yet
   const ref = useRef(null)
 
-  const messages = getStageMessages(pipelineStage)
   const firstName = prospectName?.split(' ')[0] || ''
-  const hasMultiple = messages.length > 1
+
+  // Fetch DB templates for this stage on mount
+  useEffect(() => {
+    async function fetchTemplates() {
+      try {
+        let query = supabase
+          .from('whatsapp_templates')
+          .select('*')
+          .eq('stage_slug', pipelineStage)
+          .eq('active', true)
+          .order('created_at', { ascending: true })
+
+        const { data, error } = await query
+        if (error) throw error
+
+        // Filter by client_type: match exact or 'both'
+        const filtered = (data || []).filter(
+          (t) => t.client_type === 'both' || t.client_type === clientType
+        )
+
+        setDbTemplates(filtered.length > 0 ? filtered : null)
+      } catch {
+        // Table doesn't exist or error — fallback to hardcoded
+        setDbTemplates(null)
+      }
+    }
+    if (pipelineStage) fetchTemplates()
+  }, [pipelineStage, clientType])
 
   // Close on outside click
   useEffect(() => {
@@ -24,12 +60,27 @@ export default function WhatsAppPicker({ phone, prospectName, pipelineStage, siz
 
   if (!phone) return null
 
+  // Build unified message list: prefer DB, fallback to hardcoded
+  const messages = dbTemplates
+    ? dbTemplates.map((t) => ({
+        label: t.name,
+        getText: () => replaceVariables(t.message_body, prospectName, companyName),
+      }))
+    : getStageMessages(pipelineStage).map((msg) => ({
+        label: msg.label,
+        getText: () => msg.getMessage(firstName),
+      }))
+
+  const hasMultiple = messages.length > 1
+
   // Single message — just a link
   if (!hasMultiple) {
-    const defaultMsg = getDefaultStageMessage(pipelineStage, prospectName)
+    const text = messages.length > 0
+      ? messages[0].getText()
+      : getDefaultStageMessage(pipelineStage, prospectName)
     return (
       <a
-        href={getWhatsAppLink(phone, defaultMsg)}
+        href={getWhatsAppLink(phone, text)}
         target="_blank"
         rel="noopener noreferrer"
         className={`inline-flex items-center gap-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors duration-200 ${
@@ -65,7 +116,7 @@ export default function WhatsAppPicker({ phone, prospectName, pipelineStage, siz
             Selecciona un mensaje
           </p>
           {messages.map((msg, i) => {
-            const text = msg.getMessage(firstName)
+            const text = msg.getText()
             return (
               <a
                 key={i}
