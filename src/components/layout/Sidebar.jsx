@@ -4,6 +4,7 @@ import {
   Users,
   Kanban,
   Mail,
+  MessageCircle,
   Magnet,
   Settings,
   Shield,
@@ -19,6 +20,7 @@ const navItems = [
   { to: '/prospects', icon: Users, label: 'Prospectos' },
   { to: '/pipeline', icon: Kanban, label: 'Pipeline' },
   { to: '/emails', icon: Mail, label: 'Correos' },
+  { to: '/whatsapp', icon: MessageCircle, label: 'WhatsApp' },
   { to: '/lead-magnets', icon: Magnet, label: 'Lead Magnets' },
   { to: '/settings', icon: Settings, label: 'Configuración' },
 ]
