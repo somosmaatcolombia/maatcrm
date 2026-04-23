@@ -79,15 +79,17 @@ export default function WhatsAppPage() {
       })
   }, [prospects, searchProspect])
 
-  // Filter templates by selected prospect (stage + client type)
+  // Show all templates compatible with client_type, sorted: matching stage first, then the rest
   const availableTemplates = useMemo(() => {
     if (!selectedProspect) return templates
-    return templates.filter((t) => {
-      const matchesStage =
-        !selectedProspect.pipeline_stage || t.stage_slug === selectedProspect.pipeline_stage
-      const matchesType =
-        t.client_type === 'both' || t.client_type === selectedProspect.client_type
-      return matchesStage && matchesType
+    const compatible = templates.filter(
+      (t) => t.client_type === 'both' || t.client_type === selectedProspect.client_type
+    )
+    // Sort so templates matching the current stage come first
+    return compatible.sort((a, b) => {
+      const aMatch = a.stage_slug === selectedProspect.pipeline_stage ? 0 : 1
+      const bMatch = b.stage_slug === selectedProspect.pipeline_stage ? 0 : 1
+      return aMatch - bMatch
     })
   }, [templates, selectedProspect])
 
@@ -256,77 +258,50 @@ export default function WhatsAppPage() {
                 ))}
               </div>
             ) : availableTemplates.length === 0 ? (
-              <div className="text-center py-8">
-                <p className="text-xs text-[#6B7280] mb-3">
-                  No hay plantillas específicas para esta etapa.
-                </p>
-                <button
-                  onClick={() => {
-                    // Show all templates compatible with client type
-                    setSelectedTemplate(null)
-                  }}
-                  className="text-xs text-[#39A1C9] font-medium hover:underline"
-                >
-                  Ver todas las plantillas ({templates.filter((t) => t.client_type === 'both' || t.client_type === selectedProspect?.client_type).length})
-                </button>
-                <div className="max-h-[380px] overflow-y-auto space-y-1.5 mt-4 pr-1">
-                  {templates
-                    .filter(
-                      (t) =>
-                        t.client_type === 'both' ||
-                        t.client_type === selectedProspect?.client_type
-                    )
-                    .map((t) => {
-                      const isSelected = selectedTemplate?.id === t.id
-                      return (
-                        <button
-                          key={t.id}
-                          onClick={() => setSelectedTemplate(t)}
-                          className={`w-full text-left p-3 rounded-lg border transition-all duration-200 ${
-                            isSelected
-                              ? 'bg-green-50 border-green-500 shadow-sm'
-                              : 'bg-white border-gray-200 hover:border-green-400 hover:bg-gray-50'
-                          }`}
-                        >
-                          <p className="text-sm font-semibold text-[#333333] mb-1">{t.name}</p>
-                          <p className="text-[10px] text-green-600 mb-1">
-                            {getStageName(t.stage_slug)}
-                          </p>
-                          <p className="text-[10px] text-[#6B7280] line-clamp-2">
-                            {t.message_body}
-                          </p>
-                        </button>
-                      )
-                    })}
-                </div>
-              </div>
+              <p className="text-xs text-[#6B7280] text-center py-8">
+                No hay plantillas disponibles para este tipo de cliente.
+              </p>
             ) : (
-              <div className="max-h-[480px] overflow-y-auto space-y-1.5 pr-1">
-                {availableTemplates.map((t) => {
-                  const isSelected = selectedTemplate?.id === t.id
-                  return (
-                    <button
-                      key={t.id}
-                      onClick={() => setSelectedTemplate(t)}
-                      className={`w-full text-left p-3 rounded-lg border transition-all duration-200 ${
-                        isSelected
-                          ? 'bg-green-50 border-green-500 shadow-sm'
-                          : 'bg-white border-gray-200 hover:border-green-400 hover:bg-gray-50'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-2 mb-1">
-                        <p className="text-sm font-semibold text-[#333333]">{t.name}</p>
-                        {isSelected && (
-                          <Check size={14} className="text-green-600 shrink-0" />
-                        )}
-                      </div>
-                      <p className="text-[10px] text-[#6B7280] line-clamp-3">
-                        {replaceVariables(t.message_body, selectedProspect, profile?.full_name)}
-                      </p>
-                    </button>
-                  )
-                })}
-              </div>
+              <>
+                <p className="text-[10px] text-[#6B7280] mb-2">
+                  {availableTemplates.length} plantilla{availableTemplates.length !== 1 ? 's' : ''} · las de la etapa actual aparecen primero
+                </p>
+                <div className="max-h-[460px] overflow-y-auto space-y-1.5 pr-1">
+                  {availableTemplates.map((t) => {
+                    const isSelected = selectedTemplate?.id === t.id
+                    const matchesStage = t.stage_slug === selectedProspect.pipeline_stage
+                    return (
+                      <button
+                        key={t.id}
+                        onClick={() => setSelectedTemplate(t)}
+                        className={`w-full text-left p-3 rounded-lg border transition-all duration-200 ${
+                          isSelected
+                            ? 'bg-green-50 border-green-500 shadow-sm'
+                            : 'bg-white border-gray-200 hover:border-green-400 hover:bg-gray-50'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <p className="text-sm font-semibold text-[#333333] truncate">{t.name}</p>
+                          <div className="flex items-center gap-1 shrink-0">
+                            {matchesStage && (
+                              <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-[#39A1C9]/10 text-[#39A1C9]">
+                                Etapa actual
+                              </span>
+                            )}
+                            {isSelected && <Check size={14} className="text-green-600" />}
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-green-600 font-medium mb-1">
+                          {getStageName(t.stage_slug)}
+                        </p>
+                        <p className="text-[10px] text-[#6B7280] line-clamp-2">
+                          {replaceVariables(t.message_body, selectedProspect, profile?.full_name)}
+                        </p>
+                      </button>
+                    )
+                  })}
+                </div>
+              </>
             )}
           </div>
 
