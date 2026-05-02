@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guia de Integracion Claude | MAAT — Era Humano-Digital 2026</title>
   <meta name="description" content="Descarga gratis la Guia Base de Procesos para integrar Claude en tu vida profesional. 25 capitulos, 5 partes. Cowork, Code, MCP y arquitectura de ecosistema personal." />
+  <meta property="og:title" content="Guia MAAT de Integracion Claude para Profesionales 2026" />
+  <meta property="og:description" content="No es un manual de prompts. Es un mapa de integracion para profesionales de alto rendimiento. Descarga gratis." />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700;800&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -13,17 +16,20 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy:   #0F1B35;
-      --navy2:  #1A2B4A;
-      --gold:   #C9A227;
-      --gold2:  #E8C04A;
-      --white:  #FFFFFF;
-      --offwhite: #F4F6FA;
-      --gray:   #7A8599;
-      --light:  #E8ECF4;
-      --accent: #E94560;
-      --green:  #2ECC8A;
-      --text:   #1A1A2E;
+      --primary:   #0F3460;
+      --primary2:  #16213E;
+      --primary3:  #1A1A2E;
+      --accent:    #E94560;
+      --accent2:   #C73E54;
+      --teal:      #39A1C9;
+      --teal2:     #2d8aae;
+      --orange:    #EBA055;
+      --white:     #FFFFFF;
+      --offwhite:  #F5F5F5;
+      --light:     #E8ECF4;
+      --gray:      #6B7280;
+      --text:      #1A1A2E;
+      --success:   #10B981;
     }
 
     html { scroll-behavior: smooth; }
@@ -31,7 +37,7 @@
     body {
       font-family: 'Sora', sans-serif;
       color: var(--text);
-      background: #fff;
+      background: var(--white);
       overflow-x: hidden;
     }
 
@@ -39,53 +45,101 @@
       font-family: 'Saira Condensed', sans-serif;
     }
 
+    /* ── TOPBAR ─────────────────────────────────────────────────────── */
+    .topbar {
+      background: var(--primary3);
+      padding: 12px 24px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .topbar span {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.06em;
+    }
+
+    .topbar strong {
+      color: var(--orange);
+    }
+
     /* ── HERO ─────────────────────────────────────────────────────────── */
     .hero {
-      background: var(--navy);
+      background: var(--primary);
       color: var(--white);
-      padding: 0;
       position: relative;
       overflow: hidden;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
     }
 
-    .hero::before {
-      content: '';
+    /* Paper-cut layers */
+    .hero-layer-1 {
       position: absolute;
-      top: -120px; right: -120px;
-      width: 500px; height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,162,39,0.12) 0%, transparent 70%);
+      bottom: -40px;
+      right: -40px;
+      width: 52%;
+      height: 75%;
+      background: var(--primary2);
+      clip-path: polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%);
       pointer-events: none;
     }
 
-    .hero::after {
-      content: '';
+    .hero-layer-2 {
       position: absolute;
-      bottom: -80px; left: -80px;
-      width: 360px; height: 360px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(233,69,96,0.08) 0%, transparent 70%);
+      top: 0;
+      right: 0;
+      width: 28%;
+      height: 40%;
+      background: var(--teal);
+      opacity: 0.18;
+      clip-path: polygon(35% 0%, 100% 0%, 100% 100%);
       pointer-events: none;
+    }
+
+    .hero-strip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 6px;
+      height: 100%;
+      background: var(--accent);
     }
 
     .hero-inner {
-      max-width: 860px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 72px 24px 64px;
+      padding: 80px 32px 72px;
       position: relative;
       z-index: 1;
+      width: 100%;
+    }
+
+    /* Logo */
+    .hero-logo {
+      margin-bottom: 36px;
+    }
+
+    .hero-logo img {
+      height: 44px;
+      filter: brightness(0) invert(1);
+      opacity: 0.92;
     }
 
     .hero-tag {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(201,162,39,0.15);
-      border: 1px solid rgba(201,162,39,0.35);
-      color: var(--gold2);
-      font-size: 0.78rem;
+      background: rgba(233,69,96,0.15);
+      border: 1px solid rgba(233,69,96,0.35);
+      color: #ff8fa3;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
       padding: 6px 14px;
       border-radius: 20px;
@@ -93,57 +147,60 @@
     }
 
     .hero h1 {
-      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-size: clamp(2.6rem, 6.5vw, 4.2rem);
       font-weight: 800;
-      line-height: 1.05;
-      margin-bottom: 24px;
+      line-height: 1.0;
+      margin-bottom: 8px;
       letter-spacing: -0.01em;
     }
 
-    .hero h1 span {
-      color: var(--gold2);
+    .hero h1 .accent-line {
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero h1 .teal-line {
+      color: var(--teal);
+      display: block;
     }
 
     .hero-sub {
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       line-height: 1.75;
-      color: rgba(255,255,255,0.78);
-      max-width: 620px;
-      margin-bottom: 40px;
+      color: rgba(255,255,255,0.72);
+      max-width: 600px;
+      margin: 28px 0 40px;
     }
 
     .hero-meta {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
     }
 
     .hero-meta-item {
       display: flex;
       align-items: center;
       gap: 8px;
-      color: rgba(255,255,255,0.65);
-      font-size: 0.88rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
     }
 
-    .hero-meta-item svg {
-      color: var(--gold);
-      flex-shrink: 0;
-    }
+    .hero-meta-item svg { color: var(--teal); flex-shrink: 0; }
 
     .hero-cta {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--gold);
-      color: var(--navy);
+      background: var(--accent);
+      color: var(--white);
       font-family: 'Saira Condensed', sans-serif;
       font-size: 1.15rem;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      padding: 18px 36px;
+      padding: 18px 38px;
       border-radius: 10px;
       cursor: pointer;
       border: none;
@@ -152,98 +209,117 @@
     }
 
     .hero-cta:hover {
-      background: var(--gold2);
+      background: var(--accent2);
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(201,162,39,0.35);
+      box-shadow: 0 12px 32px rgba(233,69,96,0.4);
     }
-
-    .hero-cta svg { flex-shrink: 0; }
 
     .hero-disclaimer {
       margin-top: 16px;
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.4);
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.38);
     }
 
-    /* ── PROBLEM STRIP ────────────────────────────────────────────────── */
+    /* ── SOCIAL PROOF STRIP ─────────────────────────────────────────── */
+    .proof-strip {
+      background: var(--primary3);
+      padding: 20px 24px;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .proof-item { text-align: center; }
+
+    .proof-number {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--orange);
+      line-height: 1;
+    }
+
+    .proof-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── PROBLEM STRIP ──────────────────────────────────────────────── */
     .problem {
-      background: var(--navy2);
-      color: var(--white);
-      padding: 48px 24px;
+      background: var(--offwhite);
+      padding: 60px 24px;
       text-align: center;
+      border-left: 6px solid var(--accent);
     }
 
-    .problem-inner {
-      max-width: 740px;
-      margin: 0 auto;
-    }
+    .problem-inner { max-width: 720px; margin: 0 auto; }
 
     .problem blockquote {
       font-family: 'Saira Condensed', sans-serif;
-      font-size: clamp(1.3rem, 3.5vw, 1.85rem);
+      font-size: clamp(1.35rem, 3.5vw, 1.9rem);
       font-weight: 600;
       line-height: 1.45;
-      color: rgba(255,255,255,0.92);
+      color: var(--text);
       position: relative;
-      padding: 0 20px;
+      padding-top: 20px;
     }
 
     .problem blockquote::before {
       content: '';
       display: block;
-      width: 48px;
-      height: 3px;
-      background: var(--gold);
+      width: 40px;
+      height: 4px;
+      background: var(--accent);
       margin: 0 auto 24px;
     }
 
-    .problem blockquote span {
-      color: var(--gold2);
-    }
+    .problem blockquote span { color: var(--accent); }
 
     .problem-source {
       margin-top: 20px;
       font-size: 0.82rem;
-      color: rgba(255,255,255,0.45);
+      color: var(--gray);
       letter-spacing: 0.04em;
     }
 
-    /* ── WHAT YOU GET ─────────────────────────────────────────────────── */
-    .section {
-      padding: 80px 24px;
-    }
+    /* ── SECTION BASE ────────────────────────────────────────────────── */
+    .section { padding: 80px 24px; }
 
-    .section-inner {
-      max-width: 860px;
-      margin: 0 auto;
-    }
+    .section-inner { max-width: 900px; margin: 0 auto; }
 
     .section-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 12px;
+      color: var(--teal);
+      margin-bottom: 10px;
     }
 
     .section h2 {
-      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+      font-size: clamp(1.8rem, 4.5vw, 2.9rem);
       font-weight: 800;
-      color: var(--navy);
-      line-height: 1.15;
-      margin-bottom: 20px;
+      color: var(--primary);
+      line-height: 1.1;
+      margin-bottom: 18px;
     }
+
+    .section h2 span { color: var(--accent); }
 
     .section-intro {
       font-size: 1rem;
-      line-height: 1.75;
+      line-height: 1.78;
       color: var(--gray);
-      max-width: 620px;
+      max-width: 640px;
       margin-bottom: 48px;
     }
 
-    /* ── PARTS GRID ───────────────────────────────────────────────────── */
+    /* ── PARTS GRID ─────────────────────────────────────────────────── */
     .parts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -251,70 +327,79 @@
     }
 
     .part-card {
-      background: var(--offwhite);
+      background: var(--white);
       border-radius: 14px;
       padding: 28px;
-      border-left: 4px solid var(--gold);
+      border-left: 4px solid var(--teal);
+      box-shadow: 0 2px 12px rgba(15,52,96,0.07);
       transition: all 0.22s;
       position: relative;
       overflow: hidden;
     }
 
+    .part-card:nth-child(2) { border-left-color: var(--orange); }
+    .part-card:nth-child(3) { border-left-color: var(--accent); }
+    .part-card:nth-child(4) { border-left-color: var(--primary); }
+    .part-card:nth-child(5) { border-left-color: var(--success); }
+
     .part-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 36px rgba(15,52,96,0.12);
     }
 
     .part-number {
       font-family: 'Saira Condensed', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--teal);
       margin-bottom: 8px;
     }
 
+    .part-card:nth-child(2) .part-number { color: var(--orange); }
+    .part-card:nth-child(3) .part-number { color: var(--accent); }
+    .part-card:nth-child(4) .part-number { color: var(--primary); }
+    .part-card:nth-child(5) .part-number { color: var(--success); }
+
     .part-card h3 {
-      font-size: 1.2rem;
+      font-size: 1.22rem;
       font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 12px;
-      line-height: 1.3;
+      color: var(--primary);
+      margin-bottom: 14px;
+      line-height: 1.25;
     }
 
     .part-icon {
       position: absolute;
-      top: 24px;
-      right: 24px;
-      opacity: 0.15;
+      top: 22px;
+      right: 22px;
+      opacity: 0.07;
+      color: var(--primary);
     }
 
-    .part-chapters {
-      list-style: none;
-      padding: 0;
-    }
+    .part-chapters { list-style: none; padding: 0; }
 
     .part-chapters li {
       font-size: 0.82rem;
       color: var(--gray);
-      line-height: 1.6;
+      line-height: 1.65;
       padding: 2px 0;
       display: flex;
       align-items: baseline;
-      gap: 6px;
+      gap: 7px;
     }
 
     .part-chapters li::before {
       content: '›';
-      color: var(--gold);
+      color: var(--teal);
       font-weight: 700;
       flex-shrink: 0;
     }
 
-    /* ── PRINCIPLE BOX ────────────────────────────────────────────────── */
+    /* ── PRINCIPLE BOX ──────────────────────────────────────────────── */
     .principle-box {
-      background: var(--navy);
+      background: var(--primary);
       color: var(--white);
       border-radius: 16px;
       padding: 48px;
@@ -327,40 +412,84 @@
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--gold) 0%, var(--gold2) 100%);
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--teal) 100%);
     }
 
-    .principle-box .principle-tag {
+    .principle-box::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(57,161,201,0.08);
+    }
+
+    .principle-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(201,162,39,0.2);
-      border: 1px solid rgba(201,162,39,0.3);
-      color: var(--gold2);
-      font-size: 0.72rem;
+      background: rgba(233,69,96,0.18);
+      border: 1px solid rgba(233,69,96,0.35);
+      color: #ff8fa3;
+      font-size: 0.7rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       padding: 5px 12px;
       border-radius: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .principle-box blockquote {
       font-family: 'Saira Condensed', sans-serif;
-      font-size: clamp(1.2rem, 3vw, 1.65rem);
+      font-size: clamp(1.25rem, 3vw, 1.7rem);
       font-weight: 600;
       line-height: 1.5;
       color: rgba(255,255,255,0.92);
       font-style: italic;
+      position: relative;
+      z-index: 1;
     }
 
-    .principle-box blockquote span {
-      color: var(--gold2);
+    .principle-box blockquote span { color: var(--teal); }
+
+    /* ── METRICS STRIP ───────────────────────────────────────────────── */
+    .metrics-strip {
+      background: var(--primary3);
+      padding: 56px 24px;
     }
 
-    /* ── FOR WHO ──────────────────────────────────────────────────────── */
+    .metrics-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 32px;
+    }
+
+    .metric-item { text-align: center; }
+
+    .metric-number {
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .metric-number span { color: var(--orange); }
+
+    .metric-label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.55;
+    }
+
+    /* ── FOR WHO ────────────────────────────────────────────────────── */
     .profiles-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -368,102 +497,72 @@
     }
 
     .profile-chip {
-      background: var(--navy);
-      color: var(--white);
+      background: var(--white);
+      border: 1.5px solid var(--light);
       border-radius: 12px;
-      padding: 20px;
+      padding: 22px;
       text-align: center;
       transition: all 0.22s;
+      box-shadow: 0 2px 8px rgba(15,52,96,0.05);
     }
 
     .profile-chip:hover {
-      background: var(--navy2);
-      transform: translateY(-2px);
+      border-color: var(--teal);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(57,161,201,0.15);
     }
 
     .profile-chip svg {
-      color: var(--gold);
+      color: var(--primary);
       margin-bottom: 12px;
     }
 
     .profile-chip h4 {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       font-weight: 700;
+      color: var(--primary);
       margin-bottom: 6px;
     }
 
     .profile-chip p {
       font-size: 0.76rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.5;
-    }
-
-    /* ── METRICS STRIP ────────────────────────────────────────────────── */
-    .metrics-strip {
-      background: var(--offwhite);
-      padding: 56px 24px;
-    }
-
-    .metrics-grid {
-      max-width: 860px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 24px;
-    }
-
-    .metric-item {
-      text-align: center;
-    }
-
-    .metric-number {
-      font-family: 'Saira Condensed', sans-serif;
-      font-size: 3rem;
-      font-weight: 800;
-      color: var(--navy);
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-
-    .metric-number span {
-      color: var(--gold);
-    }
-
-    .metric-label {
-      font-size: 0.85rem;
       color: var(--gray);
       line-height: 1.5;
     }
 
-    /* ── SNEAK PEEK ───────────────────────────────────────────────────── */
+    /* ── SNEAK PEEK ─────────────────────────────────────────────────── */
     .sneak-peek {
-      background: var(--navy);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary2) 100%);
       color: var(--white);
       padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .sneak-inner {
-      max-width: 860px;
-      margin: 0 auto;
+    .sneak-peek::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(57,161,201,0.08);
+      pointer-events: none;
     }
 
-    .sneak-peek .section-label {
-      color: var(--gold2);
-    }
+    .sneak-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
 
-    .sneak-peek h2 {
-      color: var(--white);
-    }
+    .sneak-peek .section-label { color: var(--orange); }
+    .sneak-peek h2 { color: var(--white); }
 
     .sneak-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
-      margin-top: 40px;
+      margin-top: 44px;
     }
 
     .sneak-card {
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 14px;
       padding: 28px;
@@ -471,13 +570,13 @@
     }
 
     .sneak-card:hover {
-      background: rgba(201,162,39,0.1);
-      border-color: rgba(201,162,39,0.3);
-      transform: translateY(-2px);
+      background: rgba(57,161,201,0.12);
+      border-color: rgba(57,161,201,0.35);
+      transform: translateY(-3px);
     }
 
     .sneak-card-icon {
-      color: var(--gold);
+      color: var(--teal);
       margin-bottom: 16px;
     }
 
@@ -491,21 +590,21 @@
     .sneak-card p {
       font-size: 0.83rem;
       line-height: 1.65;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.58);
     }
 
-    /* ── ABOUT MAAT ───────────────────────────────────────────────────── */
+    /* ── ABOUT MAAT ─────────────────────────────────────────────────── */
     .about-maat {
       padding: 80px 24px;
       background: var(--offwhite);
     }
 
     .about-inner {
-      max-width: 860px;
+      max-width: 900px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
+      gap: 64px;
       align-items: center;
     }
 
@@ -513,9 +612,12 @@
       .about-inner { grid-template-columns: 1fr; gap: 32px; }
     }
 
+    .about-logo { margin-bottom: 20px; }
+    .about-logo img { height: 40px; }
+
     .about-text h2 {
       font-size: clamp(1.7rem, 4vw, 2.5rem);
-      color: var(--navy);
+      color: var(--primary);
       margin-bottom: 16px;
     }
 
@@ -536,14 +638,19 @@
       background: var(--white);
       border-radius: 10px;
       padding: 18px;
-      border-top: 3px solid var(--gold);
+      border-top: 3px solid var(--teal);
+      box-shadow: 0 2px 8px rgba(15,52,96,0.06);
     }
+
+    .about-pillar:nth-child(2) { border-top-color: var(--orange); }
+    .about-pillar:nth-child(3) { border-top-color: var(--accent); }
+    .about-pillar:nth-child(4) { border-top-color: var(--primary); }
 
     .about-pillar h5 {
       font-size: 0.88rem;
       font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 4px;
+      color: var(--primary);
+      margin-bottom: 5px;
     }
 
     .about-pillar p {
@@ -553,26 +660,28 @@
       margin: 0;
     }
 
-    /* ── GATE SECTION ─────────────────────────────────────────────────── */
+    /* ── ACCENT DIVIDER ─────────────────────────────────────────────── */
+    .accent-divider {
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--teal) 50%, var(--orange) 100%);
+      border: none;
+      margin: 0;
+    }
+
+    /* ── GATE SECTION ───────────────────────────────────────────────── */
     .gate-section {
       padding: 80px 24px;
       background: var(--white);
     }
 
-    .gate-inner {
-      max-width: 560px;
-      margin: 0 auto;
-    }
+    .gate-inner { max-width: 560px; margin: 0 auto; }
 
-    .gate-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+    .gate-header { text-align: center; margin-bottom: 40px; }
 
-    .gate-header .gate-icon {
-      width: 56px;
-      height: 56px;
-      background: var(--navy);
+    .gate-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -581,8 +690,8 @@
     }
 
     .gate-header h2 {
-      font-size: 2rem;
-      color: var(--navy);
+      font-size: 2.1rem;
+      color: var(--primary);
       margin-bottom: 10px;
     }
 
@@ -596,16 +705,16 @@
       background: var(--offwhite);
       border-radius: 16px;
       padding: 36px;
-      border: 1px solid var(--light);
+      border: 1.5px solid var(--light);
     }
 
     .gate-form label {
       display: block;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
-      color: var(--navy);
+      color: var(--primary);
       margin-bottom: 6px;
     }
 
@@ -621,23 +730,23 @@
       background: var(--white);
       outline: none;
       margin-bottom: 20px;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .gate-form input:focus,
     .gate-form select:focus {
-      border-color: var(--navy);
-      box-shadow: 0 0 0 3px rgba(15,27,53,0.08);
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(57,161,201,0.12);
     }
 
     .gate-submit {
       width: 100%;
-      background: var(--navy);
+      background: var(--accent);
       color: var(--white);
       font-family: 'Saira Condensed', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.18rem;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       padding: 17px 24px;
       border: none;
@@ -651,9 +760,9 @@
     }
 
     .gate-submit:hover {
-      background: var(--navy2);
+      background: var(--accent2);
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(15,27,53,0.25);
+      box-shadow: 0 10px 28px rgba(233,69,96,0.3);
     }
 
     .gate-submit:disabled {
@@ -665,7 +774,7 @@
 
     .gate-privacy {
       margin-top: 16px;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       color: var(--gray);
       text-align: center;
       line-height: 1.5;
@@ -675,7 +784,7 @@
       gap: 6px;
     }
 
-    .gate-privacy svg { color: var(--navy); flex-shrink: 0; }
+    .gate-privacy svg { color: var(--teal); flex-shrink: 0; }
 
     .error-msg {
       background: #FEE2E2;
@@ -687,7 +796,7 @@
       display: none;
     }
 
-    /* ── SUCCESS STATE ────────────────────────────────────────────────── */
+    /* ── SUCCESS STATE ──────────────────────────────────────────────── */
     #success-state {
       display: none;
       text-align: center;
@@ -697,17 +806,18 @@
     .success-icon {
       width: 72px;
       height: 72px;
-      background: linear-gradient(135deg, var(--navy), var(--navy2));
+      background: var(--primary);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 24px;
+      border: 3px solid var(--teal);
     }
 
     #success-state h2 {
-      font-size: 2rem;
-      color: var(--navy);
+      font-size: 2.1rem;
+      color: var(--primary);
       margin-bottom: 12px;
     }
 
@@ -722,12 +832,12 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      background: var(--gold);
-      color: var(--navy);
+      background: var(--accent);
+      color: var(--white);
       font-family: 'Saira Condensed', sans-serif;
       font-size: 1.15rem;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       padding: 18px 36px;
       border-radius: 10px;
@@ -737,29 +847,39 @@
     }
 
     .download-btn:hover {
-      background: var(--gold2);
+      background: var(--accent2);
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(201,162,39,0.35);
+      box-shadow: 0 12px 32px rgba(233,69,96,0.35);
     }
 
-    /* ── FINAL CTA ────────────────────────────────────────────────────── */
+    /* ── FINAL CTA ──────────────────────────────────────────────────── */
     .final-cta {
-      background: var(--navy);
+      background: var(--primary);
       color: var(--white);
       padding: 80px 24px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--teal) 100%);
     }
 
     .final-cta h2 {
-      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+      font-size: clamp(1.9rem, 4.5vw, 2.9rem);
       color: var(--white);
       margin-bottom: 16px;
     }
 
     .final-cta p {
       font-size: 1rem;
-      color: rgba(255,255,255,0.68);
-      line-height: 1.75;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.78;
       max-width: 560px;
       margin: 0 auto 32px;
     }
@@ -768,12 +888,12 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--gold);
-      color: var(--navy);
+      background: var(--accent);
+      color: var(--white);
       font-family: 'Saira Condensed', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.18rem;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       padding: 18px 40px;
       border-radius: 10px;
@@ -782,17 +902,34 @@
     }
 
     .final-cta-btn:hover {
-      background: var(--gold2);
+      background: var(--accent2);
       transform: translateY(-3px);
-      box-shadow: 0 14px 36px rgba(201,162,39,0.4);
+      box-shadow: 0 14px 36px rgba(233,69,96,0.4);
     }
 
-    /* ── LOADING ──────────────────────────────────────────────────────── */
+    .final-cta-sub {
+      margin-top: 16px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────── */
+    .footer {
+      background: var(--primary3);
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .footer img { height: 32px; filter: brightness(0) invert(1); opacity: 0.6; margin-bottom: 10px; }
+
+    .footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); line-height: 1.6; }
+
+    /* ── LOADING ────────────────────────────────────────────────────── */
     .loading-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: rgba(15,52,96,0.7);
       z-index: 999;
       justify-content: center;
       align-items: center;
@@ -805,32 +942,23 @@
     .spinner {
       width: 44px;
       height: 44px;
-      border: 3px solid rgba(255,255,255,0.25);
-      border-top-color: var(--gold);
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: var(--teal);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .loading-text {
-      color: var(--white);
-      font-size: 0.92rem;
-    }
+    .loading-text { color: var(--white); font-size: 0.92rem; }
 
-    /* ── DIVIDER ──────────────────────────────────────────────────────── */
-    .gold-divider {
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      border: none;
-      margin: 0;
-    }
-
-    /* ── RESPONSIVE ───────────────────────────────────────────────────── */
+    /* ── RESPONSIVE ─────────────────────────────────────────────────── */
     @media (max-width: 600px) {
-      .hero h1 { font-size: 2rem; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero-inner { padding: 60px 24px 56px; }
       .principle-box { padding: 32px 24px; }
       .gate-form { padding: 24px 20px; }
+      .proof-strip { gap: 28px; }
     }
   </style>
 </head>
@@ -842,54 +970,98 @@
   <div class="loading-text" id="loading-text">Preparando tu acceso...</div>
 </div>
 
-<!-- ═══════════════════════════ HERO ═══════════════════════════════════ -->
+<!-- ═══════════ TOPBAR ═══════════════════════════════════════════════ -->
+<div class="topbar">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+  <span>Guia <strong>completamente gratuita</strong> — PDF descargable — Acceso inmediato</span>
+</div>
+
+<!-- ═══════════ HERO ══════════════════════════════════════════════════ -->
 <section class="hero">
+  <div class="hero-strip"></div>
+  <div class="hero-layer-1"></div>
+  <div class="hero-layer-2"></div>
+
   <div class="hero-inner">
-    <div class="hero-tag">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-      Guia Gratuita · Era Humano-Digital 2026
+
+    <div class="hero-logo">
+      <img src="/maat-logo.png" alt="MAAT" />
     </div>
-    <h1>Integra Claude como<br/><span>profesional de alto<br/>rendimiento</span></h1>
-    <p class="hero-sub">No es un manual de prompts. Es un mapa de integracion para profesionales que ya saben lo que hacen y quieren que la IA amplíe su capacidad, no que los distraiga con promesas vacias.</p>
+
+    <div class="hero-tag">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      Guia Base de Procesos — Nivel Medio · 2026
+    </div>
+
+    <h1>
+      Integra Claude<br/>
+      <span class="accent-line">como profesional</span>
+      <span class="teal-line">de alto rendimiento</span>
+    </h1>
+
+    <p class="hero-sub">No es un manual de prompts. Es un mapa de integracion para profesionales que ya saben lo que hacen y quieren que la IA amplie su capacidad — no que los distraiga con promesas vacias.</p>
+
     <div class="hero-meta">
       <div class="hero-meta-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         37 paginas · 25 capitulos
       </div>
       <div class="hero-meta-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         Lectura estimada: 90 min
       </div>
       <div class="hero-meta-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Nivel intermedio — sin codigo requerido
       </div>
     </div>
+
     <a href="#acceder" class="hero-cta">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Descargar guia gratis
     </a>
     <p class="hero-disclaimer">Sin spam · PDF descargable · Acceso inmediato</p>
+
   </div>
 </section>
 
-<!-- ═══════════════════════ PROBLEM STRIP ════════════════════════════ -->
+<!-- ═══════════ PROOF STRIP ══════════════════════════════════════════ -->
+<div class="proof-strip">
+  <div class="proof-item">
+    <div class="proof-number">25+</div>
+    <div class="proof-label">Capitulos</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-number">5</div>
+    <div class="proof-label">Partes</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-number">38+</div>
+    <div class="proof-label">Conectores MCP</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-number">x2</div>
+    <div class="proof-label">Velocidad en tareas</div>
+  </div>
+</div>
+
+<!-- ═══════════ PROBLEM ══════════════════════════════════════════════ -->
 <section class="problem">
   <div class="problem-inner">
     <blockquote>
       "La mayoria de los profesionales usan Claude como un <span>buscador sofisticado</span>. El resultado es predecible: decepcion moderada y la sensacion de que la IA no da para tanto."
     </blockquote>
-    <p class="problem-source">— Rubén Dario Rojas Lopez · Fundador MAAT · 2026</p>
+    <p class="problem-source">— Ruben Dario Rojas Lopez · Fundador MAAT · 2026</p>
   </div>
 </section>
 
-<hr class="gold-divider" />
+<hr class="accent-divider" />
 
-<!-- ═══════════════════════ WHAT YOU GET ═════════════════════════════ -->
+<!-- ═══════════ CONTENIDO ════════════════════════════════════════════ -->
 <section class="section">
   <div class="section-inner">
     <div class="section-label">Contenido de la guia</div>
-    <h2>5 Partes. 25 Capitulos.<br/>Un solo objetivo: integrar bien.</h2>
+    <h2>5 Partes. 25 Capitulos.<br/><span>Un solo objetivo: integrar bien.</span></h2>
     <p class="section-intro">Esta guia no te ensena funciones — te da el mapa mental, los flujos reales y la arquitectura para que Claude opere como una extension inteligente de tu trabajo, no como una herramienta mas en tu stack.</p>
 
     <div class="parts-grid">
@@ -969,18 +1141,19 @@
 
     </div>
 
-    <!-- PRINCIPLE -->
+    <!-- PRINCIPLE BOX -->
     <div class="principle-box">
       <div class="principle-tag">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         Principio MAAT
       </div>
       <blockquote>"La IA no te hace mejor profesional. <span>Amplifica lo que ya eres.</span> Si tu pensamiento es claro y tu contexto esta bien articulado, Claude produce resultados extraordinarios. La integracion empieza en ti."</blockquote>
     </div>
+
   </div>
 </section>
 
-<!-- ══════════════════════ METRICS STRIP ═════════════════════════════ -->
+<!-- ═══════════ METRICS ══════════════════════════════════════════════ -->
 <div class="metrics-strip">
   <div class="metrics-grid">
     <div class="metric-item">
@@ -996,13 +1169,13 @@
       <div class="metric-label">Conectores disponibles<br/>en el ecosistema Claude</div>
     </div>
     <div class="metric-item">
-      <div class="metric-number"><span>×</span>2</div>
+      <div class="metric-number"><span>x</span>2</div>
       <div class="metric-label">Velocidad en tareas complejas<br/>con multi-agente</div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════ FOR WHO ═══════════════════════════════════ -->
+<!-- ═══════════ PARA QUIEN ═══════════════════════════════════════════ -->
 <section class="section" style="background: var(--offwhite);">
   <div class="section-inner">
     <div class="section-label">Para quien es</div>
@@ -1044,12 +1217,12 @@
   </div>
 </section>
 
-<!-- ═══════════════════════ SNEAK PEEK ═══════════════════════════════ -->
+<!-- ═══════════ SNEAK PEEK ═══════════════════════════════════════════ -->
 <section class="sneak-peek">
   <div class="sneak-inner">
     <div class="section-label">Sneak peek</div>
-    <h2 style="color:var(--white);">Lo que vas a aprender<br/>a pensar diferente</h2>
-    <p style="color:rgba(255,255,255,0.6); font-size:0.95rem; line-height:1.75; max-width:560px; margin-bottom:0;">Estos son algunos de los marcos mentales y flujos concretos que encontraras en la guia:</p>
+    <h2>Lo que vas a aprender<br/>a pensar diferente</h2>
+    <p style="color:rgba(255,255,255,0.58); font-size:0.95rem; line-height:1.75; max-width:560px; margin-bottom:0;">Estos son algunos de los marcos mentales y flujos concretos que encontraras en la guia:</p>
 
     <div class="sneak-cards">
       <div class="sneak-card">
@@ -1098,12 +1271,13 @@
   </div>
 </section>
 
-<!-- ══════════════════════ ABOUT MAAT ═════════════════════════════════ -->
+<!-- ═══════════ ABOUT MAAT ═══════════════════════════════════════════ -->
 <section class="about-maat">
   <div class="about-inner">
     <div class="about-text">
-      <div class="section-label" style="color:var(--gold);">Sobre MAAT</div>
-      <h2>Un proyecto sobre alto rendimiento sostenible</h2>
+      <div class="about-logo"><img src="/maat-logo.png" alt="MAAT" /></div>
+      <div class="section-label" style="color:var(--teal);">Sobre MAAT</div>
+      <h2>Alto rendimiento sostenible</h2>
       <p>MAAT es una plataforma de mentoria de alto rendimiento para profesionales. No ensenamos tecnicas — trabajamos la arquitectura interna desde la que operas: claridad de proposito, regulacion emocional y decision desde valores.</p>
       <p>Esta guia nace de ese mismo principio: la tecnologia amplifica lo que ya eres. Por eso antes de hablar de herramientas, hablamos de mindset.</p>
     </div>
@@ -1128,14 +1302,14 @@
   </div>
 </section>
 
-<hr class="gold-divider" />
+<hr class="accent-divider" />
 
-<!-- ══════════════════════ GATE FORM ══════════════════════════════════ -->
+<!-- ═══════════ GATE FORM ════════════════════════════════════════════ -->
 <section class="gate-section" id="acceder">
   <div class="gate-inner">
     <div class="gate-header">
       <div class="gate-icon">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       </div>
       <h2>Accede a la guia</h2>
       <p>Dejanos tus datos y descarga inmediatamente la Guia de Integracion Claude — sin spam, sin compromisos.</p>
@@ -1181,7 +1355,7 @@
     <!-- SUCCESS STATE -->
     <div id="success-state">
       <div class="success-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <h2>Acceso Concedido</h2>
       <p id="success-message">Tu guia esta lista. Descargala ahora y empieza a integrar Claude como profesional de alto rendimiento.</p>
@@ -1194,7 +1368,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════ FINAL CTA ══════════════════════════════════ -->
+<!-- ═══════════ FINAL CTA ════════════════════════════════════════════ -->
 <section class="final-cta">
   <h2>Listo para la transformacion real?</h2>
   <p>El Sistema de Mentoria MAAT integra neurociencia, filosofia practica y metacognicion aplicada para guiarte en 4 meses hacia claridad, proposito y alto rendimiento sostenible.</p>
@@ -1202,11 +1376,17 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
     Agendar Llamada Estrategica
   </a>
-  <p style="margin-top:16px; font-size:0.8rem; opacity:0.45;">Sesion de valoracion sin compromiso</p>
+  <p class="final-cta-sub">Sesion de valoracion sin compromiso</p>
 </section>
 
+<!-- ═══════════ FOOTER ════════════════════════════════════════════════ -->
+<div class="footer">
+  <img src="/maat-logo.png" alt="MAAT" />
+  <p>MAAT — Sistema de Mentoria de Alto Rendimiento · somosmaat.org</p>
+</div>
+
 <script>
-  // ── CONFIG ──────────────────────────────────────────────────────────
+  // ── CONFIG ─────────────────────────────────────────────────────────
   const CRM_CONFIG = {
     SUPABASE_URL: 'https://vbfesmgxegxsurnfazjs.supabase.co',
     SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiZmVzbWd4ZWd4c3VybmZhempzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2MTA1MjksImV4cCI6MjA4OTE4NjUyOX0.Lto1Ay7xMtmo7uJFx9jbY9W_BClVM3IJKNP-vXOx8ac',
@@ -1214,95 +1394,90 @@
     LEAD_MAGNET_SLUG: 'guia-integracion-claude',
   };
 
-  // ── UTM TRACKING ────────────────────────────────────────────────────
+  // ── UTM TRACKING ───────────────────────────────────────────────────
   const urlParams = new URLSearchParams(window.location.search);
   const utmTracking = {
-    source: urlParams.get('utm_source') || document.referrer || 'direct',
-    utm_medium: urlParams.get('utm_medium') || '',
-    utm_campaign: urlParams.get('utm_campaign') || '',
+    source:   urlParams.get('utm_source')   || document.referrer || 'direct',
+    medium:   urlParams.get('utm_medium')   || '',
+    campaign: urlParams.get('utm_campaign') || '',
   };
 
-  // ── CRM SUBMIT ──────────────────────────────────────────────────────
-  async function submitToCRM(data) {
-    try {
-      const payload = {
-        lead_magnet_slug: CRM_CONFIG.LEAD_MAGNET_SLUG,
-        full_name:        data.name,
-        email:            data.email,
-        phone:            '',
-        country:          '',
-        delivery_method:  'download',
-        total_score:      null,
-        total_percentage: null,
-        level_name:       null,
-        level_number:     null,
-        dimension_scores: { role: data.role || '', language: 'es' },
-        answers:          { source_field: data.source || 'direct' },
-        ...utmTracking,
-      };
-
-      const url = CRM_CONFIG.SUPABASE_URL + '/functions/v1/' + CRM_CONFIG.EDGE_FUNCTION;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': CRM_CONFIG.SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + CRM_CONFIG.SUPABASE_ANON_KEY,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await res.json();
-      return { success: result.success || false };
-    } catch (err) {
-      console.warn('CRM submit error (non-blocking):', err);
-      return { success: false };
-    }
-  }
-
-  // ── FORM SUBMIT ─────────────────────────────────────────────────────
+  // ── SUBMIT ─────────────────────────────────────────────────────────
   async function submitLead(e) {
     e.preventDefault();
 
-    const name   = document.getElementById('field-name').value.trim();
-    const email  = document.getElementById('field-email').value.trim();
-    const role   = document.getElementById('field-role').value.trim();
-    const source = document.getElementById('field-source').value;
+    const name  = document.getElementById('field-name').value.trim();
+    const email = document.getElementById('field-email').value.trim();
+    const role  = document.getElementById('field-role').value.trim();
+    const src   = document.getElementById('field-source').value;
 
     const errEl = document.getElementById('error-msg');
     errEl.style.display = 'none';
 
-    if (!name) { showError('Por favor ingresa tu nombre.'); return; }
-    if (!email || !email.includes('@')) { showError('Por favor ingresa un email valido.'); return; }
-
-    const overlay  = document.getElementById('loading-overlay');
-    const loadText = document.getElementById('loading-text');
-    loadText.textContent = 'Preparando tu acceso...';
-    overlay.classList.add('show');
+    if (!name || !email) {
+      errEl.textContent = 'Por favor completa nombre y correo electronico.';
+      errEl.style.display = 'block';
+      return;
+    }
 
     const btn = document.getElementById('gate-submit');
     btn.disabled = true;
+    btn.textContent = 'Procesando...';
 
-    await submitToCRM({ name, email, role, source });
+    const overlay = document.getElementById('loading-overlay');
+    const loadingText = document.getElementById('loading-text');
+    overlay.classList.add('show');
+    loadingText.textContent = 'Registrando tu acceso...';
 
-    await new Promise(r => setTimeout(r, 900));
-    overlay.classList.remove('show');
+    try {
+      const payload = {
+        lead_magnet_slug: CRM_CONFIG.LEAD_MAGNET_SLUG,
+        full_name:  name,
+        email:      email,
+        phone:      null,
+        country:    null,
+        source:     src || utmTracking.source,
+        utm_medium:   utmTracking.medium,
+        utm_campaign: utmTracking.campaign,
+        delivery_method: 'none',
+        answers:     {},
+        total_score: null,
+      };
 
-    document.getElementById('gate-form-wrapper').style.display = 'none';
-    const successState = document.getElementById('success-state');
-    successState.style.display = 'block';
+      const res = await fetch(
+        `${CRM_CONFIG.SUPABASE_URL}/functions/v1/${CRM_CONFIG.EDGE_FUNCTION}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': CRM_CONFIG.SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${CRM_CONFIG.SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
-    const msg = document.getElementById('success-message');
-    const firstName = name.split(' ')[0];
-    msg.textContent = firstName + ', tu guia esta lista. Descargala ahora y empieza tu proceso de integracion.';
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Error del servidor');
+      }
 
-    document.getElementById('acceder').scrollIntoView({ behavior: 'smooth' });
-  }
+      overlay.classList.remove('show');
+      document.getElementById('gate-form-wrapper').style.display = 'none';
+      const successEl = document.getElementById('success-state');
+      successEl.style.display = 'block';
+      document.getElementById('success-message').textContent =
+        `Listo, ${name.split(' ')[0]}! Tu guia esta lista. Descargala ahora y empieza a integrar Claude como profesional de alto rendimiento.`;
 
-  function showError(msg) {
-    const el = document.getElementById('error-msg');
-    el.textContent = msg;
-    el.style.display = 'block';
+      setTimeout(() => { successEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+
+    } catch (err) {
+      overlay.classList.remove('show');
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Descargar guia gratis`;
+      errEl.textContent = 'Ocurrio un error. Por favor intenta de nuevo.';
+      errEl.style.display = 'block';
+    }
   }
 </script>
 </body>
