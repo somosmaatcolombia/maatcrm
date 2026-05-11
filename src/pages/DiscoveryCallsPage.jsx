@@ -32,7 +32,7 @@ import { useAdvisors } from '../hooks/useAdvisors'
 import { useAuthContext } from '../context/AuthContext'
 import { useProspects } from '../hooks/useProspects'
 import { supabase } from '../lib/supabase'
-import { formatDate, formatRelativeDate, getWhatsAppLink } from '../lib/utils'
+import { formatDate, formatRelativeDate, getWhatsAppLink, getInitials } from '../lib/utils'
 import Modal from '../components/ui/Modal'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
@@ -441,19 +441,31 @@ function CallRow({ call, onClick }) {
           {email && (
             <span className="flex items-center gap-1 truncate"><Mail size={11} />{email}</span>
           )}
-          {call.advisor?.full_name && (
-            <span className="flex items-center gap-1 truncate"><Users size={11} />{call.advisor.full_name}</span>
-          )}
           {call.outcome && OUTCOME_STYLES[call.outcome] && (
             <span
               className="font-medium"
               style={{ color: OUTCOME_STYLES[call.outcome].color }}
             >
-              · {OUTCOME_STYLES[call.outcome].label}
+              {OUTCOME_STYLES[call.outcome].label}
             </span>
           )}
         </div>
       </div>
+
+      {/* Advisor avatar — clearly shows who scheduled */}
+      {call.advisor?.full_name && (
+        <div className="hidden sm:flex items-center gap-2 shrink-0 mr-2" title={`Agendado por ${call.advisor.full_name}`}>
+          <div className="w-8 h-8 rounded-full bg-[#39A1C9] text-white flex items-center justify-center text-[10px] font-bold shadow-sm">
+            {getInitials(call.advisor.full_name)}
+          </div>
+          <div className="text-[10px] leading-tight">
+            <div className="text-[#6B7280] uppercase font-bold tracking-wider">Asesor</div>
+            <div className="text-[#1A1A2E] font-semibold truncate max-w-[100px]">
+              {call.advisor.full_name.split(' ')[0]}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Quick actions */}
       <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -600,10 +612,22 @@ function CallDetail({ call, isAdmin, onUpdate, onDelete, onClose, navigate }) {
   return (
     <div className="space-y-5">
       {/* Status banner */}
-      <div className={`flex items-center justify-between gap-3 p-3 rounded-lg ${styles.bg}`}>
-        <div className="flex items-center gap-2">
-          <span className={`w-2 h-2 rounded-full ${styles.dot}`} />
-          <span className={`text-sm font-bold ${styles.text}`}>{styles.label}</span>
+      <div className={`flex items-center justify-between gap-3 p-3 rounded-lg ${styles.bg} flex-wrap`}>
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-full ${styles.dot}`} />
+            <span className={`text-sm font-bold ${styles.text}`}>{styles.label}</span>
+          </div>
+          {call.advisor?.full_name && (
+            <div className="flex items-center gap-2 bg-white/60 rounded-full pl-1 pr-2.5 py-0.5">
+              <div className="w-6 h-6 rounded-full bg-[#39A1C9] text-white flex items-center justify-center text-[10px] font-bold">
+                {getInitials(call.advisor.full_name)}
+              </div>
+              <span className="text-xs font-semibold text-[#1A1A2E]">
+                Agendado por {call.advisor.full_name}
+              </span>
+            </div>
+          )}
         </div>
         <span className="text-xs text-[#6B7280]">
           {formatDate(call.scheduled_at)} · {date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
