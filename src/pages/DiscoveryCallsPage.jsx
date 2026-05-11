@@ -26,6 +26,8 @@ import {
   Trash2,
   Copy,
   CheckCheck,
+  Bell,
+  Send,
 } from 'lucide-react'
 import { useDiscoveryCalls } from '../hooks/useDiscoveryCalls'
 import { useAdvisors } from '../hooks/useAdvisors'
@@ -568,6 +570,126 @@ function QualificationCard({ qualification, onClick, onSchedule }) {
 }
 
 // ===========================================================
+// Scheduled Notifications panel
+// ===========================================================
+const NOTIF_TYPE_LABELS = {
+  qualification_link: 'Cuestionario de perfilación',
+  reminder_24h: 'Recordatorio 24h antes',
+  reminder_2h: 'Recordatorio 2h antes',
+  followup_advisor: 'Follow-up para asesor',
+  custom: 'Email personalizado',
+}
+
+const NOTIF_STATUS_STYLES = {
+  pending: { bg: 'bg-blue-50', text: 'text-blue-700', label: 'Programado' },
+  processing: { bg: 'bg-yellow-50', text: 'text-yellow-700', label: 'Enviando...' },
+  sent: { bg: 'bg-green-50', text: 'text-green-700', label: 'Enviado' },
+  failed: { bg: 'bg-red-50', text: 'text-red-700', label: 'Falló' },
+  cancelled: { bg: 'bg-gray-100', text: 'text-gray-500', label: 'Cancelado' },
+  skipped: { bg: 'bg-gray-100', text: 'text-gray-500', label: 'Omitido' },
+}
+
+function NotificationsPanel({ callId }) {
+  const [notifications, setNotifications] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [sendingId, setSendingId] = useState(null)
+
+  async function fetchNotifs() {
+    setLoading(true)
+    try {
+      const { data } = await supabase
+        .from('scheduled_notifications')
+        .select('*')
+        .eq('call_id', callId)
+        .order('scheduled_for', { ascending: true })
+      setNotifications(data || [])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (callId) fetchNotifs()
+  }, [callId])
+
+  async function sendNow(notifId) {
+    setSendingId(notifId)
+    try {
+      const { data, error } = await supabase.functions.invoke('process-scheduled-notifications', {
+        body: { notification_id: notifId },
+      })
+      if (error) throw error
+      toast.success('Email enviado')
+      await fetchNotifs()
+    } catch (e) {
+      toast.error(e.message || 'Error al enviar')
+    } finally {
+      setSendingId(null)
+    }
+  }
+
+  if (loading) return <div className="text-xs text-[#6B7280] text-center py-4">Cargando...</div>
+
+  if (notifications.length === 0) {
+    return (
+      <p className="text-xs text-[#6B7280] text-center py-3 italic">
+        Aún no hay notificaciones programadas para esta llamada
+      </p>
+    )
+  }
+
+  return (
+    <div className="space-y-2">
+      {notifications.map((n) => {
+        const style = NOTIF_STATUS_STYLES[n.status] || NOTIF_STATUS_STYLES.pending
+        const scheduledDate = new Date(n.scheduled_for)
+        const isPending = n.status === 'pending'
+        return (
+          <div key={n.id} className="bg-white rounded-lg border border-gray-200 p-3 flex items-start gap-3">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+              n.status === 'sent' ? 'bg-green-100 text-green-600' :
+              n.status === 'failed' ? 'bg-red-100 text-red-600' :
+              'bg-gray-100 text-gray-500'
+            }`}>
+              {n.channel === 'email' ? <Mail size={14} /> : <MessageCircle size={14} />}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <p className="text-sm font-semibold text-[#1A1A2E]">
+                  {NOTIF_TYPE_LABELS[n.type] || n.type}
+                </p>
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${style.bg} ${style.text}`}>
+                  {style.label}
+                </span>
+              </div>
+              <p className="text-[11px] text-[#6B7280] mt-0.5">
+                {n.status === 'sent' && n.sent_at
+                  ? `Enviado ${formatRelativeDate(n.sent_at)}`
+                  : `Programado para ${scheduledDate.toLocaleString('es-CO', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}`}
+                {n.to_email && ` · ${n.to_email}`}
+              </p>
+              {n.last_error && (
+                <p className="text-[10px] text-red-600 mt-1 italic">{n.last_error}</p>
+              )}
+            </div>
+            {isPending && (
+              <button
+                onClick={() => sendNow(n.id)}
+                disabled={sendingId === n.id}
+                className="text-[11px] font-medium text-[#39A1C9] hover:bg-[#39A1C9]/10 rounded px-2 py-1 transition-colors disabled:opacity-50 shrink-0"
+                title="Enviar ahora"
+              >
+                {sendingId === n.id ? '...' : '⚡ Enviar ya'}
+              </button>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// ===========================================================
 // Call Detail
 // ===========================================================
 function CallDetail({ call, isAdmin, onUpdate, onDelete, onClose, navigate }) {
@@ -711,6 +833,14 @@ function CallDetail({ call, isAdmin, onUpdate, onDelete, onClose, navigate }) {
             </a>
           )}
         </div>
+      </div>
+
+      {/* Notifications panel */}
+      <div className="border-t border-gray-100 pt-4">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-[#6B7280] mb-2 flex items-center gap-1.5">
+          <Bell size={12} /> Notificaciones programadas
+        </h4>
+        <NotificationsPanel callId={call.id} />
       </div>
 
       {/* Outcome + actions */}

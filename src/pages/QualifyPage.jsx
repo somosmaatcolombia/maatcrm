@@ -143,8 +143,10 @@ export default function QualifyPage() {
       const incomeOpt = questions.find((q) => q.id === 'income')?.options?.find((o) => o.value === answers.income)
       const tier = getInvestmentTier(answers, config)
 
+      const callIdParam = searchParams.get('call')
       const payload = {
         config_id: config.id,
+        call_id: callIdParam || null,
         full_name: contact.full_name.trim(),
         email: contact.email.trim(),
         phone: contact.phone.trim() || null,
@@ -158,7 +160,7 @@ export default function QualifyPage() {
         utm_source: searchParams.get('utm_source'),
         utm_medium: searchParams.get('utm_medium'),
         utm_campaign: searchParams.get('utm_campaign'),
-        source: searchParams.get('source') || document.referrer || 'direct',
+        source: searchParams.get('source') || document.referrer || (callIdParam ? 'pre-call-email' : 'direct'),
         user_agent: navigator.userAgent,
         expires_at: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
       }
