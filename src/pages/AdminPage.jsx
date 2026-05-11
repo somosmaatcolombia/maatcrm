@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   Shield,
   UserPlus,
@@ -21,6 +22,7 @@ import Tabs from '../components/ui/Tabs'
 import EmptyState from '../components/ui/EmptyState'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import TemplateManager from '../components/admin/TemplateManager'
+import GoogleCalendarSettings from '../components/admin/GoogleCalendarSettings'
 import { showSuccess, showError } from '../components/ui/Toast'
 import { getInitials, formatDate } from '../lib/utils'
 
@@ -137,11 +139,23 @@ export default function AdminPage() {
   }
 
   const isEditing = !!formModal.advisor
-  const [adminTab, setAdminTab] = useState('advisors')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [adminTab, setAdminTab] = useState(searchParams.get('tab') || 'advisors')
+
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    if (tab && tab !== adminTab) setAdminTab(tab)
+  }, [searchParams])
+
+  function handleTabChange(value) {
+    setAdminTab(value)
+    setSearchParams(value === 'advisors' ? {} : { tab: value }, { replace: true })
+  }
 
   const adminTabs = [
     { value: 'advisors', label: 'Asesores' },
     { value: 'templates', label: 'Plantillas de correo' },
+    { value: 'google-calendar', label: 'Google Calendar' },
   ]
 
   return (
@@ -161,10 +175,13 @@ export default function AdminPage() {
       </div>
 
       {/* Section Tabs */}
-      <Tabs tabs={adminTabs} activeTab={adminTab} onChange={setAdminTab} />
+      <Tabs tabs={adminTabs} activeTab={adminTab} onChange={handleTabChange} />
 
       {/* Templates Section */}
       {adminTab === 'templates' && <TemplateManager />}
+
+      {/* Google Calendar Section */}
+      {adminTab === 'google-calendar' && <GoogleCalendarSettings />}
 
       {/* Advisors Section */}
       {adminTab === 'advisors' && <>

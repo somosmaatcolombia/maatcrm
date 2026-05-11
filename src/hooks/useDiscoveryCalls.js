@@ -108,8 +108,27 @@ export function useDiscoveryCalls(filters = {}) {
         .eq('id', payload.qualification_id)
     }
 
-    setCalls((prev) => [data, ...prev])
-    return data
+    // Try to create Google Calendar event (silent fail if not connected)
+    let synced = data
+    try {
+      const { data: gcal, error: gerr } = await supabase.functions.invoke('google-calendar', {
+        body: { action: 'create-event', call_id: data.id },
+      })
+      if (!gerr && gcal?.event_id) {
+        // Re-fetch to get the updated row with google_event_id + meeting_link
+        const { data: refreshed } = await supabase
+          .from('discovery_calls')
+          .select('*, prospect:prospect_id(id, full_name, email, phone, pipeline_stage, client_type), advisor:advisor_id(id, full_name, email), qualification:qualification_id(*)')
+          .eq('id', data.id)
+          .single()
+        if (refreshed) synced = refreshed
+      }
+    } catch (_) {
+      // Calendar not connected — that's OK
+    }
+
+    setCalls((prev) => [synced, ...prev])
+    return synced
   }
 
   async function updateCall(id, updates) {
@@ -128,11 +147,33 @@ export function useDiscoveryCalls(filters = {}) {
       .single()
     if (err) throw err
 
+    // Sync to Google Calendar (best-effort)
+    try {
+      if (updates.status === 'cancelled' && data.google_event_id) {
+        await supabase.functions.invoke('google-calendar', {
+          body: { action: 'cancel-event', call_id: id },
+        })
+      } else if (data.google_event_id && (updates.scheduled_at || updates.duration_min || updates.call_notes || updates.advisor_id)) {
+        await supabase.functions.invoke('google-calendar', {
+          body: { action: 'update-event', call_id: id },
+        })
+      }
+    } catch (_) {
+      // ignore — calendar not connected
+    }
+
     setCalls((prev) => prev.map((c) => (c.id === id ? data : c)))
     return data
   }
 
   async function deleteCall(id) {
+    // First try to cancel the Google event
+    try {
+      await supabase.functions.invoke('google-calendar', {
+        body: { action: 'cancel-event', call_id: id },
+      })
+    } catch (_) {}
+
     const { error: err } = await supabase.from('discovery_calls').delete().eq('id', id)
     if (err) throw err
     setCalls((prev) => prev.filter((c) => c.id !== id))

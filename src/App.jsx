@@ -16,6 +16,7 @@ import LeadMagnetsPage from './pages/LeadMagnetsPage'
 import WhatsAppPage from './pages/WhatsAppPage'
 import DiscoveryCallsPage from './pages/DiscoveryCallsPage'
 import QualifyPage from './pages/QualifyPage'
+import GoogleCallbackPage from './pages/GoogleCallbackPage'
 
 export default function App() {
   return (
@@ -51,6 +52,14 @@ export default function App() {
                 element={
                   <ProtectedRoute requiredRole="admin">
                     <AdminPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="admin/google-callback"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <GoogleCallbackPage />
                   </ProtectedRoute>
                 }
               />
