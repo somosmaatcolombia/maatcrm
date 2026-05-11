@@ -14,6 +14,8 @@ import SettingsPage from './pages/SettingsPage'
 import AdminPage from './pages/AdminPage'
 import LeadMagnetsPage from './pages/LeadMagnetsPage'
 import WhatsAppPage from './pages/WhatsAppPage'
+import DiscoveryCallsPage from './pages/DiscoveryCallsPage'
+import QualifyPage from './pages/QualifyPage'
 
 export default function App() {
   return (
@@ -24,6 +26,8 @@ export default function App() {
           <Routes>
             {/* Public */}
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/qualify/:slug" element={<QualifyPage />} />
+            <Route path="/qualify" element={<QualifyPage />} />
 
             {/* Protected */}
             <Route
@@ -39,6 +43,7 @@ export default function App() {
               <Route path="pipeline" element={<PipelinePage />} />
               <Route path="emails" element={<EmailsPage />} />
               <Route path="whatsapp" element={<WhatsAppPage />} />
+              <Route path="discovery-calls" element={<DiscoveryCallsPage />} />
               <Route path="lead-magnets" element={<LeadMagnetsPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route

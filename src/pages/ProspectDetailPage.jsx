@@ -11,6 +11,7 @@ import {
   Trash2,
   ExternalLink,
   Send,
+  PhoneCall,
 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuthContext } from '../context/AuthContext'
@@ -173,6 +174,14 @@ export default function ProspectDetailPage() {
             clientType={prospect.client_type}
             companyName={prospect.company_name}
           />
+          <Button
+            variant="outline"
+            onClick={() => navigate(`/discovery-calls?prospect=${prospect.id}`)}
+            title="Agendar llamada de descubrimiento"
+          >
+            <PhoneCall size={16} />
+            Agendar llamada
+          </Button>
           <Button variant="outline" onClick={() => setEditModal(true)}>
             <Pencil size={16} />
             Editar

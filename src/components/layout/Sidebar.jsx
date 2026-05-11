@@ -6,6 +6,7 @@ import {
   Mail,
   MessageCircle,
   Magnet,
+  Phone,
   Settings,
   Shield,
   LogOut,
@@ -21,6 +22,7 @@ const navItems = [
   { to: '/pipeline', icon: Kanban, label: 'Pipeline' },
   { to: '/emails', icon: Mail, label: 'Correos' },
   { to: '/whatsapp', icon: MessageCircle, label: 'WhatsApp' },
+  { to: '/discovery-calls', icon: Phone, label: 'Llamadas' },
   { to: '/lead-magnets', icon: Magnet, label: 'Lead Magnets' },
   { to: '/settings', icon: Settings, label: 'Configuración' },
 ]
