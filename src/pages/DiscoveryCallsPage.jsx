@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   Phone,
@@ -1003,12 +1003,9 @@ function ScheduleForm({ prospects, activeAdvisors, currentUserId, fromQualificat
   })
   const [submitting, setSubmitting] = useState(false)
 
-  const prospectOptions = useMemo(
-    () => [
-      { value: '', label: fromQualification ? 'Sin prospecto vinculado' : 'Selecciona prospecto' },
-      ...prospects.map((p) => ({ value: p.id, label: `${p.full_name} · ${p.email || 'sin email'}` })),
-    ],
-    [prospects, fromQualification]
+  const selectedProspect = useMemo(
+    () => prospects.find((p) => p.id === form.prospect_id) || null,
+    [prospects, form.prospect_id]
   )
 
   const advisorOptions = useMemo(
@@ -1105,11 +1102,10 @@ function ScheduleForm({ prospects, activeAdvisors, currentUserId, fromQualificat
       )}
 
       {!fromQualification && (
-        <Select
-          label="Prospecto"
-          value={form.prospect_id}
-          onChange={(e) => setForm((f) => ({ ...f, prospect_id: e.target.value }))}
-          options={prospectOptions}
+        <ProspectSearchPicker
+          prospects={prospects}
+          selected={selectedProspect}
+          onSelect={(p) => setForm((f) => ({ ...f, prospect_id: p?.id || '' }))}
         />
       )}
 
@@ -1203,6 +1199,173 @@ function QualificationLinkBanner() {
           {copied ? <><CheckCheck size={12} /> Copiado</> : <><Copy size={12} /> Copiar</>}
         </button>
       </div>
+    </div>
+  )
+}
+
+// ===========================================================
+// Prospect Search Picker
+// ===========================================================
+function ProspectSearchPicker({ prospects, selected, onSelect, label = "Prospecto" }) {
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState("")
+  const ref = useRef(null)
+  const inputRef = useRef(null)
+
+  // Close on outside click
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false)
+        setSearch("")
+      }
+    }
+    if (open) document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [open])
+
+  // Focus input when opening
+  useEffect(() => {
+    if (open && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 50)
+    }
+  }, [open])
+
+  const filtered = useMemo(() => {
+    if (!search.trim()) return prospects.slice(0, 30)
+    const q = search.toLowerCase()
+    return prospects
+      .filter((p) =>
+        p.full_name?.toLowerCase().includes(q) ||
+        p.email?.toLowerCase().includes(q) ||
+        p.phone?.includes(q) ||
+        p.company_name?.toLowerCase().includes(q)
+      )
+      .slice(0, 30)
+  }, [prospects, search])
+
+  return (
+    <div className="space-y-1 relative" ref={ref}>
+      <label className="block text-sm font-medium text-[#333333]">{label}</label>
+
+      {/* Trigger / Selected display */}
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white hover:border-[#39A1C9] focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none transition-all duration-200 flex items-center justify-between gap-2 text-left"
+      >
+        {selected ? (
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <div className="w-7 h-7 rounded-full bg-[#39A1C9] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+              {getInitials(selected.full_name)}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-semibold text-[#1A1A2E] truncate">{selected.full_name}</div>
+              <div className="text-[10px] text-[#6B7280] truncate">
+                {selected.email || "sin email"}{selected.phone ? ` · ${selected.phone}` : ""}
+              </div>
+            </div>
+            <span
+              role="button"
+              tabIndex={0}
+              onClick={(e) => {
+                e.stopPropagation()
+                onSelect(null)
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.stopPropagation()
+                  onSelect(null)
+                }
+              }}
+              className="text-gray-400 hover:text-red-500 transition-colors shrink-0 p-1 cursor-pointer"
+              title="Quitar"
+            >
+              <XCircle size={14} />
+            </span>
+          </div>
+        ) : (
+          <>
+            <span className="text-gray-400 flex items-center gap-2">
+              <Search size={14} />
+              Buscar prospecto por nombre, email, teléfono o empresa...
+            </span>
+            <ChevronRight size={14} className={`text-gray-400 transition-transform ${open ? "rotate-90" : ""}`} />
+          </>
+        )}
+      </button>
+
+      {/* Dropdown */}
+      {open && (
+        <div className="absolute z-30 left-0 right-0 mt-1 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden animate-in fade-in zoom-in-95">
+          <div className="p-2 border-b border-gray-100">
+            <div className="relative">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                ref={inputRef}
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Escribe para buscar..."
+                className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="max-h-[280px] overflow-y-auto">
+            {filtered.length === 0 ? (
+              <p className="p-6 text-xs text-[#6B7280] text-center italic">
+                {search ? "Sin resultados para tu búsqueda" : "No hay prospectos disponibles"}
+              </p>
+            ) : (
+              filtered.map((p) => {
+                const isSelected = selected?.id === p.id
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => {
+                      onSelect(p)
+                      setOpen(false)
+                      setSearch("")
+                    }}
+                    className={`w-full text-left px-3 py-2.5 hover:bg-gray-50 transition-colors flex items-center gap-3 border-l-2 ${
+                      isSelected ? "bg-[#39A1C9]/5 border-[#39A1C9]" : "border-transparent"
+                    }`}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-[#39A1C9] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                      {getInitials(p.full_name)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-[#1A1A2E] truncate">{p.full_name}</span>
+                        <span
+                          className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0 ${
+                            p.client_type === "b2b"
+                              ? "bg-purple-100 text-purple-700"
+                              : "bg-blue-100 text-blue-700"
+                          }`}
+                        >
+                          {p.client_type?.toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="text-[10px] text-[#6B7280] truncate">
+                        {p.email || "sin email"}
+                        {p.company_name ? ` · ${p.company_name}` : ""}
+                      </div>
+                    </div>
+                    {isSelected && <CheckCircle2 size={14} className="text-[#39A1C9] shrink-0" />}
+                  </button>
+                )
+              })
+            )}
+          </div>
+
+          <div className="px-3 py-2 bg-gray-50 border-t border-gray-100 text-[10px] text-[#6B7280]">
+            {filtered.length} de {prospects.length} prospectos
+          </div>
+        </div>
+      )}
     </div>
   )
 }
