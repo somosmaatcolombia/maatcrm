@@ -12,6 +12,8 @@ import {
   ExternalLink,
   Send,
   PhoneCall,
+  MessageCircle,
+  StickyNote,
 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuthContext } from '../context/AuthContext'
@@ -168,7 +170,7 @@ export default function ProspectDetailPage() {
             </Button>
           )}
           <WhatsAppPicker
-            phone={prospect.phone}
+            phone={prospect.whatsapp || prospect.phone}
             prospectName={prospect.full_name}
             pipelineStage={prospect.pipeline_stage}
             clientType={prospect.client_type}
@@ -245,13 +247,32 @@ export default function ProspectDetailPage() {
                 </div>
               )}
               {prospect.phone && (
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <a
+                  href={`tel:${prospect.phone}`}
+                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  title="Llamar"
+                >
                   <Phone size={16} className="text-[#6B7280] shrink-0" />
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-[#6B7280] font-medium">Teléfono</p>
                     <p className="text-sm text-[#333333]">{prospect.phone}</p>
                   </div>
-                </div>
+                </a>
+              )}
+              {prospect.whatsapp && (
+                <a
+                  href={`https://wa.me/${prospect.whatsapp.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+                  title="Abrir WhatsApp"
+                >
+                  <MessageCircle size={16} className="text-green-600 shrink-0" />
+                  <div>
+                    <p className="text-[10px] uppercase tracking-wider text-green-700 font-medium">WhatsApp</p>
+                    <p className="text-sm text-[#333333]">{prospect.whatsapp}</p>
+                  </div>
+                </a>
               )}
               {(prospect.city || prospect.country) && (
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
@@ -275,6 +296,27 @@ export default function ProspectDetailPage() {
               )}
             </div>
           </div>
+
+          {/* Notes */}
+          {prospect.notes && (
+            <div className="bg-white rounded-xl shadow-md p-6 transition-shadow duration-200 hover:shadow-lg">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base font-semibold text-[#333333] flex items-center gap-2">
+                  <StickyNote size={18} className="text-amber-500" />
+                  Notas
+                </h3>
+                <button
+                  onClick={() => setEditModal(true)}
+                  className="text-xs text-[#39A1C9] hover:underline font-medium"
+                >
+                  Editar
+                </button>
+              </div>
+              <p className="text-sm text-[#333333] whitespace-pre-wrap leading-relaxed bg-amber-50/40 border border-amber-200/40 rounded-lg p-4">
+                {prospect.notes}
+              </p>
+            </div>
+          )}
 
           {/* Activities */}
           <div className="bg-white rounded-xl shadow-md p-6 transition-shadow duration-200 hover:shadow-lg">

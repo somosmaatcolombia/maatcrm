@@ -17,6 +17,7 @@ const EMPTY_FORM = {
   full_name: '',
   email: '',
   phone: '',
+  whatsapp: '',
   country: '',
   city: '',
   company_name: '',
@@ -28,6 +29,7 @@ const EMPTY_FORM = {
   estimated_value: '',
   next_contact_date: '',
   tags: [],
+  notes: '',
   advisor_id: '',
 }
 
@@ -173,7 +175,13 @@ export default function ProspectForm({ prospect, advisors = [], onSubmit, onCanc
           label="Teléfono"
           value={form.phone}
           onChange={(e) => handleChange('phone', e.target.value)}
-          placeholder="+52 55 1234 5678"
+          placeholder="+57 300 123 4567"
+        />
+        <Input
+          label="WhatsApp (si es distinto del teléfono)"
+          value={form.whatsapp}
+          onChange={(e) => handleChange('whatsapp', e.target.value)}
+          placeholder="+57 300 123 4567"
         />
         <Input
           label="Cargo / Puesto"
@@ -288,6 +296,23 @@ export default function ProspectForm({ prospect, advisors = [], onSubmit, onCanc
           placeholder="Seleccionar asesor..."
         />
       )}
+
+      {/* Notes (job/company context, free-form) */}
+      <div>
+        <label className="block text-sm font-medium text-[#333333] mb-1">
+          Notas
+        </label>
+        <textarea
+          rows={4}
+          value={form.notes}
+          onChange={(e) => handleChange('notes', e.target.value)}
+          placeholder="Cargo, empresa, contexto, comentarios..."
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#39A1C9] focus:border-transparent outline-none transition-all duration-200 resize-y"
+        />
+        <p className="text-[10px] text-[#6B7280] mt-1">
+          Útil para guardar cargo, empresa o cualquier contexto rápido del prospecto.
+        </p>
+      </div>
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">

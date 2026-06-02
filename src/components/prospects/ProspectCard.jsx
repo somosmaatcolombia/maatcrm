@@ -1,4 +1,4 @@
-import { Mail, Phone, Building2, MapPin, Calendar, MoreVertical, Eye, Pencil, Trash2, AlertTriangle } from 'lucide-react'
+import { Mail, Phone, Building2, MapPin, Calendar, MoreVertical, Eye, Pencil, Trash2, AlertTriangle, MessageCircle, StickyNote } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import Badge from '../ui/Badge'
 import { formatDate, formatCurrency, getInitials, isOverdue } from '../../lib/utils'
@@ -118,21 +118,49 @@ export default function ProspectCard({ prospect, onView, onEdit, onDelete, showA
           </div>
         )}
         {prospect.email && (
-          <div className="flex items-center gap-2">
+          <a
+            href={`mailto:${prospect.email}`}
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2 hover:text-[#39A1C9] transition-colors"
+          >
             <Mail size={13} className="shrink-0" />
             <span className="truncate">{prospect.email}</span>
-          </div>
+          </a>
         )}
         {prospect.phone && (
-          <div className="flex items-center gap-2">
+          <a
+            href={`tel:${prospect.phone}`}
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2 hover:text-[#39A1C9] transition-colors"
+            title="Llamar"
+          >
             <Phone size={13} className="shrink-0" />
             <span>{prospect.phone}</span>
-          </div>
+          </a>
+        )}
+        {prospect.whatsapp && (
+          <a
+            href={`https://wa.me/${prospect.whatsapp.replace(/\D/g, '')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2 hover:text-green-600 transition-colors"
+            title="Abrir WhatsApp"
+          >
+            <MessageCircle size={13} className="shrink-0 text-green-500" />
+            <span>{prospect.whatsapp}</span>
+          </a>
         )}
         {(prospect.city || prospect.country) && (
           <div className="flex items-center gap-2">
             <MapPin size={13} className="shrink-0" />
             <span>{[prospect.city, prospect.country].filter(Boolean).join(', ')}</span>
+          </div>
+        )}
+        {prospect.notes && (
+          <div className="flex items-start gap-2 pt-1 border-t border-gray-100 mt-1">
+            <StickyNote size={13} className="shrink-0 mt-0.5 text-amber-500" />
+            <span className="text-[11px] line-clamp-2 italic">{prospect.notes}</span>
           </div>
         )}
         {prospect.next_contact_date && (

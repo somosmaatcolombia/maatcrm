@@ -63,10 +63,10 @@ export default function WhatsAppPage() {
     fetch()
   }, [])
 
-  // Filter prospects by phone + search
+  // Filter prospects by whatsapp or phone + search
   const filteredProspects = useMemo(() => {
     return prospects
-      .filter((p) => p.phone)
+      .filter((p) => p.whatsapp || p.phone)
       .filter((p) => {
         if (!searchProspect) return true
         const q = searchProspect.toLowerCase()
@@ -74,7 +74,8 @@ export default function WhatsAppPage() {
           p.full_name?.toLowerCase().includes(q) ||
           p.email?.toLowerCase().includes(q) ||
           p.company_name?.toLowerCase().includes(q) ||
-          p.phone?.includes(q)
+          p.phone?.includes(q) ||
+          p.whatsapp?.includes(q)
         )
       })
   }, [prospects, searchProspect])
@@ -120,7 +121,8 @@ export default function WhatsAppPage() {
 
   function handleSend() {
     if (!selectedProspect || !customMessage.trim()) return
-    const link = getWhatsAppLink(selectedProspect.phone, customMessage)
+    const targetNumber = selectedProspect.whatsapp || selectedProspect.phone
+    const link = getWhatsAppLink(targetNumber, customMessage)
     window.open(link, '_blank')
     setSentProspectId(selectedProspect.id)
     setTimeout(() => setSentProspectId(null), 3000)
@@ -216,7 +218,10 @@ export default function WhatsAppPage() {
                       )}
                       <p className="text-[10px] text-[#6B7280] truncate flex items-center gap-1">
                         <Phone size={10} />
-                        {p.phone}
+                        {p.whatsapp || p.phone}
+                        {p.whatsapp && p.phone && p.whatsapp !== p.phone && (
+                          <span className="text-[9px] text-green-600 ml-1">(WhatsApp)</span>
+                        )}
                       </p>
                       {p.pipeline_stage && (
                         <p className="text-[9px] text-green-600 mt-1 font-medium">
@@ -338,7 +343,7 @@ export default function WhatsAppPage() {
                   </p>
                   <p className="text-xs text-[#6B7280] flex items-center gap-1 mt-0.5">
                     <Phone size={11} />
-                    {selectedProspect.phone}
+                    {selectedProspect.whatsapp || selectedProspect.phone}
                   </p>
                 </div>
 

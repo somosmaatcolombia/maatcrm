@@ -124,10 +124,10 @@ async function updateProspect(id: string, body: Record<string, unknown>) {
   const supabase = getSupabase()
 
   const allowedFields = [
-    'advisor_id', 'full_name', 'email', 'phone', 'country', 'city',
+    'advisor_id', 'full_name', 'email', 'phone', 'whatsapp', 'country', 'city',
     'company_name', 'company_size', 'job_title',
     'pipeline_stage', 'lead_source', 'estimated_value',
-    'next_contact_date', 'tags', 'client_type',
+    'next_contact_date', 'tags', 'client_type', 'notes',
   ]
 
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() }
