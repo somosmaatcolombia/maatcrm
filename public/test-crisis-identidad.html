@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test de Crisis de Identidad | MAAT</title>
+  <meta name="description" content="Descubre tu indice de crisis de identidad en 5 minutos. 24 preguntas, 6 dimensiones. Para profesionales latinoamericanos en un momento de quiebre interno." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700;800;900&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sky:    #39A1C9;
+      --orange: #EBA055;
+      --jade:   #7DCD93;
+      --coral:  #D76B6E;
+      --purple: #896C8E;
+      --dark:   #333333;
+      --gray:   #666666;
+      --white:  #FFFFFF;
+      --light:  #F5F5F5;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Sora', sans-serif; color: var(--dark); background: var(--light); overflow-x: hidden; }
+    h1, h2, h3, h4, h5 { font-family: 'Saira Condensed', sans-serif; }
+
+    /* STRIPE */
+    .maat-stripe {
+      height: 6px;
+      background: linear-gradient(90deg, #39A1C9 0%, #7DCD93 25%, #EBA055 50%, #D76B6E 75%, #896C8E 100%);
+      flex-shrink: 0;
+    }
+
+    /* PHASES */
+    #phase-landing  { display: none; flex-direction: column; min-height: 100vh; background: var(--dark); color: var(--white); }
+    #phase-test     { display: none; flex-direction: column; min-height: 100vh; background: var(--light); }
+    #phase-gate     { display: none; flex-direction: column; min-height: 100vh; background: var(--dark); align-items: center; justify-content: center; padding: 40px 20px; }
+    #phase-results  { display: none; min-height: 100vh; background: var(--light); }
+
+    #phase-landing.active  { display: flex; }
+    #phase-test.active     { display: flex; }
+    #phase-gate.active     { display: flex; }
+    #phase-results.active  { display: block; }
+
+    /* ══ LANDING ══════════════════════════════════════════════════ */
+    .landing-hero {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .lyr-sky {
+      position: absolute; top: 0; right: 0;
+      width: 40%; height: 50%;
+      background: var(--sky); opacity: 0.07;
+      clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+    .lyr-coral {
+      position: absolute; bottom: 0; left: 0;
+      width: 32%; height: 38%;
+      background: var(--coral); opacity: 0.06;
+      clip-path: polygon(0% 0%, 100% 55%, 100% 100%, 0% 100%);
+    }
+    .lyr-strip {
+      position: absolute; left: 0; top: 0;
+      width: 5px; height: 100%;
+      background: linear-gradient(180deg, #39A1C9, #7DCD93, #EBA055, #D76B6E, #896C8E);
+    }
+
+    .landing-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 72px 32px 60px;
+      position: relative; z-index: 1;
+      width: 100%;
+    }
+
+    .landing-logo { margin-bottom: 36px; }
+    .landing-logo img { height: 42px; filter: brightness(0) invert(1); opacity: 0.88; }
+
+    .landing-tag {
+      display: inline-block;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--sky);
+      border: 1px solid rgba(57,161,201,0.3);
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 26px;
+    }
+
+    .landing-h1 {
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+      font-weight: 900; line-height: 0.95; letter-spacing: -0.01em;
+    }
+    .landing-h1 .hl-orange { color: var(--orange); }
+    .landing-h1 .hl-dim    { color: rgba(255,255,255,0.55); }
+
+    .landing-sub {
+      font-size: 1.05rem; line-height: 1.78;
+      color: rgba(255,255,255,0.62);
+      max-width: 540px; margin: 28px 0 40px;
+    }
+
+    .landing-chips {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;
+    }
+    .chip {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; padding: 9px 14px;
+      font-size: 0.8rem; color: rgba(255,255,255,0.7);
+    }
+
+    .landing-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--orange); color: var(--white);
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 1.2rem; font-weight: 800;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 18px 40px; border-radius: 10px; border: none;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .landing-cta:hover {
+      background: #d4904a;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(235,160,85,0.35);
+    }
+    .landing-disclaimer {
+      margin-top: 14px; font-size: 0.75rem;
+      color: rgba(255,255,255,0.28);
+    }
+
+    .landing-proof {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 24px 32px;
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+    }
+    .proof-stat { text-align: center; }
+    .proof-num {
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 1.8rem; font-weight: 800; color: var(--orange); line-height: 1;
+    }
+    .proof-lbl {
+      font-size: 0.68rem; color: rgba(255,255,255,0.38);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px;
+    }
+
+    /* ══ TEST HEADER (FIXED) ══════════════════════════════════════ */
+    .test-header {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--dark); z-index: 100;
+    }
+    .test-header-inner {
+      max-width: 700px; margin: 0 auto;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .test-wordmark {
+      font-family: 'Saira Condensed', sans-serif;
+      font-weight: 900; font-size: 1.3rem;
+      color: var(--white); letter-spacing: 0.08em;
+    }
+    .test-counter { font-size: 0.8rem; color: rgba(255,255,255,0.42); }
+    .test-counter strong { color: var(--orange); }
+
+    .progress-track { height: 4px; background: rgba(255,255,255,0.08); }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #39A1C9 0%, #7DCD93 25%, #EBA055 50%, #D76B6E 75%, #896C8E 100%);
+      transition: width 0.4s ease;
+    }
+
+    /* ══ TEST MAIN AREA ══════════════════════════════════════════ */
+    .test-main {
+      padding: 100px 20px 48px;
+      display: flex; justify-content: center;
+      flex: 1;
+    }
+    .test-card-wrap { width: 100%; max-width: 660px; }
+
+    /* Dimension intro card */
+    .dim-intro {
+      display: none;
+      background: var(--white); border-radius: 14px;
+      padding: 28px 32px; margin-bottom: 16px;
+      border-left: 4px solid var(--sky);
+      box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+      animation: fadeUp 0.3s ease;
+    }
+    .dim-intro.show { display: block; }
+    .dim-intro-num {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 5px;
+    }
+    .dim-intro-name {
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 1.45rem; font-weight: 800; margin-bottom: 8px;
+    }
+    .dim-intro-text { font-size: 0.88rem; color: var(--gray); line-height: 1.68; }
+
+    /* Question card */
+    .q-card {
+      background: var(--white); border-radius: 16px;
+      padding: 40px 36px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      animation: fadeUp 0.35s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-badge {
+      display: inline-block;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--white);
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 20px;
+    }
+
+    .q-text {
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+      font-weight: 800; line-height: 1.22;
+      color: var(--dark); margin-bottom: 36px;
+    }
+
+    /* Likert scale */
+    .scale-extremes {
+      display: flex; justify-content: space-between;
+      font-size: 0.7rem; color: var(--gray);
+      margin-bottom: 10px; padding: 0 2px;
+    }
+
+    .scale-btns {
+      display: flex; gap: 10px; justify-content: center;
+    }
+
+    .scale-btn {
+      flex: 1; max-width: 80px; height: 64px;
+      border-radius: 12px; border: 2px solid #E0E0E0;
+      background: var(--white);
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 800; color: var(--gray);
+      cursor: pointer; transition: all 0.18s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .scale-btn:hover { border-color: var(--sky); color: var(--sky); transform: translateY(-2px); }
+    .scale-btn.sel {
+      color: var(--white); transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+
+    .q-next-btn {
+      width: 100%; margin-top: 28px; padding: 16px;
+      background: var(--orange); color: var(--white);
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 800;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border: none; border-radius: 10px; cursor: pointer;
+      transition: all 0.2s;
+      display: none;
+    }
+    .q-next-btn.show { display: block; }
+    .q-next-btn:hover { background: #d4904a; transform: translateY(-1px); }
+
+    .q-prev-btn {
+      display: none; /* shown via JS */
+      width: 100%; margin-top: 12px; padding: 10px;
+      background: none; border: none;
+      font-family: 'Sora', sans-serif; font-size: 0.82rem;
+      color: var(--gray); cursor: pointer; text-align: center;
+    }
+    .q-prev-btn:hover { color: var(--dark); }
+
+    /* ══ GATE ════════════════════════════════════════════════════ */
+    .gate-card {
+      width: 100%; max-width: 500px;
+      background: var(--white); border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+    }
+    .gate-head {
+      background: var(--dark); padding: 32px;
+      text-align: center;
+    }
+    .gate-badge {
+      display: inline-block;
+      background: rgba(57,161,201,0.15);
+      border: 1px solid rgba(57,161,201,0.3);
+      color: var(--sky); font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 14px;
+    }
+    .gate-head h2 { font-size: 1.9rem; color: var(--white); margin-bottom: 8px; }
+    .gate-head p  { font-size: 0.86rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+
+    .gate-body { padding: 32px; }
+
+    .gate-lbl {
+      display: block; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--dark); margin-bottom: 6px;
+    }
+    .gate-inp {
+      width: 100%;
+      border: 1.5px solid #E0E0E0; border-radius: 9px;
+      padding: 12px 14px; font-size: 0.92rem;
+      font-family: 'Sora', sans-serif; color: var(--dark);
+      background: var(--white); outline: none; margin-bottom: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .gate-inp:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(57,161,201,0.12); }
+
+    .gate-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .gate-submit {
+      width: 100%; padding: 17px;
+      background: var(--orange); color: var(--white);
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 1.15rem; font-weight: 800;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border: none; border-radius: 10px; cursor: pointer;
+      transition: all 0.2s; margin-top: 4px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .gate-submit:hover { background: #d4904a; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(235,160,85,0.35); }
+    .gate-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .gate-privacy {
+      text-align: center; font-size: 0.73rem; color: var(--gray);
+      margin-top: 12px; display: flex; align-items: center;
+      justify-content: center; gap: 6px;
+    }
+    .gate-err {
+      background: #FEE2E2; color: #DC2626; border-radius: 8px;
+      padding: 12px 14px; font-size: 0.84rem;
+      margin-bottom: 14px; display: none;
+    }
+
+    /* ══ RESULTS ═════════════════════════════════════════════════ */
+    .res-hero {
+      background: var(--dark); color: var(--white);
+      padding: 64px 24px; text-align: center;
+    }
+    .res-hero-inner { max-width: 620px; margin: 0 auto; }
+    .res-logo { margin-bottom: 28px; }
+    .res-logo img { height: 36px; filter: brightness(0) invert(1); opacity: 0.75; }
+
+    .res-sup-label {
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 20px;
+    }
+
+    .res-big-num {
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: clamp(5rem, 16vw, 8rem);
+      font-weight: 900; line-height: 1;
+      color: var(--white);
+    }
+    .res-big-num sup { font-size: 0.35em; color: var(--orange); vertical-align: super; }
+    .res-pct-label {
+      font-size: 0.78rem; color: rgba(255,255,255,0.38);
+      text-transform: uppercase; letter-spacing: 0.07em; margin-top: 8px;
+    }
+
+    .res-level-badge {
+      display: inline-block;
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 10px 28px; border-radius: 40px; margin: 22px auto;
+    }
+
+    .res-level-desc {
+      font-size: 1rem; line-height: 1.78;
+      color: rgba(255,255,255,0.68);
+      max-width: 500px; margin: 0 auto;
+    }
+
+    /* Dim bars */
+    .res-dims { padding: 56px 24px; max-width: 700px; margin: 0 auto; }
+    .res-dims-title {
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 28px;
+    }
+
+    .dim-item { margin-bottom: 22px; }
+    .dim-head {
+      display: flex; justify-content: space-between;
+      align-items: baseline; margin-bottom: 6px;
+    }
+    .dim-name { font-family: 'Saira Condensed', sans-serif; font-size: 1rem; font-weight: 700; }
+    .dim-pct  { font-family: 'Saira Condensed', sans-serif; font-size: 1rem; font-weight: 800; }
+    .dim-track {
+      height: 10px; background: #E4E4E4;
+      border-radius: 10px; overflow: hidden;
+    }
+    .dim-fill { height: 100%; border-radius: 10px; transition: width 1s ease; }
+    .dim-note { font-size: 0.77rem; color: var(--gray); line-height: 1.55; margin-top: 6px; }
+
+    /* Fit section */
+    .res-fit {
+      background: var(--white); border-radius: 16px;
+      padding: 40px; max-width: 652px;
+      margin: 0 auto 56px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .res-fit h3 { font-size: 1.6rem; color: var(--dark); margin-bottom: 12px; }
+    .res-fit p  { font-size: 0.94rem; color: var(--gray); line-height: 1.8; margin-bottom: 24px; }
+
+    .res-cta-primary {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--orange); color: var(--white);
+      font-family: 'Saira Condensed', sans-serif;
+      font-size: 1.15rem; font-weight: 800;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 18px 36px; border-radius: 10px;
+      text-decoration: none; transition: all 0.22s; margin-bottom: 10px;
+    }
+    .res-cta-primary:hover {
+      background: #d4904a; transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(235,160,85,0.35);
+    }
+    .res-cta-sub { font-size: 0.8rem; color: var(--gray); text-align: center; }
+
+    /* Footer */
+    .res-footer { background: var(--dark); padding: 28px 24px; text-align: center; }
+    .res-footer img { height: 28px; filter: brightness(0) invert(1); opacity: 0.45; margin-bottom: 8px; display: block; margin-left: auto; margin-right: auto; }
+    .res-footer p { font-size: 0.73rem; color: rgba(255,255,255,0.25); }
+
+    /* ══ LOADING ═════════════════════════════════════════════════ */
+    .loading-ov {
+      display: none; position: fixed; inset: 0;
+      background: rgba(51,51,51,0.88); z-index: 999;
+      flex-direction: column; align-items: center;
+      justify-content: center; gap: 16px;
+    }
+    .loading-ov.show { display: flex; }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid rgba(255,255,255,0.15);
+      border-top-color: var(--sky); border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-txt { color: rgba(255,255,255,0.8); font-size: 0.88rem; }
+
+    /* ══ RESPONSIVE ══════════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .landing-inner { padding: 52px 20px 44px; }
+      .landing-h1 { font-size: 2.4rem; }
+      .landing-proof { gap: 24px; padding: 20px; }
+      .q-card { padding: 28px 18px; }
+      .scale-btn { height: 54px; font-size: 1.3rem; }
+      .gate-row { grid-template-columns: 1fr; }
+      .res-hero { padding: 48px 20px; }
+      .res-fit { padding: 28px 18px; margin: 0 16px 48px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-ov" id="loading-ov">
+  <div class="spinner"></div>
+  <div class="loading-txt" id="loading-txt">Calculando tu resultado...</div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE: LANDING ════════════ -->
+<div id="phase-landing" class="active">
+  <div class="maat-stripe"></div>
+  <div class="landing-hero">
+    <div class="lyr-sky"></div>
+    <div class="lyr-coral"></div>
+    <div class="lyr-strip"></div>
+
+    <div class="landing-inner">
+      <div class="landing-logo">
+        <img src="/maat-logo.png" alt="maat" />
+      </div>
+
+      <div class="landing-tag">Test Diagnostico · MAAT 2026</div>
+
+      <h1 class="landing-h1">
+        Tu vida <span class="hl-orange">funciona.</span><br/>
+        <span class="hl-dim">Tu no te sientes</span><br/>
+        en ella.
+      </h1>
+
+      <p class="landing-sub">Descubre en 5 minutos tu indice de crisis de identidad — y si el proceso MAAT es el camino correcto para ti. 24 preguntas, 6 dimensiones, resultado personalizado.</p>
+
+      <div class="landing-chips">
+        <div class="chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          5 minutos
+        </div>
+        <div class="chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--jade)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          6 dimensiones
+        </div>
+        <div class="chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Resultado personalizado
+        </div>
+        <div class="chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          100% confidencial
+        </div>
+      </div>
+
+      <button class="landing-cta" onclick="startTest()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Comenzar el test
+      </button>
+      <p class="landing-disclaimer">Sin spam · Resultado inmediato · Gratis</p>
+    </div>
+  </div>
+
+  <div class="landing-proof">
+    <div class="proof-stat"><div class="proof-num">24</div><div class="proof-lbl">Preguntas</div></div>
+    <div class="proof-stat"><div class="proof-num">6</div><div class="proof-lbl">Dimensiones</div></div>
+    <div class="proof-stat"><div class="proof-num">4</div><div class="proof-lbl">Niveles</div></div>
+    <div class="proof-stat"><div class="proof-num">5 min</div><div class="proof-lbl">Duracion</div></div>
+  </div>
+  <div class="maat-stripe"></div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE: TEST ═══════════════ -->
+<div id="phase-test">
+  <div class="test-header">
+    <div class="test-header-inner">
+      <div class="test-wordmark">maat</div>
+      <div class="test-counter">Pregunta <strong id="q-num">1</strong> de <strong>24</strong></div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="test-main">
+    <div class="test-card-wrap">
+
+      <div class="dim-intro" id="dim-intro">
+        <div class="dim-intro-num" id="di-num"></div>
+        <div class="dim-intro-name" id="di-name"></div>
+        <div class="dim-intro-text" id="di-text"></div>
+      </div>
+
+      <div class="q-card" id="q-card">
+        <div class="q-badge" id="q-badge"></div>
+        <div class="q-text" id="q-text"></div>
+
+        <div class="scale-extremes">
+          <span>Nunca</span>
+          <span>Siempre</span>
+        </div>
+        <div class="scale-btns" id="scale-btns"></div>
+
+        <button class="q-next-btn" id="q-next" onclick="nextQ()">
+          Siguiente
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:5px"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button class="q-prev-btn" id="q-prev" onclick="prevQ()">← Pregunta anterior</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE: GATE ═══════════════ -->
+<div id="phase-gate">
+  <div class="maat-stripe"></div>
+  <div class="gate-card">
+    <div class="gate-head">
+      <div class="gate-badge">Resultado listo</div>
+      <h2>Un paso mas</h2>
+      <p>Dejanos tus datos para ver tu indice de crisis de identidad, el detalle por dimension y el analisis de aptitud para el proceso MAAT.</p>
+    </div>
+    <div class="gate-body">
+      <div class="gate-err" id="gate-err"></div>
+
+      <label class="gate-lbl">Nombre completo</label>
+      <input class="gate-inp" type="text" id="g-name" placeholder="Tu nombre" autocomplete="name" />
+
+      <label class="gate-lbl">Correo electronico</label>
+      <input class="gate-inp" type="email" id="g-email" placeholder="tu@correo.com" autocomplete="email" />
+
+      <div class="gate-row">
+        <div>
+          <label class="gate-lbl">WhatsApp</label>
+          <input class="gate-inp" type="tel" id="g-phone" placeholder="+57 300..." autocomplete="tel" />
+        </div>
+        <div>
+          <label class="gate-lbl">Pais</label>
+          <input class="gate-inp" type="text" id="g-country" placeholder="Colombia" autocomplete="country" />
+        </div>
+      </div>
+
+      <button class="gate-submit" id="gate-btn" onclick="submitGate()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        Ver mis resultados
+      </button>
+      <p class="gate-privacy">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Tu informacion es confidencial. Sin spam.
+      </p>
+    </div>
+  </div>
+  <div class="maat-stripe" style="margin-top:32px"></div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE: RESULTS ═══════════ -->
+<div id="phase-results">
+  <div class="maat-stripe"></div>
+
+  <div class="res-hero">
+    <div class="res-hero-inner">
+      <div class="res-logo"><img src="/maat-logo.png" alt="maat" /></div>
+      <div class="res-sup-label">Tu Indice de Crisis de Identidad</div>
+      <div class="res-big-num"><span id="res-num">0</span><sup>%</sup></div>
+      <div class="res-pct-label">Indice de crisis de identidad</div>
+      <div class="res-level-badge" id="res-badge"></div>
+      <p class="res-level-desc" id="res-desc"></p>
+    </div>
+  </div>
+
+  <div class="res-dims">
+    <div class="res-dims-title">Resultado por dimension</div>
+    <div id="bars-container"></div>
+  </div>
+
+  <div class="res-fit" id="res-fit">
+    <h3 id="fit-title"></h3>
+    <p id="fit-desc"></p>
+    <a href="#" class="res-cta-primary" id="fit-cta">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span id="fit-cta-txt"></span>
+    </a>
+    <p class="res-cta-sub" id="fit-sub"></p>
+  </div>
+
+  <div class="res-footer">
+    <img src="/maat-logo.png" alt="maat" />
+    <p>MAAT — Sistema de Mentoria de Alto Rendimiento · somosmaat.org</p>
+  </div>
+  <div class="maat-stripe"></div>
+</div>
+
+<script>
+/* ── CONFIG ──────────────────────────────────────────────────── */
+const CRM = {
+  URL:  'https://vbfesmgxegxsurnfazjs.supabase.co',
+  KEY:  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiZmVzbWd4ZWd4c3VybmZhempzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2MTA1MjksImV4cCI6MjA4OTE4NjUyOX0.Lto1Ay7xMtmo7uJFx9jbY9W_BClVM3IJKNP-vXOx8ac',
+  FN:   'lead-magnet-submit',
+  SLUG: 'test-crisis-identidad',
+};
+
+const p = new URLSearchParams(window.location.search);
+const UTM = {
+  source:   p.get('utm_source')   || document.referrer || 'direct',
+  medium:   p.get('utm_medium')   || '',
+  campaign: p.get('utm_campaign') || '',
+};
+
+/* ── DIMENSIONS ──────────────────────────────────────────────── */
+const DIMS = [
+  {
+    id: 'identidad', index: 1,
+    name: 'Identidad y Reconocimiento',
+    color: '#39A1C9',
+    intro: 'Exploramos que tan reconocido te sientes en la vida que construiste.',
+    note:  'Refleja que tan desconectado te sientes de la vida que armaste.',
+    qs: [
+      'Siento que actuo un papel que no elegi conscientemente.',
+      'Me cuesta describir quien soy mas alla de lo que hago profesionalmente.',
+      'La distancia entre quien soy en publico y quien soy en privado es grande.',
+      'Siento que la vida que tengo es la que debia tener, no la que queria.',
+      'Hay momentos en los que me pregunto: esto es todo?'
+    ]
+  },
+  {
+    id: 'emocional', index: 2,
+    name: 'Estado Emocional y Vitalidad',
+    color: '#896C8E',
+    intro: 'Medimos tu energia de fondo y tu relacion con lo que sientes dia a dia.',
+    note:  'Muestra el nivel de agotamiento y adormecimiento emocional de fondo.',
+    qs: [
+      'Tengo un agotamiento que no desaparece aunque descanse.',
+      'Me cuesta recordar la ultima vez que algo me emociono de verdad.',
+      'Siento adormecimiento o indiferencia ante cosas que antes me importaban.',
+      'Me levanto sin energia real para el dia, aunque todo este bien.'
+    ]
+  },
+  {
+    id: 'intentos', index: 3,
+    name: 'Intentos y Escapes',
+    color: '#D76B6E',
+    intro: 'Exploramos que has buscado ya para calmar la incomodidad de fondo.',
+    note:  'Indica la frecuencia con que buscas alivio externo sin resolver el fondo.',
+    qs: [
+      'He buscado alivio en cambios externos esperando que el malestar desapareciera.',
+      'Uso el telefono, el alcohol, la comida u otro escape para no sentir la incomodidad.',
+      'He probado terapia, coaching o espiritualidad con alivio parcial, sin resolver el fondo.',
+      'Salto de una herramienta a otra sin encontrar algo que sostenga el cambio.'
+    ]
+  },
+  {
+    id: 'proposito', index: 4,
+    name: 'Proposito y Vida Profesional',
+    color: '#EBA055',
+    intro: 'Miramos tu relacion actual con tu carrera y el sentido que le encuentras.',
+    note:  'Mide el nivel de desalineacion entre lo que haces y lo que sientes.',
+    qs: [
+      'Mi trabajo cumple una funcion, pero ya no lo siento mio.',
+      'Lograr metas ya no me produce la satisfaccion que esperaba.',
+      'Sigo en este camino mas por inercia o miedo al cambio que por eleccion consciente.',
+      'Hay una brecha entre lo que hago y lo que siento que deberia estar haciendo.'
+    ]
+  },
+  {
+    id: 'relaciones', index: 5,
+    name: 'Relaciones y Costo Social',
+    color: '#7DCD93',
+    intro: 'Medimos el esfuerzo que te cuesta sostener tu imagen y tus vinculos.',
+    note:  'Refleja el esfuerzo de mantener una imagen que ya no sientes tuya.',
+    qs: [
+      'Me cuesta ser completamente honesto con mis cercanos sobre como me siento.',
+      'Hay personas en mi vida que sienten que ya no soy el de antes — y tienen razon.',
+      'Mantengo una imagen de todo bien que requiere un esfuerzo que ya no quiero sostener.',
+      'Siento que si fuera completamente honesto, decepcionaria a quienes me rodean.'
+    ]
+  },
+  {
+    id: 'disposicion', index: 6,
+    name: 'Disposicion al Cambio',
+    color: '#39A1C9',
+    intro: 'Estas preguntas miden tu apertura real para un proceso de cambio profundo.',
+    note:  'Indica tu disposicion real para un proceso de cambio interno.',
+    qs: [
+      'Creo que el cambio real requiere trabajo interno, no solo estrategia o informacion nueva.',
+      'Estoy dispuesto a mirarme hacia adentro aunque lo que encuentre sea incomodo.',
+      'Si encontrara un proceso con fundamento real y guia personalizada, estaria dispuesto a comprometerme.'
+    ]
+  }
+];
+
+/* Flatten */
+const ALL_Q = [];
+DIMS.forEach(d => {
+  d.qs.forEach((q, qi) => {
+    ALL_Q.push({ text: q, dimId: d.id, dimName: d.name, dimColor: d.color,
+                 dimIndex: d.index, dimIntro: d.intro, isFirst: qi === 0 });
+  });
+});
+const TOTAL = ALL_Q.length; // 24
+
+/* ── STATE ───────────────────────────────────────────────────── */
+let curQ = 0;
+const ans = {};
+DIMS.forEach(d => { ans[d.id] = []; });
+
+/* ── PHASES ──────────────────────────────────────────────────── */
+function showPhase(id) {
+  ['landing','test','gate','results'].forEach(ph => {
+    document.getElementById('phase-' + ph).classList.remove('active');
+  });
+  document.getElementById('phase-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ── START ───────────────────────────────────────────────────── */
+function startTest() { showPhase('test'); renderQ(0); }
+
+/* ── POS IN DIM ──────────────────────────────────────────────── */
+function posInDim(qIdx) {
+  const dimId = ALL_Q[qIdx].dimId;
+  let pos = 0;
+  for (let i = 0; i < qIdx; i++) {
+    if (ALL_Q[i].dimId === dimId) pos++;
+  }
+  return pos;
+}
+
+/* ── RENDER Q ────────────────────────────────────────────────── */
+function renderQ(idx) {
+  curQ = idx;
+  const q = ALL_Q[idx];
+
+  // Header
+  document.getElementById('q-num').textContent = idx + 1;
+  document.getElementById('prog-fill').style.width = ((idx / TOTAL) * 100) + '%';
+
+  // Dim intro
+  const intro = document.getElementById('dim-intro');
+  if (q.isFirst) {
+    document.getElementById('di-num').textContent  = 'Dimension ' + q.dimIndex + ' de 6';
+    document.getElementById('di-name').textContent = q.dimName;
+    document.getElementById('di-name').style.color = q.dimColor;
+    document.getElementById('di-text').textContent = q.dimIntro;
+    intro.style.borderLeftColor = q.dimColor;
+    intro.classList.add('show');
+  } else {
+    intro.classList.remove('show');
+  }
+
+  // Badge + text
+  const badge = document.getElementById('q-badge');
+  badge.textContent = q.dimName;
+  badge.style.background = q.dimColor;
+  document.getElementById('q-text').textContent = q.text;
+
+  // Current answer for this question
+  const pos = posInDim(idx);
+  const cur = ans[q.dimId][pos];
+
+  // Scale buttons
+  const btns = document.getElementById('scale-btns');
+  btns.innerHTML = '';
+  for (let v = 1; v <= 5; v++) {
+    const btn = document.createElement('button');
+    btn.className = 'scale-btn' + (cur === v ? ' sel' : '');
+    btn.textContent = v;
+    if (cur === v) {
+      btn.style.background   = q.dimColor;
+      btn.style.borderColor  = q.dimColor;
+      btn.style.color        = '#fff';
+      btn.style.boxShadow    = '0 6px 18px ' + q.dimColor + '50';
+    }
+    const vv = v;
+    btn.onclick = () => pickAns(idx, vv);
+    btns.appendChild(btn);
+  }
+
+  // Next / prev buttons
+  const nextBtn = document.getElementById('q-next');
+  nextBtn.className = 'q-next-btn' + (cur !== undefined ? ' show' : '');
+  const prevBtn = document.getElementById('q-prev');
+  prevBtn.style.display = idx > 0 ? 'block' : 'none';
+
+  // Animate card
+  const card = document.getElementById('q-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeUp 0.35s ease';
+}
+
+/* ── PICK ANSWER ─────────────────────────────────────────────── */
+function pickAns(qIdx, value) {
+  const q   = ALL_Q[qIdx];
+  const pos = posInDim(qIdx);
+  ans[q.dimId][pos] = value;
+
+  // Update buttons
+  document.querySelectorAll('.scale-btn').forEach((btn, i) => {
+    const v = i + 1;
+    if (v === value) {
+      btn.classList.add('sel');
+      btn.style.background  = q.dimColor;
+      btn.style.borderColor = q.dimColor;
+      btn.style.color       = '#fff';
+      btn.style.boxShadow   = '0 6px 18px ' + q.dimColor + '50';
+    } else {
+      btn.classList.remove('sel');
+      btn.style.background  = '';
+      btn.style.borderColor = '';
+      btn.style.color       = '';
+      btn.style.boxShadow   = '';
+    }
+  });
+
+  document.getElementById('q-next').classList.add('show');
+}
+
+/* ── NEXT / PREV ─────────────────────────────────────────────── */
+function nextQ() {
+  const pos = posInDim(curQ);
+  if (ans[ALL_Q[curQ].dimId][pos] === undefined) return;
+  if (curQ + 1 >= TOTAL) { showPhase('gate'); return; }
+  renderQ(curQ + 1);
+}
+
+function prevQ() {
+  if (curQ <= 0) return;
+  renderQ(curQ - 1);
+}
+
+/* ── CALCULATE ───────────────────────────────────────────────── */
+function calc() {
+  const crisisDims = ['identidad','emocional','intentos','proposito','relaciones'];
+  let cSum = 0, cMax = 0, dSum = 0, dMax = 0;
+  const dimPcts = {};
+
+  DIMS.forEach(dim => {
+    const scores = ans[dim.id] || [];
+    const sum    = scores.reduce((a, b) => a + b, 0);
+    const max    = dim.qs.length * 5;
+    dimPcts[dim.id] = max > 0 ? Math.round((sum / max) * 100) : 0;
+    if (crisisDims.includes(dim.id)) { cSum += sum; cMax += max; }
+    else { dSum += sum; dMax += max; }
+  });
+
+  return {
+    crisisPct: cMax > 0 ? Math.round((cSum / cMax) * 100) : 0,
+    dispPct:   dMax > 0 ? Math.round((dSum / dMax) * 100) : 0,
+    dimPcts,
+  };
+}
+
+/* ── LEVELS ──────────────────────────────────────────────────── */
+const LEVELS = [
+  { min: 0,  max: 25,  name: 'Senales emergentes',
+    color: '#7DCD93', bg: 'rgba(125,205,147,0.15)', border: 'rgba(125,205,147,0.4)',
+    desc: 'Hay algo que empieza a moverse por dentro — todavia debil, pero presente. No es incomodidad casual: es la primera senal de que algo en ti esta listo para preguntarse si el camino que elegiste todavia tiene sentido.' },
+  { min: 26, max: 50,  name: 'Desconexion activa',
+    color: '#EBA055', bg: 'rgba(235,160,85,0.15)', border: 'rgba(235,160,85,0.4)',
+    desc: 'El ruido de fondo ya es constante. Puedes seguir tu rutina y cumplir con lo que se espera, pero ya no puedes ignorar la sensacion de que algo no cuadra. Eso no es debilidad — es honestidad.' },
+  { min: 51, max: 75,  name: 'Crisis en curso',
+    color: '#D76B6E', bg: 'rgba(215,107,110,0.15)', border: 'rgba(215,107,110,0.4)',
+    desc: 'El quiebre interno es real y esta afectando varias areas de tu vida. Estas en uno de los momentos mas honestos de tu adultez: la identidad que construiste ya no alcanza para sostenerte. Eso no se arregla con mas logros.' },
+  { min: 76, max: 100, name: 'Punto de inflexion',
+    color: '#39A1C9', bg: 'rgba(57,161,201,0.15)', border: 'rgba(57,161,201,0.4)',
+    desc: 'Estas en el momento exacto en que la transformacion es posible. La incomodidad es tan clara que ya no puedes ignorarla. Lo que hagas en los proximos meses define como se ven los proximos anos.' },
+];
+
+function getLevel(pct) {
+  return LEVELS.find(l => pct >= l.min && pct <= l.max) || LEVELS[3];
+}
+
+/* ── FIT ─────────────────────────────────────────────────────── */
+function getFit(crisisPct, dispPct) {
+  const hC = crisisPct >= 45;
+  const hD = dispPct   >= 55;
+  if (hC && hD)  return {
+    title: 'Tu perfil encaja con el proceso MAAT',
+    desc:  'Tu indice de crisis y tu disposicion al cambio son coherentes con los perfiles que mas se benefician del proceso MAAT. El siguiente paso es una llamada de valoracion — gratuita, 45 minutos — donde un asesor revisa tu perfil y te explica como se veria el proceso especificamente para ti.',
+    cta:   'Agendar llamada de valoracion',
+    href:  'https://somosmaat.org/descubrimiento/',
+    sub:   'Sesion sin compromiso · El asesor revisara estos resultados contigo',
+  };
+  if (hC && !hD) return {
+    title: 'El momento es real — la disposicion es el siguiente paso',
+    desc:  'Tu diagnostico es claro y el malestar de fondo esta presente. Pero el proceso MAAT requiere disposicion activa para ir hacia adentro. Si todavia tienes dudas sobre si quieres hacer ese trabajo, esta bien — queda abierto para cuando sientas que el momento llego.',
+    cta:   'Quiero saber mas sobre el proceso',
+    href:  'https://somosmaat.org/descubrimiento/',
+    sub:   'Explora a tu ritmo · Sin presion',
+  };
+  if (!hC && hD) return {
+    title: 'Tu apertura es tu ventaja',
+    desc:  'Tu indice de crisis no es critico todavia, pero tu disposicion al trabajo interno es alta. MAAT puede acompanarte de manera preventiva — antes de que la incomodidad se haga mas fuerte. Eso es actuar desde claridad, no desde urgencia.',
+    cta:   'Explorar el proceso MAAT',
+    href:  'https://somosmaat.org/descubrimiento/',
+    sub:   'Perfil en etapa temprana · Aproximacion preventiva',
+  };
+  return {
+    title: 'Tu camino esta al inicio',
+    desc:  'En este momento tu indice de crisis es bajo y tu disposicion al cambio profundo tambien. El proceso MAAT es para quienes estan listos para mirarse hacia adentro. Cuando sientas que ese momento llega, aqui estaremos.',
+    cta:   'Conocer el proceso MAAT',
+    href:  'https://somosmaat.org/',
+    sub:   'Sin presion · A tu ritmo',
+  };
+}
+
+/* ── RENDER RESULTS ──────────────────────────────────────────── */
+function renderResults(r) {
+  const { crisisPct, dispPct, dimPcts } = r;
+  const level = getLevel(crisisPct);
+  const fit   = getFit(crisisPct, dispPct);
+
+  document.getElementById('res-num').textContent = crisisPct;
+
+  const badge = document.getElementById('res-badge');
+  badge.textContent       = level.name;
+  badge.style.background  = level.bg;
+  badge.style.color       = level.color;
+  badge.style.border      = '1px solid ' + level.border;
+
+  document.getElementById('res-desc').textContent = level.desc;
+
+  // Dim bars
+  const container = document.getElementById('bars-container');
+  container.innerHTML = '';
+  DIMS.forEach(dim => {
+    const pct = dimPcts[dim.id] || 0;
+    const el  = document.createElement('div');
+    el.className = 'dim-item';
+    el.innerHTML = `
+      <div class="dim-head">
+        <div class="dim-name">${dim.name}</div>
+        <div class="dim-pct" style="color:${dim.color}">${pct}%</div>
+      </div>
+      <div class="dim-track">
+        <div class="dim-fill" style="width:0%; background:${dim.color}" data-t="${pct}"></div>
+      </div>
+      <div class="dim-note">${dim.note}</div>
+    `;
+    container.appendChild(el);
+  });
+  setTimeout(() => {
+    document.querySelectorAll('.dim-fill').forEach(b => { b.style.width = b.dataset.t + '%'; });
+  }, 250);
+
+  // Fit
+  document.getElementById('fit-title').textContent   = fit.title;
+  document.getElementById('fit-desc').textContent    = fit.desc;
+  document.getElementById('fit-cta').href            = fit.href;
+  document.getElementById('fit-cta-txt').textContent = fit.cta;
+  document.getElementById('fit-sub').textContent     = fit.sub;
+}
+
+/* ── GATE SUBMIT ─────────────────────────────────────────────── */
+async function submitGate() {
+  const name    = document.getElementById('g-name').value.trim();
+  const email   = document.getElementById('g-email').value.trim();
+  const phone   = document.getElementById('g-phone').value.trim();
+  const country = document.getElementById('g-country').value.trim();
+  const errEl   = document.getElementById('gate-err');
+  errEl.style.display = 'none';
+
+  if (!name || !email) {
+    errEl.textContent = 'Por favor completa tu nombre y correo electronico.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('gate-btn');
+  btn.disabled    = true;
+  btn.textContent = 'Calculando...';
+
+  const ov = document.getElementById('loading-ov');
+  document.getElementById('loading-txt').textContent = 'Calculando tu resultado...';
+  ov.classList.add('show');
+
+  const result = calc();
+  const level  = getLevel(result.crisisPct);
+
+  try {
+    const rawAns = {};
+    DIMS.forEach(d => { rawAns[d.id] = ans[d.id]; });
+
+    await fetch(`${CRM.URL}/functions/v1/${CRM.FN}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': CRM.KEY,
+        'Authorization': `Bearer ${CRM.KEY}`,
+      },
+      body: JSON.stringify({
+        lead_magnet_slug: CRM.SLUG,
+        full_name:        name,
+        email:            email,
+        phone:            phone  || null,
+        country:          country || null,
+        source:           UTM.source,
+        utm_medium:       UTM.medium,
+        utm_campaign:     UTM.campaign,
+        delivery_method:  'email',
+        total_score:      result.crisisPct,
+        total_percentage: result.crisisPct,
+        level_name:       level.name,
+        level_number:     LEVELS.indexOf(level) + 1,
+        dimension_scores: result.dimPcts,
+        answers:          rawAns,
+      }),
+    });
+  } catch (_) { /* silently continue — show results anyway */ }
+
+  ov.classList.remove('show');
+  renderResults(result);
+  showPhase('results');
+}
+</script>
+</body>
+</html>
